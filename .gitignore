@@ -1,0 +1,16 @@
+# Auto-generated progress file (created by File System Access API)
+progress.json
+secplus_progress_*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Dev artifacts
+questions_backup.js

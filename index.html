@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CompTIA Security+ SY0-701 | Practice Exam</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══ SPLASH ═══ -->
+<div id="splash">
+  <div class="sp-eyebrow">CompTIA Certified Practice</div>
+  <h1 class="sp-title">Security<span class="plus">+</span><span class="ver">SY0-701 Exam Simulator</span></h1>
+  <p class="sp-sub">Realistic format · All question types · Accurate scoring</p>
+
+  <div class="sp-notice">
+    <span>⚑</span>
+    <span><b>How the real exam works:</b> PBQs appear FIRST — skip them, finish all MCQs, then come back. The timer is one continuous 90-minute countdown. You can freely navigate and change answers any time. No "Check Answer" button exists on the real exam — that's a practice-only feature here.</span>
+  </div>
+
+  <div class="sp-meta">
+    <div class="meta-c"><span class="v" id="splashQCount">90</span><span class="l">Questions</span></div>
+    <div class="meta-c"><span class="v" id="splashMins">90</span><span class="l">Minutes</span></div>
+    <div class="meta-c"><span class="v">750</span><span class="l">Pass Score</span></div>
+    <div class="meta-c"><span class="v">900</span><span class="l">Max Score</span></div>
+  </div>
+
+  <!-- Domain selector -->
+  <div class="sp-domains">
+    <h3>Select Domains to Practise</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+      <label class="dom-check-row selected" id="row-1" onclick="toggleDomain(1)">
+        <div class="dom-check active" id="dc1">✓</div>
+        <span class="dom-n">1.0 General Security Concepts</span>
+        <span class="dom-p">12%</span>
+        <div class="dom-bw"><div class="dom-b" style="width:12%"></div></div>
+      </label>
+      <label class="dom-check-row selected" id="row-2" onclick="toggleDomain(2)">
+        <div class="dom-check active" id="dc2">✓</div>
+        <span class="dom-n">2.0 Threats, Vulnerabilities & Mitigations</span>
+        <span class="dom-p">22%</span>
+        <div class="dom-bw"><div class="dom-b" style="width:22%"></div></div>
+      </label>
+      <label class="dom-check-row selected" id="row-3" onclick="toggleDomain(3)">
+        <div class="dom-check active" id="dc3">✓</div>
+        <span class="dom-n">3.0 Security Architecture</span>
+        <span class="dom-p">18%</span>
+        <div class="dom-bw"><div class="dom-b" style="width:18%"></div></div>
+      </label>
+      <label class="dom-check-row selected" id="row-4" onclick="toggleDomain(4)">
+        <div class="dom-check active" id="dc4">✓</div>
+        <span class="dom-n">4.0 Security Operations</span>
+        <span class="dom-p">28%</span>
+        <div class="dom-bw"><div class="dom-b" style="width:28%"></div></div>
+      </label>
+      <label class="dom-check-row selected" id="row-5" onclick="toggleDomain(5)">
+        <div class="dom-check active" id="dc5">✓</div>
+        <span class="dom-n">5.0 Security Program Management</span>
+        <span class="dom-p">20%</span>
+        <div class="dom-bw"><div class="dom-b" style="width:20%"></div></div>
+      </label>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="tool-btn" style="font-size:11px;padding:6px 14px" onclick="selectAllDomains()">Select All</button>
+      <button class="tool-btn" style="font-size:11px;padding:6px 14px" onclick="clearAllDomains()">Clear All</button>
+    </div>
+  </div>
+
+  <!-- Question count -->
+  <div class="sp-domains" style="margin-top:0">
+    <h3>Number of Questions</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="qcount-btn" onclick="setQCount(10,this)">10</button>
+      <button class="qcount-btn" onclick="setQCount(20,this)">20</button>
+      <button class="qcount-btn" onclick="setQCount(30,this)">30</button>
+      <button class="qcount-btn" onclick="setQCount(60,this)">60</button>
+      <button class="qcount-btn active" onclick="setQCount(90,this)">90 (Full exam)</button>
+    </div>
+    <p id="qAvailMsg" style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-top:10px"></p>
+  </div>
+
+  <!-- Simulation Mode -->
+  <div class="sp-domains" style="margin-top:0; border-top:1px solid var(--border); padding-top:20px;">
+    <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:var(--text);">
+      <input type="checkbox" id="examModeToggle" style="width:18px; height:18px; accent-color:var(--accent);">
+      <span style="font-size:14px; font-weight:500;">ENABLE EXAM MODE (Hide "Check Answer" & Explanations)</span>
+    </label>
+  </div>
+
+  <div class="sp-info">
+    <div class="info-card">
+      <h4>PBQ Strategy</h4>
+      <p>PBQs are front-loaded. Skip them → complete all MCQs → return to PBQs. Work is auto-saved when you navigate away.</p>
+    </div>
+    <div class="info-card">
+      <h4>Scoring</h4>
+      <p>Scaled 100–900, pass at 750. PBQs carry ~2.5× the weight of MCQs and offer partial credit.</p>
+    </div>
+    <div class="info-card">
+      <h4>Navigation</h4>
+      <p>Free forward/backward navigation. Flag questions for review. Full Review Screen before submitting.</p>
+    </div>
+    <div class="info-card">
+      <h4>Tools</h4>
+      <p>Scratch pad, strikethrough, highlight, calculator — same tools available in the real Pearson VUE exam.</p>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:400px; margin: 0 auto;">
+    <button class="sp-btn" id="startBtn" onclick="startExam(false)">BEGIN FULL EXAM</button>
+    <button class="sp-btn" id="missedBtn" onclick="startExam(true)" style="background:var(--panel); border:1px solid var(--accent); color:var(--accent); display:none;">PRACTICE MISSED QUESTIONS</button>
+  </div>
+  <p id="startErr" style="color:var(--danger);font-family:var(--mono);font-size:12px;margin-top:12px;display:none">Select at least one domain to continue.</p>
+</div>
+<!-- ═══ EXAM ═══ -->
+<div id="exam">
+  <header class="hdr">
+    <div class="hdr-logo">Security+ SY0-701</div>
+    <div class="hdr-prog">
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-txt" id="progTxt">0 / 33</div>
+    </div>
+    <div class="hdr-center"></div>
+    <div class="hdr-tools">
+      <button class="tool-btn" id="strikeBtn" onclick="toggleStrike()" title="Strikethrough mode">✕ Strike</button>
+      <button class="tool-btn" id="highlightBtn" onclick="toggleHighlight()" title="Highlight mode">◐ Highlight</button>
+      <button class="tool-btn" id="scratchBtn" onclick="toggleScratch()">📝 Notes</button>
+      <button class="tool-btn" onclick="goReview()">Review Screen</button>
+    </div>
+    <div class="hdr-timer" id="timerEl">
+      <div class="timer-dot"></div>
+      <span id="timerTxt">90:00</span>
+    </div>
+  </header>
+
+  <div class="scratchpad" id="scratchPad">
+    <div class="sp-hdr">Scratch Pad <button class="sp-close" onclick="toggleScratch()">✕</button></div>
+    <textarea id="scratchText" placeholder="Notes, eliminations, working..."></textarea>
+  </div>
+
+  <div class="exam-body">
+    <aside class="sidebar">
+      <div class="sb-section">Performance-Based</div>
+      <div class="sb-grid" id="navPBQ"></div>
+      <div class="sb-section">Multiple Choice</div>
+      <div class="sb-grid" id="navMCQ"></div>
+      <div class="sb-legend">
+        <div class="leg-row"><div class="leg-dot" style="background:rgba(16,185,129,.5);border:1px solid var(--accent2)"></div>Answered</div>
+        <div class="leg-row"><div class="leg-dot" style="background:rgba(59,130,246,.3);border:1px solid var(--accent)"></div>Current</div>
+        <div class="leg-row"><div class="leg-dot" style="background:rgba(245,158,11,.2);border:1px solid var(--warn)"></div>Flagged</div>
+      </div>
+    </aside>
+    <main class="q-area" id="qContent"></main>
+  </div>
+</div>
+
+<!-- ═══ REVIEW SCREEN ═══ -->
+<div id="review">
+  <div class="rev-hdr">
+    <div>
+      <h2>Item Review Screen</h2>
+      <p>Select a question to return to it, or submit when ready.</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="closeReview()">← Back to Exam</button>
+      <button class="btn btn-end" onclick="submitExam()">Submit Exam</button>
+    </div>
+  </div>
+  <div class="rev-body">
+    <div class="rev-stats" id="revStats"></div>
+    <div class="rev-filters">
+      <button class="rev-filter-btn active" onclick="filterReview('all',this)">All Questions</button>
+      <button class="rev-filter-btn" onclick="filterReview('unanswered',this)">Unanswered</button>
+      <button class="rev-filter-btn" onclick="filterReview('flagged',this)">Flagged</button>
+      <button class="rev-filter-btn" onclick="filterReview('answered',this)">Answered</button>
+    </div>
+    <div class="rev-grid" id="revGrid"></div>
+    <div class="rev-actions">
+      <button class="btn btn-ghost" onclick="closeReview()">← Continue Exam</button>
+      <button class="btn btn-end" onclick="submitExam()">End Review &amp; Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results">
+  <div class="res-wrap">
+    <div class="res-top">
+      <div class="score-ring" id="scoreRing">
+        <span class="score-n" id="scoreNum">---</span>
+        <span class="score-d">/ 900</span>
+      </div>
+      <div class="res-verdict" id="resVerdict"></div>
+      <div class="res-note" id="resNote"></div>
+    </div>
+    <div class="res-grid">
+      <div class="res-card"><span class="rv" id="rC" style="color:var(--success)">--</span><span class="rl">Correct</span></div>
+      <div class="res-card"><span class="rv" id="rI" style="color:var(--danger)">--</span><span class="rl">Incorrect</span></div>
+      <div class="res-card"><span class="rv" id="rS" style="color:var(--text-muted)">--</span><span class="rl">Unanswered</span></div>
+    </div>
+    <div class="dom-res">
+      <h3>Performance by Domain</h3>
+      <div id="domBreak"></div>
+    </div>
+    <div class="res-btns">
+      <button class="btn btn-ghost" onclick="showDashboard()">📊 Progress Dashboard</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">⬇ Export JSON</button>
+      <button class="btn btn-ghost" id="reviewMistakesBtn" onclick="startReviewMistakes()" style="display:none;">Review Mistakes</button>
+      <button class="btn btn-pri" onclick="restartExam()">Retake Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dashboard">
+  <div class="dash-hdr">
+    <div>
+      <h2>📊 Progress Dashboard</h2>
+      <p id="dashSubtitle" style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">All-time performance across all attempts</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="exportJSON()">⬇ Export JSON</button>
+      <button class="btn btn-ghost" onclick="clearHistory()" style="color:var(--danger);border-color:var(--danger)">🗑 Clear History</button>
+      <button class="btn btn-pri" onclick="hideDashboard()">← Back</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <!-- Top stats row -->
+    <div class="dash-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;gap:12px" id="dashTopStats"></div>
+
+    <!-- Main grid -->
+    <div class="dash-grid">
+      <!-- Score history -->
+      <div class="dash-card">
+        <h3>Score History</h3>
+        <div class="chart-wrap" id="scoreChart"></div>
+      </div>
+      <!-- Domain performance -->
+      <div class="dash-card">
+        <h3>Domain Performance (Latest Attempt)</h3>
+        <div id="dashDomains"></div>
+      </div>
+      <!-- Sub-topic breakdown -->
+      <div class="dash-card" style="grid-column:1/-1">
+        <h3>Sub-Objective Performance (All Attempts)</h3>
+        <div id="dashSubtopics" style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px"></div>
+      </div>
+      <!-- Recommendations -->
+      <div class="dash-card">
+        <h3>🎯 Recommended Focus Areas</h3>
+        <div id="dashRecommend"></div>
+      </div>
+      <!-- Attempt history -->
+      <div class="dash-card">
+        <h3>Attempt History</h3>
+        <div id="dashHistory"></div>
+      </div>
+      <!-- Data Vault -->
+      <div id="dashDataVault" style="grid-column:1/-1;">
+        <div class="dash-card">
+          <h3>Data Vault (Raw JSON)</h3>
+          <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Your progress is automatically saved in your browser. Use this to backup or transfer your data.</p>
+          <textarea id="rawDataTextarea" style="width:100%;height:150px;background:var(--panel);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:8px;border-radius:3px;resize:vertical;" readonly></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="tool-btn" onclick="copyRawData()">📋 Copy Data</button>
+            <button class="tool-btn" onclick="importRawData()">⬆ Import Data</button>
+            <button class="tool-btn" onclick="exportJSON()">⬇ Export File</button>
+            <button class="tool-btn" onclick="clearHistory()" style="color:var(--danger);border-color:var(--danger)">🗑 Clear All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="questions/questions_d1.js"></script>
+<script src="questions/questions_d2.js"></script>
+<script src="questions/questions_d3.js"></script>
+<script src="questions/questions_d4.js"></script>
+<script src="questions/questions_d5.js"></script>
+<script src="questions/questions.js"></script>
+<script src="js/exam.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
