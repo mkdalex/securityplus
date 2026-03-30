@@ -8,6 +8,16 @@ Every decent Security+ practice resource is behind a paywall. I built my own —
 
 ---
 
+## How to Run
+
+No install. No build step. No server.
+
+**Just open `index.html` in a browser.**
+
+For development, use VS Code Live Server (right-click `index.html` → Open with Live Server) for auto-reload on save.
+
+---
+
 ## What it does
 
 **604 questions** written to match the style and difficulty of the real SY0-701 exam — scenario-based, no trivia, no trick wording. Every question is mapped to a specific CompTIA sub-objective (1.1 through 5.6) so your weak spots actually show up in the stats.
@@ -67,16 +77,6 @@ Plus: score history chart with the 750 pass-line marked, domain breakdown from y
 - Saved automatically to `localStorage` after every exam
 - Export / Import as JSON — back up or transfer between devices
 - Optional auto-save to a file on disk (Chrome/Edge only, uses File System Access API)
-
----
-
-## How to Run
-
-No install. No build step. No server.
-
-**Just open `index.html` in a browser.**
-
-For development, use VS Code Live Server (right-click `index.html` → Open with Live Server) for auto-reload on save.
 
 ---
 
