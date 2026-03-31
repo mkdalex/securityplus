@@ -124,9 +124,10 @@ function startExam(onlyMissed = false, specificIds = null){
   const shuffledPBQ = shuffle(pbqs);
   const shuffledMCQ = shuffle(mcqs);
 
-  // Pick questions up to count — always include ALL available PBQs
+  // Pick questions — scale PBQs proportionally to session size (real exam = ~5 per 90Q)
   const total = Math.min(selectedQCount, pool.length);
-  const pbqTake = Math.min(shuffledPBQ.length, total);
+  const targetPBQ = Math.max(1, Math.round(total * (5 / 90)));
+  const pbqTake = Math.min(shuffledPBQ.length, targetPBQ);
   const mcqTake = total - pbqTake;
 
   const rawPool = [...shuffledPBQ.slice(0, pbqTake), ...shuffledMCQ.slice(0, mcqTake)];
