@@ -342,7 +342,7 @@ function pickMulti(idx,oi,need){
 }
 
 // ── ORDER DRAG (PBQ) ──
-function renderOrder(q,idx){
+function renderOrder(q,_idx){
   if(!dragSlots[q.id]) dragSlots[q.id]=new Array(q.correctOrder.length).fill(null);
   const placed=dragSlots[q.id];
   const remaining=q.items.filter(it=>!placed.includes(it));
@@ -816,6 +816,23 @@ function submitExam(){
   } else if (reviewMistakesBtn) {
     reviewMistakesBtn.style.display = 'none';
   }
+}
+
+function exitExam(){
+  document.getElementById('exitModal').style.display='flex';
+}
+function closeExitModal(){
+  document.getElementById('exitModal').style.display='none';
+}
+function confirmExit(){
+  closeExitModal();
+  clearInterval(timerInt);
+  document.getElementById('exam').style.display='none';
+  document.getElementById('review').style.display='none';
+  document.getElementById('navPBQ').innerHTML='';
+  document.getElementById('navMCQ').innerHTML='';
+  document.getElementById('splash').style.display='flex';
+  updateSplashInfo();
 }
 
 function restartExam(){
