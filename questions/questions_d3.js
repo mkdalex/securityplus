@@ -2391,5 +2391,80 @@ const Q_D3 = [
   ],
   "correct": [0, 2],
   "exp": "Business continuity planning uses two primary metrics: (A) RTO — defines how quickly systems must be restored. An RTO of 4 hours means the organization can tolerate up to 4 hours of downtime. This drives decisions about hot vs. warm vs. cold sites. (C) RPO — defines how much data loss is acceptable. An RPO of 1 hour means the organization can tolerate losing up to 1 hour of data, driving decisions about backup frequency (hourly backups, continuous replication). MTBF (B) measures hardware reliability, not recovery tolerance. IOPS (D) measures storage performance. SLA (E) defines vendor obligations but is not the organization's internal tolerance metric. RTO answers 'how long can we be down?' and RPO answers 'how much data can we lose?' — together they define the recovery strategy and budget."
+ },
+
+ {
+  id: 4000,
+  type: 'firewall',
+  domain: 3,
+  obj: '3.2',
+  badge: '⚙ SIM',
+  badgeClass: 'pbq-b',
+  stem: 'A company hosts a public web server in a DMZ. Configure each firewall rule below — set Allow, Block, or Drop to enforce the correct network security policy.',
+  rules: [
+    { desc: 'Public HTTP traffic to web server', src: 'Internet', dst: 'DMZ-WebSrv', port: '80', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Public HTTPS traffic to web server', src: 'Internet', dst: 'DMZ-WebSrv', port: '443', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Direct SSH from internet to web server', src: 'Internet', dst: 'DMZ-WebSrv', port: '22', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Block' },
+    { desc: 'Web server queries internal database', src: 'DMZ-WebSrv', dst: 'DB-Internal', port: '3306', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Admin SSH from internal subnet to DMZ', src: '10.0.0.0/24', dst: 'DMZ-WebSrv', port: '22', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Telnet from any source to any destination', src: 'Any', dst: 'Any', port: '23', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Drop' }
+  ],
+  exp: 'HTTP (80) and HTTPS (443) must be Allowed inbound — the web server is public-facing. Direct SSH from the internet is Blocked — admins should reach it via a jump host or VPN from the internal network only. The web server needs database access (3306) to function, so that is Allowed. Admin SSH from the internal trusted subnet is Allowed as a controlled management path. Telnet (23) is plaintext and should be Dropped at the perimeter entirely — no response is returned, making the service appear non-existent.'
+ },
+
+ {
+  id: 4001,
+  type: 'firewall',
+  domain: 3,
+  obj: '3.2',
+  badge: '⚙ SIM',
+  badgeClass: 'pbq-b',
+  stem: 'A security engineer is hardening the firewall for remote access. Set each rule to Allow, Block, or Drop — permit only secure approved channels and eliminate insecure protocols.',
+  rules: [
+    { desc: 'SSL VPN clients to VPN gateway', src: 'RemoteUsers', dst: 'VPN-GW', port: '443', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'OpenVPN clients to VPN gateway', src: 'RemoteUsers', dst: 'VPN-GW', port: '1194', proto: 'UDP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Telnet from remote users to internal', src: 'RemoteUsers', dst: 'Internal', port: '23', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Drop' },
+    { desc: 'FTP from remote users to file server', src: 'RemoteUsers', dst: 'FileServer', port: '21', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Block' },
+    { desc: 'RDP via established VPN tunnel', src: 'VPN-Pool', dst: 'Internal', port: '3389', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Direct RDP from internet (bypassing VPN)', src: 'Internet', dst: 'Internal', port: '3389', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Block' }
+  ],
+  exp: 'SSL VPN (443/TCP) and OpenVPN (1194/UDP) are the approved encrypted tunnels — both Allowed. Telnet (23) transmits credentials in plaintext and must be Dropped — silently discarded so no service discovery is possible. FTP (21) is insecure and Blocked — require SFTP or FTPS instead. RDP (3389) from the VPN pool is Allowed because the user already authenticated through the VPN. Direct RDP from the internet is Blocked — exposed RDP is one of the most common ransomware entry points and must never be permitted directly.'
+ },
+
+ {
+  id: 4002,
+  type: 'firewall',
+  domain: 3,
+  obj: '3.2',
+  badge: '⚙ SIM',
+  badgeClass: 'pbq-b',
+  stem: 'A company is implementing zero-trust micro-segmentation. Configure each rule to enforce least-privilege access between internal network segments — set Allow, Block, or Drop.',
+  rules: [
+    { desc: 'HR subnet to Finance subnet (any port)', src: 'HR-Subnet', dst: 'Finance-Subnet', port: 'Any', proto: 'Any', opts: ['Allow','Block','Drop'], correct: 'Block' },
+    { desc: 'Dev environment to Production database', src: 'Dev-Subnet', dst: 'Prod-DB', port: '3306', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Block' },
+    { desc: 'IT Admin subnet SSH to all servers', src: 'IT-Admin', dst: 'All-Servers', port: '22', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Corporate users outbound HTTPS', src: 'Corporate', dst: 'Internet', port: '443', proto: 'TCP', opts: ['Allow','Block','Drop'], correct: 'Allow' },
+    { desc: 'Guest WiFi to corporate internal network', src: 'GuestWiFi', dst: 'Corporate', port: 'Any', proto: 'Any', opts: ['Allow','Block','Drop'], correct: 'Drop' },
+    { desc: 'App servers sending logs to SIEM', src: 'App-Servers', dst: 'SIEM', port: '514', proto: 'UDP', opts: ['Allow','Block','Drop'], correct: 'Allow' }
+  ],
+  exp: 'Zero trust enforces least-privilege between every segment. HR to Finance is Blocked — different data classification, no business need. Dev to Prod DB is Blocked — developers must never have direct access to production data. IT Admin SSH is the authorised management path (Allowed). Outbound HTTPS is Allowed for normal business. Guest WiFi is Dropped from all internal access — Drop (not Block) so the network appears invisible to guest devices. SIEM syslog (514/UDP) from app servers is Allowed — the security monitoring infrastructure must receive logs from everywhere.'
+ },
+
+ {
+  id: 4003,
+  type: 'cat',
+  domain: 3,
+  obj: '3.2',
+  badge: '⚙ PBQ',
+  badgeClass: 'pbq-b',
+  stem: 'A security architect must design wireless access for a healthcare campus. Drag each wireless component into the tier where it correctly belongs.',
+  categories: ['WPA3-Enterprise (802.1X)', 'WPA2-Personal (PSK)', 'Insecure — Disable'],
+  items: ['RADIUS Server', 'Pre-Shared Key', 'EAP-TLS Certificate Auth', 'WPS Push-Button', 'AES-CCMP Encryption', 'TKIP Encryption', '802.1X Port Authentication', 'Per-User Unique Credentials'],
+  correctMap: {
+    'WPA3-Enterprise (802.1X)': ['RADIUS Server', 'EAP-TLS Certificate Auth', 'AES-CCMP Encryption', '802.1X Port Authentication', 'Per-User Unique Credentials'],
+    'WPA2-Personal (PSK)': ['Pre-Shared Key'],
+    'Insecure — Disable': ['WPS Push-Button', 'TKIP Encryption']
+  },
+  exp: 'WPA3-Enterprise uses 802.1X with a RADIUS server, EAP-TLS certificate authentication, AES-CCMP encryption, and issues unique credentials per user — required for HIPAA-compliant and enterprise environments. WPA2-Personal uses a single Pre-Shared Key shared by all users, offering no individual accountability (fine for home, not enterprise). WPS has known critical vulnerabilities including the Pixie Dust attack and brute-forcing of its 8-digit PIN — disable it on all access points. TKIP is a deprecated encryption protocol replaced by AES-CCMP; WPA3 does not support TKIP at all.'
  }
 ];

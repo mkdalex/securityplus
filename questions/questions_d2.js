@@ -2501,5 +2501,45 @@ const Q_D2 = [
   ],
   "correct": 1,
   "exp": "Security awareness training is an operational/administrative control that reduces the human attack surface by educating employees about threats, policies, and best practices. It directly mitigates social engineering attacks (phishing, pretexting, baiting) by teaching users to recognize and report them. Encryption (A) and network segmentation (D) are technical controls. Access badges (C) are physical controls. Administrative controls include policies, procedures, training, background checks, and security governance. Training is particularly effective against social engineering because no technical control can fully prevent a user from voluntarily giving away credentials or clicking a malicious link — the human must be part of the defense."
+ },
+
+ {
+  id: 4004,
+  type: 'cat',
+  domain: 2,
+  obj: '2.4',
+  badge: '⚙ PBQ',
+  badgeClass: 'pbq-b',
+  stem: 'A SOC analyst is triaging alerts in the SIEM. Review each log entry below and drag it into the correct threat category.',
+  categories: ['Brute Force / Credential Attack', 'C2 / Malware Callback', 'SQL Injection', 'Benign Activity'],
+  items: [
+    '847 failed SSH logins in 3 min from 203.0.113.8 → 10.0.1.5',
+    'DNS TXT query: a3f9k2.cdn-cache-srv.ru (2.1KB response)',
+    "GET /login?user=admin&pass=' OR 1=1--",
+    'User jsmith MFA success at 09:14 from 10.0.0.45 (known device)',
+    'HTTPS BEACON every 60s to 45.33.102.8:443 (curl/7.54 UA)',
+    '12 failed logins: admin@corp.com in 90 seconds from TOR exit node',
+    "POST /api/products?id=1; DROP TABLE orders;--",
+    'Scheduled backup completed: 22.4GB to backup01.internal at 02:00'
+  ],
+  correctMap: {
+    'Brute Force / Credential Attack': [
+      '847 failed SSH logins in 3 min from 203.0.113.8 → 10.0.1.5',
+      '12 failed logins: admin@corp.com in 90 seconds from TOR exit node'
+    ],
+    'C2 / Malware Callback': [
+      'DNS TXT query: a3f9k2.cdn-cache-srv.ru (2.1KB response)',
+      'HTTPS BEACON every 60s to 45.33.102.8:443 (curl/7.54 UA)'
+    ],
+    'SQL Injection': [
+      "GET /login?user=admin&pass=' OR 1=1--",
+      "POST /api/products?id=1; DROP TABLE orders;--"
+    ],
+    'Benign Activity': [
+      'User jsmith MFA success at 09:14 from 10.0.0.45 (known device)',
+      'Scheduled backup completed: 22.4GB to backup01.internal at 02:00'
+    ]
+  },
+  exp: 'Brute force indicators: high volume of failed logins in a short window, especially from external or anonymising IPs like TOR exit nodes. C2 callback indicators: beaconing behaviour (regular interval connections), suspicious DNS TXT queries with large responses (used for DNS tunnelling), unusual user-agents, and connections to unknown external IPs. SQL injection indicators: SQL syntax in HTTP parameters — OR 1=1, DROP TABLE, UNION SELECT, comment sequences (--). Benign: successful MFA authentication from a known device and IP, and scheduled internal backup jobs are normal operational activity that generate alerts only if thresholds are misconfigured.'
  }
 ];
