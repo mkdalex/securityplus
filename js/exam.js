@@ -119,20 +119,38 @@ function startExam(onlyMissed = false, specificIds = null){
   const pbqs = pool.filter(q=>['order','cat','firewall','vpn'].includes(q.type));
   const mcqs = pool.filter(q=>!['order','cat','firewall','vpn'].includes(q.type));
 
-  // Shuffle both
+  // Shuffle helper
   const shuffle = arr=>[...arr].sort(()=>Math.random()-.5);
-  const shuffledPBQ = shuffle(pbqs);
-  const shuffledMCQ = shuffle(mcqs);
 
   // Pick questions — scale PBQs proportionally to session size (real exam = ~5 per 90Q)
   const total = Math.min(selectedQCount, pool.length);
   const targetPBQ = Math.max(1, Math.round(total * (5 / 90)));
-  const pbqTake = Math.min(shuffledPBQ.length, targetPBQ);
+  const pbqTake = Math.min(shuffle(pbqs).length, targetPBQ);
   const mcqTake = total - pbqTake;
 
-  const rawPool = [...shuffledPBQ.slice(0, pbqTake), ...shuffledMCQ.slice(0, mcqTake)];
+  // Fair domain distribution for MCQs: round-robin from each selected domain
+  const mcqByDomain = {};
+  [...selectedDomains].forEach(d => { mcqByDomain[d] = shuffle(mcqs.filter(q=>q.domain===d)); });
+  const pickedMCQ = [];
+  let round = 0;
+  const domList = shuffle([...selectedDomains]);
+  while(pickedMCQ.length < mcqTake) {
+    let added = false;
+    for(const d of domList){
+      if(pickedMCQ.length >= mcqTake) break;
+      if(round < mcqByDomain[d].length){
+        pickedMCQ.push(mcqByDomain[d][round]);
+        added = true;
+      }
+    }
+    if(!added) break;
+    round++;
+  }
 
-  // Dynamic option shuffling for MCQs/Multi — re-maps correct index after shuffle
+  const rawPool = [...shuffle(pbqs).slice(0, pbqTake), ...shuffle(pickedMCQ)];
+
+  // Dynamic option shuffling for MCQs/Multi — re-maps correct index + explanation letters
+  const LETTERS = 'ABCDE';
   ACTIVE_Q = rawPool.map(q => {
     if (q.type === 'mcq' || q.type === 'multi') {
       const newQ = { ...q, opts: [...q.opts] };
@@ -146,6 +164,22 @@ function startExam(onlyMissed = false, specificIds = null){
       } else {
         newQ.correct = correctTexts.map(t => newQ.opts.indexOf(t)).sort();
       }
+      // Remap letter references in explanation text (e.g. "(A)" → "(C)")
+      const oldToNew = {};
+      originalOpts.forEach((opt, oldIdx) => {
+        const newIdx = newQ.opts.indexOf(opt);
+        oldToNew[LETTERS[oldIdx]] = LETTERS[newIdx];
+      });
+      // Use placeholders to avoid double-replacing (A→C then C→B)
+      let exp = newQ.exp;
+      originalOpts.forEach((_, oldIdx) => {
+        const oldLetter = LETTERS[oldIdx];
+        exp = exp.replace(new RegExp('\\(' + oldLetter + '\\)', 'g'), '(__' + oldIdx + '__)');
+      });
+      originalOpts.forEach((_, oldIdx) => {
+        exp = exp.replace(new RegExp('__' + oldIdx + '__', 'g'), oldToNew[LETTERS[oldIdx]]);
+      });
+      newQ.exp = exp;
       return newQ;
     }
     return q;
@@ -546,6 +580,8 @@ function setVPN(idx){
 // ═══════════════════════════════════════════════════════
 // CHECK ANSWER (PRACTICE MODE)
 // ═══════════════════════════════════════════════════════
+function stripLetterPrefix(s){ return s.replace(/^[A-E]\.\s*/,''); }
+
 function checkAnswer(idx){
   const q=ACTIVE_Q[idx];
   const res=document.getElementById('ansResult');
@@ -555,7 +591,7 @@ function checkAnswer(idx){
   if(q.type==='mcq'){
     if(answers[idx]===undefined){res.style.display='block';res.className='ans-result bad';res.innerHTML=`<div class="rl">⚠ No answer selected</div><div class="exp">Please select an answer before checking.</div>`;return;}
     ok=answers[idx]===q.correct;
-    correctStr=`<div class="correct-ans">✓ Correct answer: <strong>${q.opts[q.correct]}</strong></div>`;
+    correctStr=`<div class="correct-ans">✓ Correct answer: <strong>${'ABCDE'[q.correct]}. ${stripLetterPrefix(q.opts[q.correct])}</strong></div>`;
     document.querySelectorAll('.opt').forEach((el,i)=>{
       if(i===q.correct)el.classList.add('correct-hi');
       else if(i===answers[idx]&&!ok)el.classList.add('wrong-hi');
@@ -563,7 +599,7 @@ function checkAnswer(idx){
   } else if(q.type==='multi'){
     const sel=answers[idx]||[];
     ok=[...sel].sort().join()===q.correct.slice().sort().join();
-    correctStr=`<div class="correct-ans">✓ Correct answers: <strong>${q.correct.map(i=>q.opts[i]).join(', ')}</strong></div>`;
+    correctStr=`<div class="correct-ans">✓ Correct answers: <strong>${q.correct.map(i=>'ABCDE'[i]+'. '+stripLetterPrefix(q.opts[i])).join(', ')}</strong></div>`;
     document.querySelectorAll('.opt').forEach((el,i)=>{
       if(q.correct.includes(i))el.classList.add('correct-hi');
       else if(sel.includes(i)&&!q.correct.includes(i))el.classList.add('wrong-hi');
