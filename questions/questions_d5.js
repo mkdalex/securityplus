@@ -482,15 +482,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company's legal team sends a notice to IT requiring all backup tapes containing emails from January to March to be removed from the normal rotation and stored securely. The company is anticipating litigation related to a contract dispute from that period. Which action is IT fulfilling?",
+  "stem": "An organization's policy states that firewall logs must be retained for 1 year, email archives for 7 years, and financial records for 10 years. After these periods, data must be securely destroyed using approved methods. What defines these timeframes and destruction requirements?",
   "opts": [
-   "A. Implementing a data retention policy",
-   "B. Executing a legal hold",
-   "C. Performing evidence collection for a forensic investigation",
-   "D. Complying with a data minimisation requirement"
+   "A. Legal hold directive",
+   "B. Data retention policy",
+   "C. Data classification scheme",
+   "D. Acceptable use policy"
   ],
   "correct": 1,
-  "exp": "A legal hold requires preserving specific data relevant to anticipated or actual litigation — removing it from normal processes (backup rotation, scheduled deletion) and securing it. The legal team identifies what to preserve based on the anticipated litigation scope. IT implements the hold technically. This is distinct from forensic evidence collection (which involves active investigation) and normal data retention (which follows scheduled policies). Data minimisation is a GDPR principle about limiting data collection. The scenario: anticipated litigation → preserve relevant data → legal hold. Any deletion of preserved data after a legal hold is in place constitutes spoliation."
+  "exp": "A data retention policy defines how long different categories of data must be stored and when they must be destroyed. It ensures compliance with regulations and reduces liability from holding data longer than necessary. A legal hold (A) is an emergency preservation directive that overrides normal retention when litigation is anticipated. A data classification scheme (C) labels data by sensitivity (Public, Confidential, etc.) but does not define retention timeframes. An acceptable use policy (D) governs how employees may use IT resources."
  },
  {
   "id": 72,
@@ -499,15 +499,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "During a tabletop exercise, participants walk through a hurricane scenario that forces the primary data centre offline. The exercise reveals that the DR plan has not been updated in 3 years and the backup site's capacity is insufficient for current workloads. What type of exercise is this, and what immediate action should follow?",
+  "stem": "An organization wants to test its incident response plan but cannot afford any disruption to production systems. Participants sit in a conference room and verbally walk through a ransomware scenario, discussing their decisions at each stage without activating any systems or failovers. Which exercise type is this?",
   "opts": [
-   "A. Penetration test — immediately patch the identified vulnerabilities",
-   "B. Tabletop exercise — update the DR plan and test the backup site capacity",
-   "C. Red team exercise — implement the recommended changes immediately",
-   "D. Simulation exercise — document findings but no action required"
+   "A. Full-scale simulation",
+   "B. Tabletop exercise",
+   "C. Parallel processing test",
+   "D. Failover test"
   ],
   "correct": 1,
-  "exp": "A tabletop exercise is a discussion-based scenario walkthrough where key stakeholders talk through their response to a simulated incident without actually activating systems. 701 lists security assessments and testing under 5.5."
+  "exp": "A tabletop exercise is a discussion-based walkthrough where stakeholders talk through a scenario without actually executing any technical actions or affecting production systems. It is low-cost and low-risk. A full-scale simulation (A) activates actual systems, personnel, and procedures — disrupting normal operations. A parallel processing test (C) involves running backup systems alongside production to verify functionality. A failover test (D) actually switches operations to a backup site. The key clue is 'verbally walk through' with 'no disruption to production.'"
  },
  {
   "id": 121,
@@ -839,15 +839,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is evaluating a critical SaaS vendor. They need assurance that the vendor's security controls have been independently verified to be operating effectively over the last six months. Which document should the company request?",
+  "stem": "A SaaS company wants to publicly display a trust seal on their marketing website demonstrating they have passed a security audit, without revealing detailed control descriptions or testing results to competitors. Which report type is appropriate?",
   "opts": [
-   "A. SOC 2 Type I report",
-   "B. SOC 2 Type II report",
-   "C. Non-Disclosure Agreement (NDA)",
-   "D. SLA uptime report"
+   "A. SOC 2 Type I",
+   "B. SOC 2 Type II",
+   "C. SOC 3",
+   "D. SOC 1"
   ],
-  "correct": 1,
-  "exp": "A SOC 2 Type II report evaluates the operational effectiveness of security controls over a period of time (usually 6-12 months). A Type I report (A) only evaluates the design of controls at a single point in time."
+  "correct": 2,
+  "exp": "A SOC 3 report is a general-use, publicly distributable summary that confirms an organization has passed a SOC 2 audit without disclosing detailed control descriptions or test results. SOC 2 Type I (A) and Type II (B) reports contain detailed control information and are restricted-use — shared only under NDA with specific parties. SOC 1 (D) focuses on financial controls relevant to financial statement audits, not general security trust seals. SOC 3 is designed specifically for public-facing assurance."
  },
  {
   "id": 306,
@@ -856,15 +856,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security manager wants to measure the effectiveness of the recent security awareness training program. Which of the following is the MOST direct metric for assessing behavioral change among employees?",
+  "stem": "After implementing a security awareness program, the security team notices that the number of suspicious emails reported by employees via the phishing report button increased from 12 to 89 per month, while the phishing click rate remained roughly the same. What does the increase in reporting BEST indicate?",
   "opts": [
-   "A. The percentage of employees who completed the training module",
-   "B. The total cost of the training software license",
-   "C. The reduction in the 'click-rate' during simulated phishing campaigns",
-   "D. The number of security policies updated this year"
+   "A. The training has failed because the click rate did not improve",
+   "B. Employees are more vigilant and actively reporting threats — improved security culture",
+   "C. The phishing simulations are too easy and should be made harder",
+   "D. The reporting button is generating false positives"
   ],
-  "correct": 2,
-  "exp": "Phishing simulation results (specifically the click-rate and report-rate) provide direct evidence of whether employees are applying what they learned. Completion rates (A) measure compliance activity, but not necessarily behavior change."
+  "correct": 1,
+  "exp": "An increase in phishing report rate is a strong positive indicator of security culture — it means employees are more aware and engaged, actively flagging suspicious content rather than ignoring it. The click rate remaining stable (A) does not mean failure; reporting rate is often a better culture metric than click rate alone. The increase in reports is not necessarily because simulations are too easy (C) — employees are reporting real suspicious emails, not just simulations. A reporting increase is not inherently false positives (D) — it reflects improved vigilance."
  },
  {
   "id": 307,
@@ -890,15 +890,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A risk assessment team is interviewing department heads to rank threats based on their gut feeling and experience using a scale of 1-10. What type of risk assessment is this?",
+  "stem": "A risk analyst calculates that a specific server has a 20% probability of failure per year and each failure costs $50,000 in damages. They calculate an Annual Loss Expectancy (ALE) of $10,000. Which risk assessment methodology is being used?",
   "opts": [
-   "A. Quantitative",
-   "B. Qualitative",
-   "C. Financial",
-   "D. Statistical"
+   "A. Qualitative",
+   "B. Quantitative",
+   "C. Ad hoc",
+   "D. Subjective"
   ],
   "correct": 1,
-  "exp": "Qualitative risk assessment relies on subjective judgment, experience, and 'gut feeling' to rank risks (e.g., Low/Med/High). Quantitative (A) uses objective numerical data and dollar values."
+  "exp": "Quantitative risk assessment uses measurable, objective data — probabilities and dollar values — to calculate metrics like SLE (Single Loss Expectancy), ARO (Annualized Rate of Occurrence), and ALE (SLE × ARO = $50,000 × 0.20 = $10,000). Qualitative (A) uses subjective scales (Low/Medium/High) and expert judgment without precise dollar figures. Ad hoc (C) and Subjective (D) are not standard CompTIA risk assessment categories."
  },
  {
   "id": 332,
@@ -924,15 +924,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization hires a 'Big Four' accounting firm to perform an independent assessment of its security controls to satisfy its investors. Which type of audit is this?",
+  "stem": "An organization's own audit team performs quarterly security assessments of internal controls. They have deep knowledge of the company's systems and culture. What is the PRIMARY advantage of this approach over hiring an external firm?",
   "opts": [
-   "A. Internal Audit",
-   "B. External Audit",
-   "C. Self-Assessment",
-   "D. Vulnerability Scan"
+   "A. Greater independence and objectivity",
+   "B. Deeper institutional knowledge and ability to perform more frequent assessments",
+   "C. Results are more credible to regulators and investors",
+   "D. No potential conflicts of interest"
   ],
   "correct": 1,
-  "exp": "External audits are performed by independent third parties. Internal audits (A) are performed by the organization's own employees."
+  "exp": "Internal auditors have deeper institutional knowledge — they understand the company's systems, culture, and history — enabling more contextual and frequent assessments. Greater independence (A) is actually an advantage of external audits, not internal. Results from internal audits are generally less credible to outside parties (C) because they lack independence. Internal auditors may face conflicts of interest (D) since they report within the organisation. External audits provide objectivity; internal audits provide depth and frequency."
  },
  {
   "id": 334,
@@ -941,15 +941,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security manager adds a leaderboard and digital badges to the company's security awareness portal to encourage competition among employees. Which concept is being used?",
+  "stem": "A security team notices that completion rates for mandatory awareness training drop below 40% each quarter. They redesign the program to include competitive team challenges, point systems for reporting phishing, and monthly recognition for top performers. What behavioral technique is being applied?",
   "opts": [
-   "A. Phishing simulation",
+   "A. Positive reinforcement",
    "B. Gamification",
-   "C. Mandatory training",
-   "D. Role-based training"
+   "C. Mandatory compliance",
+   "D. Social engineering awareness"
   ],
   "correct": 1,
-  "exp": "Gamification uses game-design elements (scores, badges, competition) in non-game contexts like security training to increase user engagement and behavioral change."
+  "exp": "Gamification incorporates game-design elements — competition, points, leaderboards, rewards, and recognition — into non-game contexts like security training to boost engagement and participation. Positive reinforcement (A) is a related psychological concept (rewarding desired behaviour) but is broader and less specific than gamification as a design approach. Mandatory compliance (C) is what was already failing — forcing completion without engagement. Social engineering awareness (D) is a training topic, not a delivery technique. Gamification directly addresses the low completion problem by making participation intrinsically motivating."
  },
  {
   "id": 335,
@@ -1009,15 +1009,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A customer of an EU-based company submits a formal request to see exactly what data the company has stored about them. Which GDPR right is the customer exercising?",
+  "stem": "A former customer emails a company demanding that all their personal data — account information, purchase history, and marketing profiles — be permanently deleted from all systems. Which GDPR right is the customer exercising?",
   "opts": [
-   "A. Right to Erasure",
-   "B. Data Subject Access Request (DSAR)",
-   "C. Right to Rectification",
-   "D. Purpose Limitation"
+   "A. Right to data portability",
+   "B. Right to erasure (right to be forgotten)",
+   "C. Right to rectification",
+   "D. Data Subject Access Request (DSAR)"
   ],
   "correct": 1,
-  "exp": "A DSAR allows individuals to request a copy of their personal data and other supplementary information. Organizations must respond within one month."
+  "exp": "The right to erasure (also called the right to be forgotten) under GDPR Article 17 allows individuals to request permanent deletion of their personal data when it is no longer necessary for the original purpose. Right to data portability (A) lets users request their data in a machine-readable format for transfer. Right to rectification (C) allows correction of inaccurate data. A DSAR (D) requests a copy of stored data — viewing, not deleting. The key word is 'permanently deleted,' pointing to erasure."
  },
  {
   "id": 379,
@@ -1043,15 +1043,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization calculates that 15% of employees clicked the link in a simulated phishing email. What is this metric called?",
+  "stem": "An organization runs monthly phishing simulations. In January, 22% of employees clicked the link. By June, only 8% clicked. However, the number who REPORTED the email to security rose from 5% to 35%. Which metric BEST demonstrates improved security culture?",
   "opts": [
-   "A. Reporting Rate",
-   "B. Click Rate / Failure Rate",
-   "C. Enrollment Rate",
-   "D. Crossover Rate"
+   "A. Click-through rate reduction",
+   "B. Training completion percentage",
+   "C. Phishing report rate increase",
+   "D. Help desk ticket volume"
   ],
-  "correct": 1,
-  "exp": "The click rate (or failure rate) measures the percentage of users who were successfully tricked by the simulation. The reporting rate (A) measures how many users used the 'Report Phishing' button."
+  "correct": 2,
+  "exp": "The phishing report rate is the strongest indicator of security culture improvement because it shows employees are actively engaged — not just avoiding clicks, but proactively alerting the security team. Click-through rate reduction (A) shows improved awareness but is a passive metric (not clicking is not the same as reporting). Training completion (B) measures attendance, not behaviour. Help desk ticket volume (D) is unrelated to phishing awareness. CompTIA emphasises that reporting rate is a more meaningful culture metric than click rate alone."
  },
  {
   "id": 381,
@@ -1077,15 +1077,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which concept refers to the requirement that data must be stored and processed according to the laws of the country in which it is physically located?",
+  "stem": "A dispute arises between the marketing and IT departments about who controls access to customer analytics data. The CISO proposes assigning a specific business unit leader as the person accountable for classification decisions, access approvals, and lifecycle management of that data. What role is being assigned?",
   "opts": [
-   "A. Data Minimization",
-   "B. Data Sovereignty",
-   "C. Data Masking",
-   "D. Tokenization"
+   "A. Data custodian",
+   "B. Data owner",
+   "C. Data processor",
+   "D. Privacy officer"
   ],
   "correct": 1,
-  "exp": "Data sovereignty is the idea that data is subject to the laws and governance structures within the nation it is collected or stored."
+  "exp": "The data owner is a senior business leader accountable for data classification, access decisions, and lifecycle management. They determine who can access data and under what conditions. A data custodian (A) implements the technical controls (backups, encryption) as directed by the owner — they manage data day-to-day but do not set policy. A data processor (C) handles data on behalf of a controller under GDPR — a third-party role. A privacy officer (D) oversees the organisation's overall privacy compliance, not individual data set ownership."
  },
  {
   "id": 383,
@@ -1128,15 +1128,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which type of training uses voice calls to simulate a social engineering attack against employees?",
+  "stem": "An organization discovers that employees are susceptible to phone-based social engineering after several incidents. The security team wants to hire a third party to call employees pretending to be IT support and ask for credentials. What should be done FIRST before conducting this test?",
   "opts": [
-   "A. Phishing simulation",
-   "B. Vishing simulation",
-   "C. Smishing simulation",
-   "D. Tabletop exercise"
+   "A. Obtain written authorization from executive management",
+   "B. Train all employees on vishing attacks before the test",
+   "C. Install call recording software on all phones",
+   "D. Update the acceptable use policy to prohibit sharing passwords"
   ],
-  "correct": 1,
-  "exp": "Vishing (voice phishing) simulations test employees' ability to recognize and report suspicious phone calls where attackers attempt to manipulate them into giving up information."
+  "correct": 0,
+  "exp": "Written authorization from management is required before conducting any social engineering test — vishing simulations included. Without explicit approval, calling employees to solicit credentials could violate company policies or even laws. Training employees first (B) would defeat the purpose of testing their current awareness level. Installing recording software (C) raises legal and privacy concerns and is not the first step. Updating the AUP (D) is a policy improvement but does not authorize the testing. Always get formal written approval before any social engineering engagement."
  },
  {
   "id": 406,
@@ -1230,15 +1230,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization has implemented all planned security controls. The risk that remains after these controls are in place is known as:",
+  "stem": "Before implementing ANY security controls, a risk team evaluates the raw exposure of a new internet-facing application to threats like SQL injection, DDoS, and credential stuffing. What is this pre-control risk level called?",
   "opts": [
-   "A. Inherent Risk",
-   "B. Residual Risk",
-   "C. Transferred Risk",
-   "D. Accepted Risk"
+   "A. Residual risk",
+   "B. Inherent risk",
+   "C. Transferred risk",
+   "D. Mitigated risk"
   ],
   "correct": 1,
-  "exp": "Residual risk is the risk left over after security measures have been applied. Inherent risk (A) is the risk before any controls."
+  "exp": "Inherent risk is the level of risk that exists before any controls, safeguards, or mitigations are applied. It represents the raw, uncontrolled exposure. Residual risk (A) is what remains AFTER controls are in place. Transferred risk (C) is risk shifted to a third party (e.g., via insurance). Mitigated risk (D) is not a standard CompTIA term — risk mitigation is a strategy, not a risk level. The relationship: Inherent Risk - Controls = Residual Risk."
  },
  {
   "id": 452,
@@ -1264,15 +1264,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is reviewing a SaaS provider's SOC report. They need to see how the provider's security controls performed over the last 12 months. Which report do they need?",
+  "stem": "A startup needs to quickly demonstrate to potential enterprise customers that its security controls are properly designed, but the company has only been operating for two months and cannot show long-term operational data. Which SOC report can they obtain?",
   "opts": [
-   "A. SOC 1 Type I",
+   "A. SOC 2 Type II",
    "B. SOC 2 Type I",
-   "C. SOC 2 Type II",
-   "D. SOC 3"
+   "C. SOC 3",
+   "D. SOC 1"
   ],
-  "correct": 2,
-  "exp": "A Type II report evaluates the operational effectiveness of controls over a period of time. Type I (B) is a point-in-time assessment."
+  "correct": 1,
+  "exp": "SOC 2 Type I evaluates the design and implementation of security controls at a single point in time — it does not require a long observation period, making it suitable for new companies. SOC 2 Type II (A) requires controls to be tested over 6-12 months of operation, which the startup cannot yet provide. SOC 3 (C) is a public summary of a SOC 2 report — you must first have a SOC 2 to produce a SOC 3. SOC 1 (D) focuses on financial controls affecting customer financial statements, not general security controls."
  },
  {
   "id": 454,
@@ -1281,15 +1281,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which metric is most useful for measuring the effectiveness of a security awareness program's phishing training?",
+  "stem": "An organization provides general security awareness training to all staff annually, but the development team receives additional specialised training on secure coding practices, OWASP Top 10, and code review processes. What is this approach called?",
   "opts": [
-   "A. Training completion rate",
-   "B. Number of emails sent",
-   "C. Click rate in phishing simulations",
-   "D. Total training budget"
+   "A. Gamification",
+   "B. Computer-based training (CBT)",
+   "C. Role-based security training",
+   "D. Mandatory compliance training"
   ],
   "correct": 2,
-  "exp": "Click rates (and reporting rates) are behavioral metrics that directly show whether the training is changing employee habits."
+  "exp": "Role-based security training provides targeted, specialised content based on an employee's specific job function and the unique risks they face. Developers need secure coding skills, executives need BEC awareness, and HR needs data privacy training. Gamification (A) is a delivery technique, not a training scope approach. CBT (B) is a delivery format (computer-based), not a content strategy. Mandatory compliance training (D) covers baseline requirements for all employees, not the specialised additions described here."
  },
  {
   "id": 455,
@@ -1298,15 +1298,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "After an audit finding, a department submits a document detailing the steps, resources, and timeline required to fix the security gap. What is this document called?",
+  "stem": "An audit finding states that all servers must run full-disk encryption. One legacy system cannot support encryption due to hardware limitations, but it processes only non-sensitive data and is on an isolated VLAN with additional monitoring. The team documents this and gets CISO sign-off. What is this?",
   "opts": [
-   "A. Service Level Agreement",
-   "B. Corrective Action Plan (CAP)",
-   "C. Non-Disclosure Agreement",
-   "D. Business Impact Analysis"
+   "A. Risk acceptance without documentation",
+   "B. Policy exception with compensating controls",
+   "C. Corrective action plan",
+   "D. Non-compliance violation"
   ],
   "correct": 1,
-  "exp": "A CAP (or remediation plan) outlines how an organization will address a deficiency found in an audit or assessment."
+  "exp": "A policy exception (or risk exception) is a formal, documented approval to deviate from a security policy for a specific system and reason, typically with compensating controls (VLAN isolation, additional monitoring) to reduce the risk. It requires sign-off from an appropriate authority (CISO). Risk acceptance without documentation (A) is improper — exceptions must be formally documented. A corrective action plan (C) outlines steps to fix a gap, not approve an exception. A non-compliance violation (D) implies no approval was obtained. The key elements are: formal documentation + compensating controls + management approval."
  },
  {
   "id": 456,
@@ -1315,15 +1315,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A high-level group of business leaders and IT executives meets to ensure that the security program aligns with the company's business goals. What is this group?",
+  "stem": "A security manager creates a chart showing who is Responsible, Accountable, Consulted, and Informed for each step of the incident response process. What is this document called?",
   "opts": [
-   "A. Incident Response Team",
-   "B. Security Steering Committee",
-   "C. Change Advisory Board",
-   "D. Red Team"
+   "A. Incident response playbook",
+   "B. RACI matrix",
+   "C. Risk register",
+   "D. Service level agreement"
   ],
   "correct": 1,
-  "exp": "The Steering Committee provides governance and strategic direction, ensuring security supports business objectives."
+  "exp": "A RACI matrix clearly defines roles and responsibilities for each task or process: Responsible (who does the work), Accountable (who is ultimately answerable), Consulted (who provides input), and Informed (who is kept updated). An incident response playbook (A) contains step-by-step procedures for handling incidents. A risk register (C) tracks identified risks and their mitigations. An SLA (D) defines performance expectations between parties. The RACI matrix is a governance tool that prevents confusion about ownership."
  },
  {
   "id": 457,
@@ -1332,15 +1332,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is required to store its backup data in a data center located within the European Union to comply with local laws. Which concept is being addressed?",
+  "stem": "A hospital (data controller) uses a cloud storage provider to host patient records. The cloud provider processes the data on behalf of the hospital but does not determine how or why it is processed. What is the cloud provider's role under GDPR?",
   "opts": [
-   "A. Data Masking",
-   "B. Data Sovereignty / Residency",
-   "C. Data Minimization",
-   "D. Data Recovery"
+   "A. Data controller",
+   "B. Data processor",
+   "C. Data owner",
+   "D. Data subject"
   ],
   "correct": 1,
-  "exp": "Data sovereignty/residency requirements dictate that data must remain within a specific geographical or political boundary."
+  "exp": "Under GDPR, a data processor handles personal data on behalf of a data controller — following the controller's instructions without independently determining the purpose or means of processing. The hospital is the data controller (A) because it decides why and how patient data is processed. Data owner (C) is an internal governance role, not a GDPR-defined term. Data subject (D) is the individual whose data is being processed — the patients. The controller-processor relationship is a fundamental GDPR concept tested on the SY0-701 exam."
  },
  {
   "id": 458,
@@ -1366,15 +1366,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "When a company is served with a subpoena, the legal department issues a directive to IT to stop the deletion of all logs and emails related to a specific employee. What is this called?",
+  "stem": "During litigation, opposing counsel requests all emails between specific employees during a 6-month period. The legal team must search, filter, review, and produce responsive documents from the email archive in a defensible manner. What is this process called?",
   "opts": [
-   "A. Chain of Custody",
-   "B. Legal Hold",
-   "C. Data Retention",
-   "D. Forensic Imaging"
+   "A. Legal hold",
+   "B. E-discovery",
+   "C. Data retention",
+   "D. Chain of custody"
   ],
   "correct": 1,
-  "exp": "A legal hold (litigation hold) suspends normal data deletion policies to preserve evidence for legal discovery."
+  "exp": "E-discovery (electronic discovery) is the process of identifying, collecting, reviewing, and producing electronically stored information (ESI) in response to legal requests or litigation. A legal hold (A) is the preservation directive that comes before e-discovery — it prevents data deletion but does not involve searching or producing documents. Data retention (C) defines normal storage timeframes, not litigation-specific production. Chain of custody (D) documents evidence handling and transfers. The e-discovery workflow: legal hold → identification → collection → review → production."
  },
  {
   "id": 501,
@@ -1400,15 +1400,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization is willing to accept a higher risk level for its marketing website than for its financial systems. This specific level of acceptable risk variation is called:",
+  "stem": "A board of directors issues a statement that the organization will aggressively pursue new markets and accept higher overall cybersecurity risk in exchange for faster innovation and time-to-market. What does this statement define?",
   "opts": [
-   "A. Risk Appetite",
-   "B. Risk Tolerance",
-   "C. Risk Avoidance",
-   "D. Risk Mitigation"
+   "A. Risk appetite",
+   "B. Risk tolerance",
+   "C. Risk register",
+   "D. Risk mitigation strategy"
   ],
-  "correct": 1,
-  "exp": "Risk Tolerance is the degree of variation an organization is willing to accept around its objectives."
+  "correct": 0,
+  "exp": "Risk appetite is the broad, strategic level of risk an organization is willing to accept to achieve its business objectives — set at the board/executive level. Risk tolerance (B) is more granular — the acceptable variation around a specific objective (e.g., 5% downtime tolerance for the marketing site vs 0.01% for payments). A risk register (C) tracks individual risks, not strategic risk posture. A risk mitigation strategy (D) describes how to reduce specific risks. The key distinction: risk appetite is strategic and organisation-wide; risk tolerance is tactical and objective-specific."
  },
  {
   "id": 503,
@@ -1417,15 +1417,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Under the GDPR, what is the request called when a person asks an organization for a copy of all their stored personal data?",
+  "stem": "A user wants to switch from one cloud storage provider to another and requests that their data be exported in a structured, machine-readable format (such as CSV or JSON) so it can be imported by the new provider. Which GDPR right is being exercised?",
   "opts": [
-   "A. Right to Erasure",
-   "B. Data Subject Access Request (DSAR)",
-   "C. Privacy Impact Assessment",
-   "D. Data Processing Agreement"
+   "A. Right to erasure",
+   "B. Right to data portability",
+   "C. Right to rectification",
+   "D. Data Subject Access Request (DSAR)"
   ],
   "correct": 1,
-  "exp": "A DSAR allows individuals to access the personal data an organization holds about them."
+  "exp": "The right to data portability (GDPR Article 20) allows individuals to receive their personal data in a structured, commonly used, machine-readable format and transmit it to another controller. Right to erasure (A) is about deletion, not export. Right to rectification (C) is about correcting inaccurate data. A DSAR (D) requests access to view stored data — portability goes further by requiring data in a transferable format. The key distinction: DSAR = right to see your data; portability = right to move your data to a competitor."
  },
  {
   "id": 504,
@@ -1434,15 +1434,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is reviewing a vendor's SOC 2 Type II report. Over what typical duration should the controls have been tested?",
+  "stem": "A company is evaluating a payroll processing vendor and needs assurance that the vendor's internal controls over financial reporting are properly designed and operating effectively. Customer financial data accuracy is the primary concern. Which report type is MOST appropriate?",
   "opts": [
-   "A. A single day",
-   "B. 6 to 12 months",
-   "C. 5 years",
-   "D. One week"
+   "A. SOC 1",
+   "B. SOC 2 Type I",
+   "C. SOC 2 Type II",
+   "D. SOC 3"
   ],
-  "correct": 1,
-  "exp": "SOC 2 Type II reports evaluate the operational effectiveness of controls over a period of time, typically 6-12 months."
+  "correct": 0,
+  "exp": "SOC 1 reports focus on internal controls that are relevant to the user entity's financial statements — specifically for service organizations that handle financial transactions like payroll processing. SOC 2 Type I (B) and Type II (C) evaluate security, availability, processing integrity, confidentiality, and privacy controls — broader security assessments, not financial reporting controls. SOC 3 (D) is a general-use public summary. When the primary concern is financial data accuracy and the vendor processes financial transactions, SOC 1 is the correct report."
  },
  {
   "id": 505,
@@ -1485,15 +1485,15 @@ const Q_D5 = [
   "domain": 5,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization decides that the cost of protecting a legacy server ($50,000) exceeds the potential loss if it were breached ($10,000). They decide to take no further action. This is:",
+  "stem": "A company determines that the potential cost of a data breach could be $2 million. Rather than spending that amount on additional controls, they purchase a cyber insurance policy that covers breach costs including notification, forensics, and legal fees. Which risk strategy is this?",
   "opts": [
-   "A. Risk Mitigation",
-   "B. Risk Acceptance",
-   "C. Risk Avoidance",
-   "D. Risk Transference"
+   "A. Risk mitigation",
+   "B. Risk acceptance",
+   "C. Risk avoidance",
+   "D. Risk transference"
   ],
-  "correct": 1,
-  "exp": "Risk acceptance is a formal decision to take on a risk without additional mitigation."
+  "correct": 3,
+  "exp": "Risk transference shifts the financial burden of a risk to a third party — typically through insurance or contractual agreements. The risk itself still exists, but the financial impact is borne by the insurer. Risk mitigation (A) reduces the likelihood or impact through controls. Risk acceptance (B) means taking no further action and absorbing the potential loss. Risk avoidance (C) eliminates the risk entirely by removing the activity or asset. Cyber insurance is the classic example of risk transference on the SY0-701 exam."
  },
  {
   "id": 508,

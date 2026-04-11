@@ -476,15 +476,15 @@ const Q_D1 = [
   "obj": "1.1",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A financial institution displays a large sign at its entrance stating: \"All activities are monitored and recorded. Unauthorized access will be prosecuted.\" Which control type does this sign BEST represent?",
+  "stem": "A company cannot afford to deploy smart card readers at every workstation as required by its security framework. Instead, it mandates 20-character minimum passphrases combined with mandatory time-based one-time password (TOTP) multi-factor authentication for all user logins. Which control type does this alternative measure BEST represent?",
   "opts": [
-   "A. Preventive",
-   "B. Corrective",
-   "C. Deterrent",
-   "D. Detective"
+   "A. Corrective",
+   "B. Detective",
+   "C. Compensating",
+   "D. Preventive"
   ],
   "correct": 2,
-  "exp": "A warning sign is a deterrent control — its purpose is to discourage malicious activity by making potential attackers aware of consequences. Preventive (A) controls actively block actions (e.g., a locked door). Corrective (B) controls fix problems after they occur (e.g., applying a patch after exploitation). Detective (D) controls identify incidents (e.g., security cameras recording footage). The sign itself does not prevent, detect, or correct — it deters."
+  "exp": "Compensating controls are alternative measures implemented when the primary or recommended control cannot be feasibly deployed. Here, the organization cannot implement smart card authentication (the primary control), so it substitutes a strong passphrase policy plus TOTP MFA to achieve an equivalent level of security. Corrective (A) controls remediate after an incident. Detective (B) controls identify security events. Preventive (D) controls block unauthorized actions — while the passphrase and MFA do prevent unauthorized access, the key distinction is that they are specifically serving as a substitute for an unimplemented primary control, making compensating the BEST answer."
  },
  {
   "id": 185,
@@ -493,15 +493,15 @@ const Q_D1 = [
   "obj": "1.1",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Following a ransomware attack, the IT team restores affected servers from clean backups and patches the vulnerability that was exploited. These recovery actions represent which type of control?",
+  "stem": "A company deploys endpoint detection and response (EDR) software that automatically alerts the security operations center when unauthorized file encryption activity is detected on any workstation. Which control type does this EDR capability BEST represent?",
   "opts": [
-   "A. Deterrent",
-   "B. Preventive",
-   "C. Corrective",
+   "A. Preventive",
+   "B. Deterrent",
+   "C. Detective",
    "D. Compensating"
   ],
   "correct": 2,
-  "exp": "Corrective controls are applied after an incident to restore systems to a secure state and remediate the damage. Restoring from backups and patching the exploited vulnerability are textbook corrective actions. Deterrent (A) controls discourage attacks before they happen. Preventive (B) controls block attacks from succeeding. Compensating (D) controls substitute for primary controls that cannot be implemented. The key distinction: corrective controls act AFTER the incident to fix and recover."
+  "exp": "Detective controls identify and alert on security events as they occur or after the fact. The EDR software monitoring for unauthorized encryption and sending alerts is a classic detective control — it detects malicious activity and notifies responders. Preventive (A) controls would actively block the encryption from happening (e.g., application whitelisting). Deterrent (B) controls discourage attacks through warnings or perceived risk. Compensating (D) controls are alternative measures used when a primary control cannot be implemented. The key distinction is that this EDR system identifies and reports suspicious behavior rather than blocking it."
  },
  {
   "id": 186,
@@ -616,15 +616,15 @@ const Q_D1 = [
   "obj": "1.2",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is implementing Zero Trust architecture. A remote employee authenticates via MFA and connects to the VPN. Under Zero Trust principles, what happens when the employee attempts to access an internal finance application?",
+  "stem": "A security architect redesigns the corporate network so that the web servers, application servers, and database servers each reside in separate network segments with strict firewall rules governing traffic between them. Even internal east-west traffic must pass through policy enforcement points. Which Zero Trust concept is being implemented?",
   "opts": [
-   "A. Access is automatically granted because the VPN provides a trusted network connection",
-   "B. Access is granted based on the initial MFA authentication — no further verification needed",
-   "C. The access request is evaluated independently with additional context such as device posture, user role, and behavior analytics",
-   "D. Access is denied because VPN connections are not compatible with Zero Trust"
+   "A. Single sign-on (SSO)",
+   "B. Microsegmentation",
+   "C. Role-based access control (RBAC)",
+   "D. Virtual private network (VPN) tunneling"
   ],
-  "correct": 2,
-  "exp": "Zero Trust's core principle is \"never trust, always verify.\" Even after VPN connection and MFA, each resource access request must be independently evaluated. Factors include: device health/posture, user role and least privilege, time of access, behavioral analytics, and the sensitivity of the requested resource. VPN providing implicit trust (A) is the old perimeter model that Zero Trust replaces. Relying solely on initial MFA (B) violates continuous verification. VPNs can coexist with Zero Trust (D) — the key is that VPN connectivity alone does not grant resource access."
+  "correct": 1,
+  "exp": "Microsegmentation divides the network into small, isolated segments and enforces granular security policies on traffic between them, even within the internal network. This is a core Zero Trust concept that eliminates implicit trust between systems on the same network. SSO (A) simplifies authentication but does not segment network traffic. RBAC (C) controls user permissions based on roles but does not address network-level isolation. VPN tunneling (D) secures traffic between endpoints but does not create internal segmentation boundaries. Microsegmentation ensures that even if an attacker compromises one tier, lateral movement to other tiers is blocked by policy enforcement."
  },
  {
   "id": 193,
@@ -667,15 +667,15 @@ const Q_D1 = [
   "obj": "1.2",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security engineer inserts a fake database record containing a fictitious Social Security number into a production database. An alert is configured to trigger if this specific record is ever queried or exfiltrated. What type of deception technology is this?",
+  "stem": "An administrator places a file named 'CEO_Salary_2026.xlsx' containing fabricated data on an internal file share. An alert triggers whenever any user opens or copies this file. What type of deception technology is this?",
   "opts": [
    "A. Honeypot",
    "B. Honeynet",
    "C. Honeytoken",
    "D. Honeyfile"
   ],
-  "correct": 2,
-  "exp": "A honeytoken is a piece of fake data (a record, credential, API key, email address, or similar) planted within legitimate data stores. Any access to or use of the honeytoken indicates unauthorized activity, since no legitimate process should ever touch it. This differs from a honeypot (A), which is an entire decoy system. A honeynet (B) is a network of honeypots. A honeyfile (D) is a decoy file (like a fake spreadsheet). The key distinction: a honeytoken is data-level deception embedded within real systems, not a standalone system or file."
+  "correct": 3,
+  "exp": "A honeyfile is a decoy document placed within a real file system to detect unauthorized browsing or data exfiltration. Any access to it indicates suspicious insider activity or an attacker exploring file shares. A honeypot (A) is an entire decoy system, not a single file. A honeynet (B) is a network of honeypots. A honeytoken (C) is a piece of fake data embedded within a real data store — such as a fake database record, credential, or API key — rather than a standalone file. The key distinction: honeyfiles are decoy files with enticing names; honeytokens are data-level traps inside legitimate systems."
  },
  {
   "id": 196,
@@ -773,15 +773,15 @@ const Q_D1 = [
   "obj": "1.4",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company needs to encrypt large volumes of data at rest quickly and efficiently. The encryption and decryption must use the same key. Which type of cryptographic algorithm is MOST appropriate?",
+  "stem": "A development team is building a secure messaging platform. They need any user to be able to send an encrypted message to the server, but only the server should be able to decrypt and read the messages. No pre-shared secret exists between users and the server. Which cryptographic approach is MOST appropriate?",
   "opts": [
-   "A. Asymmetric encryption (RSA)",
-   "B. Hashing (SHA-256)",
-   "C. Symmetric encryption (AES)",
-   "D. Digital signatures (DSA)"
+   "A. Symmetric encryption with a shared AES key",
+   "B. Asymmetric encryption using the server's public key",
+   "C. Hashing the message with SHA-256 before transmission",
+   "D. Encrypting with the sender's private key"
   ],
-  "correct": 2,
-  "exp": "Symmetric encryption (AES) uses the same key for encryption and decryption and is highly efficient for bulk data encryption. AES is the standard for encrypting data at rest. Asymmetric encryption (A) like RSA uses key pairs and is much slower — it is impractical for encrypting large data volumes. Hashing (B) is a one-way function that does not encrypt or decrypt data. Digital signatures (D) provide authentication and non-repudiation but do not encrypt data. The scenario's requirements — speed, efficiency, same key — all point to symmetric encryption."
+  "correct": 1,
+  "exp": "Asymmetric (public key) encryption is the correct approach. The server publishes its public key, which any user can use to encrypt messages. Only the server's corresponding private key can decrypt them. Symmetric encryption (A) requires both parties to share a secret key in advance, which is not feasible when any arbitrary user must send encrypted messages. Hashing (C) is a one-way function — the message cannot be recovered from a hash. Encrypting with the sender's private key (D) provides digital signature functionality (authentication/non-repudiation) but not confidentiality, since anyone with the sender's public key could decrypt it."
  },
  {
   "id": 202,
@@ -998,15 +998,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security architect is ensuring that even if one server in a cluster fails, the application remains available to users. Which concept is being implemented?",
+  "stem": "An organization requires 99.99% uptime for its e-commerce platform. The architects deploy active-active server clusters across two data centres with automatic DNS failover and geographic load balancing. Which design objective are they achieving?",
   "opts": [
-   "A. Integrity",
-   "B. Non-repudiation",
-   "C. Redundancy",
-   "D. Confidentiality"
+   "A. Fault tolerance",
+   "B. High availability",
+   "C. Load balancing",
+   "D. Disaster recovery"
   ],
-  "correct": 2,
-  "exp": "Redundancy is the duplication of critical components or functions of a system with the intention of increasing reliability and availability. It ensures there is no single point of failure."
+  "correct": 1,
+  "exp": "High availability (HA) is a design goal that aims to ensure a system meets a specified uptime percentage (e.g., 99.99%) by eliminating single points of failure and enabling automatic failover. Fault tolerance (A) focuses on a system continuing to operate correctly after a component failure — related but emphasises zero downtime for individual failures rather than an SLA target. Load balancing (C) is a technique used within HA architectures but is not the design objective itself. Disaster recovery (D) involves restoring operations after a major outage, not preventing downtime. The combination of active-active clusters, DNS failover, and geographic distribution is a classic HA architecture."
  },
  {
   "id": 338,
@@ -1032,15 +1032,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security team is performing a gap analysis. What is the PRIMARY goal of this activity?",
+  "stem": "After completing a gap analysis against ISO 27001, the security team has a list of 47 control deficiencies ranked by severity. What should be the NEXT step?",
   "opts": [
-   "A. To calculate the exact financial loss of a potential breach",
-   "B. To identify the difference between current security controls and the desired security baseline",
-   "C. To automatically apply patches to all vulnerable systems",
-   "D. To monitor the network for active intrusions"
+   "A. Immediately implement all 47 missing controls simultaneously",
+   "B. Develop a prioritised remediation roadmap with timelines and resource assignments",
+   "C. Conduct a penetration test to validate the findings",
+   "D. Report the findings to law enforcement"
   ],
   "correct": 1,
-  "exp": "A gap analysis compares the current 'as-is' state of security against a 'to-be' state or standard (like ISO 27001 or NIST) to identify missing controls or deficiencies."
+  "exp": "After a gap analysis identifies control deficiencies, the next logical step is to create a prioritised remediation plan that assigns owners, timelines, and budgets to close each gap based on risk severity. Implementing all 47 controls simultaneously (A) is unrealistic — remediation must be prioritised by risk. A penetration test (C) validates existing controls but does not address identified gaps. Reporting to law enforcement (D) is only relevant if a crime has occurred. The remediation roadmap translates gap analysis findings into actionable, sequenced work."
  },
  {
   "id": 340,
@@ -1066,15 +1066,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization is implementing a new change management policy. Which of the following should be included in every change request to ensure systems can be restored if the change causes a failure?",
+  "stem": "Before a major database migration, a cross-functional group including security, operations, application owners, and a business stakeholder meets to evaluate the risk, review the rollback plan, and formally approve the change. What is this group called?",
   "opts": [
-   "A. An Asset Inventory",
-   "B. A Backout / Rollback plan",
-   "C. A Business Impact Analysis",
-   "D. A Data Loss Prevention policy"
+   "A. Incident Response Team",
+   "B. Change Advisory Board (CAB)",
+   "C. Security Operations Centre (SOC)",
+   "D. Board of Directors"
   ],
   "correct": 1,
-  "exp": "A rollback (or backout) plan ensures that if a change (like a patch or configuration update) fails or causes instability, the system can be returned to its previous known-good state."
+  "exp": "A Change Advisory Board (CAB) is a cross-functional group that reviews, evaluates, and approves or rejects proposed changes to IT systems. The CAB typically includes representatives from security, operations, development, and business units. An Incident Response Team (A) handles security incidents, not planned changes. A SOC (C) monitors for security events in real time. The Board of Directors (D) sets organisational strategy but does not review individual IT changes. The CAB ensures changes are properly assessed for risk and impact before implementation."
  },
  {
   "id": 342,
@@ -1117,15 +1117,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization wants to implement an encryption algorithm that is fast and suitable for streaming media. Which cipher type is the BEST fit?",
+  "stem": "An encryption algorithm processes data one bit at a time using a pseudorandom keystream derived from the key and an initialization vector. It is used for real-time VoIP communications where low latency is critical. Which cipher type is this?",
   "opts": [
-   "A. Block cipher",
-   "B. Stream cipher",
-   "C. Asymmetric cipher",
-   "D. Hashing algorithm"
+   "A. Block cipher in ECB mode",
+   "B. Block cipher in CTR mode",
+   "C. Stream cipher",
+   "D. Asymmetric cipher"
   ],
-  "correct": 1,
-  "exp": "Stream ciphers (like ChaCha20) encrypt data bit-by-bit or byte-by-bit, making them very fast and ideal for real-time applications like audio/video streaming where the data length may not be known in advance."
+  "correct": 2,
+  "exp": "Stream ciphers (e.g., ChaCha20, RC4) encrypt data one bit or byte at a time using a keystream, making them ideal for low-latency real-time applications like VoIP. Block cipher in ECB mode (A) processes fixed-size blocks independently and is insecure for most uses. Block cipher in CTR mode (B) is a strong distractor — CTR mode does convert a block cipher into a stream-like cipher by encrypting counter values, but the question describes a native stream cipher with a keystream derived from key + IV, which is the definition of a stream cipher. Asymmetric ciphers (D) are far too slow for real-time bulk encryption."
  },
  {
   "id": 345,
@@ -1134,15 +1134,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company policy states that all employees must clear their desks of any sensitive information before leaving for the day. Which type of control is this?",
+  "stem": "An organization configures a Group Policy Object (GPO) that automatically locks all Windows workstations after five minutes of inactivity, requiring re-authentication to resume the session. Which control category and type does this GPO BEST represent?",
   "opts": [
-   "A. Technical",
-   "B. Physical",
-   "C. Managerial / Directive",
-   "D. Compensating"
+   "A. Operational - Detective",
+   "B. Technical - Preventive",
+   "C. Managerial - Directive",
+   "D. Physical - Deterrent"
   ],
-  "correct": 2,
-  "exp": "Policies are managerial (administrative) controls. Because it prescribes a specific behavior through a rule or instruction, it is a directive control."
+  "correct": 1,
+  "exp": "A GPO that auto-locks workstations is a technical control (implemented through technology/software) and preventive in function (it prevents unauthorized access to unattended systems before an incident occurs). Operational - Detective (A) would involve people-driven processes that identify incidents, such as log reviews. Managerial - Directive (C) would be a written policy telling users to lock their screens — the GPO enforces this automatically through technology. Physical - Deterrent (D) involves tangible measures that discourage threats. The GPO is enforced by the operating system without user action, making it a technical preventive control."
  },
  {
   "id": 386,
@@ -1185,15 +1185,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A developer is explaining hashing to a junior intern. Which property of a cryptographic hash function ensures that it is mathematically infeasible to find any two different inputs that produce the same output?",
+  "stem": "A security team is selecting a hashing algorithm for digital signatures on legal contracts. They need assurance that an attacker cannot craft a malicious contract that produces the same hash as a legitimate one already signed. Which hash property is MOST critical for this requirement?",
   "opts": [
-   "A. Key Stretching",
-   "B. Collision Resistance",
-   "C. Salted output",
-   "D. Confusion"
+   "A. Pre-image resistance",
+   "B. Second pre-image resistance",
+   "C. Collision resistance",
+   "D. Avalanche effect"
   ],
   "correct": 1,
-  "exp": "Collision resistance means it is extremely difficult to find two different inputs that result in the same hash. When this happens, it is called a 'collision' (e.g., MD5 is no longer used because it is not collision-resistant)."
+  "exp": "Second pre-image resistance ensures that given a specific input and its hash, it is infeasible to find a DIFFERENT input that produces the same hash. This is exactly the threat described — an attacker wants to create a malicious document matching an existing signed document's hash. Pre-image resistance (A) means given only a hash, you cannot reverse-engineer the original input — important but not the specific threat here. Collision resistance (C) means it's hard to find ANY two inputs with the same hash — a broader property, but the scenario describes a targeted attack against a known document. The avalanche effect (D) ensures small input changes create large output changes but does not directly address hash collisions."
  },
  {
   "id": 389,
@@ -1236,15 +1236,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security engineer is choosing a hashing algorithm for password storage. They want to prevent attackers from using precomputed tables (Rainbow Tables) to crack the passwords. Which technique is MOST essential?",
+  "stem": "A password storage system applies PBKDF2 with 600,000 iterations to each user password before storing the derived hash. What is the PRIMARY purpose of using such a high iteration count?",
   "opts": [
-   "A. Key Stretching",
-   "B. Salting",
-   "C. Peppering",
-   "D. Digital Signing"
+   "A. To prevent rainbow table attacks by adding randomness to each hash",
+   "B. To make brute-force attacks computationally expensive through key stretching",
+   "C. To generate a digital signature for each stored password",
+   "D. To ensure two identical passwords produce different hash outputs"
   ],
   "correct": 1,
-  "exp": "Salting adds a unique random value to each password before hashing. This ensures that even identical passwords produce different hashes, effectively making precomputed tables (Rainbow Tables) useless."
+  "exp": "Key stretching deliberately increases the computational cost of hashing each password by running the algorithm through many iterations. With 600,000 iterations, each password guess takes significantly longer to compute, making brute-force and dictionary attacks impractical even with powerful hardware. Preventing rainbow tables by adding randomness (A) describes salting, not key stretching — salts add unique random data, while iterations add computational cost. Generating digital signatures (C) is unrelated to password hashing. Ensuring different outputs for identical passwords (D) is also the function of salting. PBKDF2, bcrypt, and Argon2 all implement key stretching to slow attackers."
  },
  {
   "id": 413,
@@ -1287,15 +1287,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "When a Certificate Authority (CA) revokes a certificate, it publishes the serial numbers of all revoked certificates. What is this published list called?",
+  "stem": "A security admin notices that a revoked TLS certificate was still accepted by clients for several hours after revocation. The organisation uses a file-based revocation mechanism that clients download periodically. What MOST likely explains the delay?",
   "opts": [
-   "A. CSR",
-   "B. CRL (Certificate Revocation List)",
-   "C. OCSP Stapling",
-   "D. Root Store"
+   "A. The OCSP responder was offline and could not process queries",
+   "B. The CRL had not yet been republished and cached copies were stale",
+   "C. Certificate pinning on the clients overrode the revocation check",
+   "D. The CA's root certificate had expired"
   ],
   "correct": 1,
-  "exp": "The CRL is a list of digital certificates that have been revoked by the issuing CA before their scheduled expiration date."
+  "exp": "CRLs (Certificate Revocation Lists) are published periodically — clients download and cache them. Between publications, a newly revoked certificate will still appear valid because the cached CRL does not yet include it. This latency is a well-known CRL limitation. The scenario specifies a 'file-based mechanism downloaded periodically,' which describes CRL behaviour. OCSP (A) is a real-time protocol, not file-based. Certificate pinning (C) bypasses normal CA validation but the scenario describes a revocation timing issue. An expired root certificate (D) would cause all certificates under that root to fail, not just delayed revocation."
  },
  {
   "id": 416,
@@ -1338,15 +1338,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization places a large banner on its network login screen stating that all activity is logged and unauthorized access will result in prosecution. What control type is this?",
+  "stem": "A company's physical security policy includes a standard operating procedure requiring all employees to personally escort visitors through secured areas at all times. Unescorted visitors are to be reported immediately. Which control type does this SOP BEST represent?",
   "opts": [
-   "A. Preventive",
+   "A. Compensating",
    "B. Detective",
-   "C. Deterrent",
-   "D. Corrective"
+   "C. Preventive",
+   "D. Directive"
   ],
-  "correct": 2,
-  "exp": "Deterrent controls discourage potential attackers by making them aware of the consequences or the high risk of being caught."
+  "correct": 3,
+  "exp": "Directive controls guide or mandate specific actions through rules, procedures, and instructions. A standard operating procedure (SOP) that prescribes exactly how employees must handle visitor escort duties is a directive control — it tells people what they must do. Compensating (A) controls are substitutes for primary controls that cannot be implemented. Detective (B) controls identify security incidents. Preventive (C) controls actively block unauthorized actions. While the SOP may contribute to preventing unauthorized access, its primary function is directing employee behavior through prescribed procedures, making directive the BEST answer."
  },
  {
   "id": 419,
@@ -1389,15 +1389,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization is concerned about the future threat of quantum computers being able to break current RSA and ECC encryption. They decide to implement an algorithm designed to be secure against quantum attacks. Which concept is this?",
+  "stem": "A government agency is transitioning to NIST-approved algorithms that will remain secure after large-scale quantum computers become available. They are replacing RSA key exchange with a lattice-based algorithm (ML-KEM). Which initiative describes this transition?",
   "opts": [
-   "A. Symmetric encryption",
-   "B. Post-Quantum Cryptography (PQC)",
-   "C. Ephemeral keys",
-   "D. Key stretching"
+   "A. Quantum Key Distribution (QKD)",
+   "B. Post-Quantum Cryptography (PQC) migration",
+   "C. Homomorphic encryption adoption",
+   "D. Perfect Forward Secrecy implementation"
   ],
   "correct": 1,
-  "exp": "Post-Quantum Cryptography (PQC) refers to cryptographic algorithms (usually based on lattice, code, or multivariate equations) that are thought to be secure against an attack by a quantum computer."
+  "exp": "Post-Quantum Cryptography (PQC) migration is the process of replacing classical algorithms (RSA, ECC) with quantum-resistant alternatives such as lattice-based (ML-KEM/Kyber), hash-based, or code-based algorithms standardised by NIST. Quantum Key Distribution (A) uses quantum mechanics to distribute keys — it's a different approach requiring specialised hardware, not a software algorithm replacement. Homomorphic encryption (C) allows computation on encrypted data but does not address quantum threats to key exchange. Perfect Forward Secrecy (D) protects past sessions if a long-term key is compromised but does not make the underlying algorithms quantum-resistant."
  },
  {
   "id": 462,
@@ -1423,15 +1423,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security manager is updating the company's 'Code of Conduct' to include a requirement for reporting unethical behavior. What category of control does this handbook belong to?",
+  "stem": "A security team conducts weekly access reviews, comparing each user's current permissions against the approved role-based access control (RBAC) matrix and flagging any discrepancies for investigation. Which control category and type does this activity BEST represent?",
   "opts": [
-   "A. Technical",
-   "B. Physical",
-   "C. Managerial / Directive",
-   "D. Corrective"
+   "A. Technical - Preventive",
+   "B. Managerial - Directive",
+   "C. Operational - Detective",
+   "D. Physical - Compensating"
   ],
   "correct": 2,
-  "exp": "The handbook is a managerial (administrative) control. Because it directs specific behavior through policy, it is a directive control."
+  "exp": "Weekly access reviews performed by security staff are an operational control (carried out by people through day-to-day procedures) and detective in function (they identify permission discrepancies and potential unauthorized access after the fact). Technical - Preventive (A) would be an automated system that blocks unauthorized access in real time. Managerial - Directive (B) would be a written policy requiring access reviews — the actual performance of the review is operational. Physical - Compensating (D) involves tangible substitute measures. The key distinction: people executing a recurring review process to detect anomalies is operational detective."
  },
  {
   "id": 464,
@@ -1474,15 +1474,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A user's browser verifies a website's certificate by checking it against an intermediate CA, which is then verified by a root CA stored in the browser. What is this hierarchy called?",
+  "stem": "Users report TLS certificate errors when accessing an internal web application. The server's certificate was issued by the organisation's intermediate CA, which was signed by a public root CA. Investigation shows the server is only sending its own leaf certificate during the TLS handshake. What is the MOST likely cause?",
   "opts": [
-   "A. Key Escrow",
-   "B. Certificate Pinning",
-   "C. Chain of Trust",
-   "D. Hashing"
+   "A. The root CA certificate has expired",
+   "B. The server is missing the intermediate certificate in its chain",
+   "C. The client's certificate store is corrupted",
+   "D. The certificate uses a deprecated signature algorithm"
   ],
-  "correct": 2,
-  "exp": "The Chain of Trust is the sequence of certificates, starting from the entity certificate, through one or more intermediate CAs, ending at a trusted root CA."
+  "correct": 1,
+  "exp": "For TLS to succeed, the server must present the full certificate chain — its own leaf certificate plus the intermediate CA certificate(s). If only the leaf certificate is sent, clients cannot build a path from the leaf to a trusted root CA and will display an error. A root CA expiration (A) would affect all certificates under that root, not just one application. A corrupted client store (C) would affect all TLS connections, not just this application. A deprecated algorithm (D) would produce a different error message. This is a classic chain-of-trust misconfiguration where the intermediate certificate bundle is not installed on the server."
  },
  {
   "id": 467,
@@ -1508,15 +1508,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "In a Zero Trust model, once a user has successfully authenticated and accessed a resource, how is their next request for a different resource handled?",
+  "stem": "In a Zero Trust architecture, when a user requests access to a sensitive application, a centralized system evaluates the user's identity, device health, geographic location, and behavioral risk score before issuing an allow or deny decision. Which Zero Trust component is performing this evaluation?",
   "opts": [
-   "A. Access is granted automatically based on the existing session",
-   "B. Access is evaluated again independently, requiring continuous verification",
-   "C. Access is denied until the user logs out and back in",
-   "D. Access is granted if the user is on the same IP"
+   "A. Data plane proxy",
+   "B. Policy Decision Point (PDP) / Policy Engine",
+   "C. Security Information and Event Management (SIEM)",
+   "D. Network Access Control (NAC) agent"
   ],
   "correct": 1,
-  "exp": "Zero Trust relies on continuous verification. Every access request is evaluated independently, regardless of previous successful authentications."
+  "exp": "The Policy Decision Point (PDP), also called the Policy Engine, is the Zero Trust component that evaluates access requests against defined policies by considering multiple contextual signals — identity, device posture, location, risk score, and resource sensitivity — to make an allow or deny decision. The data plane proxy (A) enforces the decision by permitting or blocking traffic but does not make the decision itself. A SIEM (C) aggregates and correlates security logs for detection and analysis but does not make real-time access decisions. A NAC agent (D) assesses device compliance for network admission but is only one input to the broader policy evaluation. The PDP is the brain of Zero Trust architecture."
  },
  {
   "id": 469,
@@ -1525,15 +1525,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security team builds a complex network of decoy servers, databases, and files designed to look like a high-value target environment to study attacker lateral movement. What is this called?",
+  "stem": "A security team deploys a single deliberately vulnerable web server on the DMZ, configured to mimic a production e-commerce application. The server has no legitimate users and exists solely to attract attackers so the team can study their techniques and gather threat intelligence. What type of deception technology is this?",
   "opts": [
    "A. Honeypot",
    "B. Honeynet",
-   "C. Sandboxing",
-   "D. Air gap"
+   "C. Honeytoken",
+   "D. DNS sinkhole"
   ],
-  "correct": 1,
-  "exp": "A honeynet is a network of honeypots (decoys). It provides a more comprehensive environment for monitoring attacker behavior."
+  "correct": 0,
+  "exp": "A honeypot is a single decoy system designed to attract and study attackers. It has no production value and exists purely for deception and intelligence gathering. A honeynet (B) is an entire network of multiple interconnected honeypots — the scenario describes only a single server. A honeytoken (C) is a piece of fake data (like a fake credential or database record) planted within legitimate systems. A DNS sinkhole (D) redirects malicious DNS queries to a controlled server to disrupt malware communication. The key distinction between a honeypot and honeynet is scale: one system vs. a network of systems."
  },
  {
   "id": 470,
@@ -1542,15 +1542,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which protocol is used to securely exchange cryptographic keys over an insecure channel, allowing two parties to compute a shared secret?",
+  "stem": "To securely send a large encrypted file to Bob, Alice generates a random AES-256 session key, encrypts the file with AES-256, then encrypts the session key with Bob's RSA public key. She sends both the AES-encrypted file and the RSA-encrypted session key to Bob. What is this technique called?",
   "opts": [
-   "A. AES",
-   "B. Diffie-Hellman",
-   "C. SHA-256",
-   "D. HMAC"
+   "A. Key escrow",
+   "B. Hybrid encryption / Digital envelope",
+   "C. Perfect forward secrecy",
+   "D. Homomorphic encryption"
   ],
   "correct": 1,
-  "exp": "Diffie-Hellman (DH) is a key exchange protocol that allows two parties to establish a shared secret key without sending the key itself over the network."
+  "exp": "Hybrid encryption (also called a digital envelope) combines symmetric and asymmetric encryption to leverage the strengths of both. The bulk data is encrypted with a fast symmetric algorithm (AES), and the symmetric key is encrypted with the recipient's asymmetric public key (RSA). This provides the speed of symmetric encryption with the key distribution advantage of asymmetric encryption. Key escrow (A) involves storing keys with a trusted third party for recovery purposes. Perfect forward secrecy (C) ensures that session keys are not compromised even if long-term keys are exposed, but it describes a property, not this specific technique. Homomorphic encryption (D) allows computation on encrypted data without decrypting it."
  },
  {
   "id": 600,
@@ -1576,15 +1576,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A retail company experiences repeated shoplifting. Management installs visible dummy cameras alongside real ones throughout the store. The dummy cameras have blinking red LEDs but do not record. Which control type do the dummy cameras BEST represent?",
+  "stem": "A data center installs a motion-activated security camera system in a restricted server room. The system records video footage and immediately sends alerts to the security operations center whenever movement is detected after business hours. Which control type does this camera system BEST represent?",
   "opts": [
-   "A. Detective",
-   "B. Corrective",
-   "C. Compensating",
-   "D. Deterrent"
+   "A. Deterrent",
+   "B. Preventive",
+   "C. Corrective",
+   "D. Detective"
   ],
   "correct": 3,
-  "exp": "Dummy cameras are deterrent controls — they discourage theft by creating the perception of surveillance without actually detecting or recording anything. They cannot be detective because they do not capture evidence. They are not compensating because they do not substitute for a missing primary control in a formal risk-mitigation sense. They are not corrective because they do not restore anything after an incident. The real cameras alongside them are detective controls. This distinction between deterrent and detective is a common CompTIA exam topic."
+  "exp": "Detective controls identify and report security events. This motion-activated camera system serves a detective function because it records activity and alerts security personnel when unauthorized movement is detected — it identifies potential incidents. Deterrent (A) controls discourage attacks through visible warnings (a visible camera may deter, but the scenario emphasizes the recording and alerting function). Preventive (B) controls actively block unauthorized actions (the cameras do not physically prevent entry). Corrective (C) controls restore systems after an incident. The key distinction: this system's primary purpose is detecting and alerting on suspicious activity, making it a physical detective control."
  },
  {
   "id": 602,
@@ -1860,15 +1860,15 @@ const Q_D1 = [
   "domain": 1,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security architect is designing a system where IoT sensors transmit telemetry data to a cloud platform. The sensors have very limited CPU and memory. The architect needs an asymmetric algorithm for device authentication that works within these hardware constraints. Which algorithm is BEST suited?",
+  "stem": "An IoT device manufacturer hardcodes the expected SHA-256 fingerprint of the cloud platform's TLS certificate into device firmware. Devices refuse to connect if the presented certificate does not match, even if a trusted CA signed a different certificate for the same domain. What technique is this?",
   "opts": [
-   "A. RSA-4096",
-   "B. Triple DES (3DES)",
-   "C. Elliptic Curve Cryptography (ECC)",
-   "D. Blowfish"
+   "A. OCSP stapling",
+   "B. Certificate pinning",
+   "C. Key escrow",
+   "D. Certificate transparency"
   ],
-  "correct": 2,
-  "exp": "ECC provides equivalent security to RSA with much smaller key sizes (256-bit ECC approximates 3072-bit RSA), resulting in lower computational overhead, less memory usage, and smaller certificate sizes. This makes ECC ideal for resource-constrained IoT devices. RSA-4096 (A) requires significantly more processing power and memory than ECC for equivalent security. 3DES (B) and Blowfish (D) are symmetric algorithms, not asymmetric — they cannot be used for the public key authentication described in the scenario. ECC is the standard choice for IoT, mobile, and embedded systems where hardware resources are limited."
+  "correct": 1,
+  "exp": "Certificate pinning associates a host with its expected certificate or public key fingerprint, rejecting any certificate that does not match — even if it is signed by a trusted CA. This protects against compromised CAs and man-in-the-middle attacks. OCSP stapling (A) is a performance optimisation where the server fetches and caches its own revocation status to send to clients. Key escrow (C) involves a third party holding copies of encryption keys. Certificate transparency (D) is a public logging framework that CAs use to publish all issued certificates so domain owners can detect mis-issuance. Pinning is particularly valuable for IoT devices that only communicate with known endpoints."
  },
  {
   "id": 618,

@@ -431,15 +431,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company wants to ensure their web application is protected from OWASP Top 10 attacks including injection, broken authentication, and security misconfiguration — without modifying a single line of application code. Which solution BEST achieves this?",
+  "stem": "A development team embeds a security agent directly into their Java application server. The agent monitors application execution from within the runtime, detecting and blocking SQL injection attempts without relying on any external network device. Which technology is being used?",
   "opts": [
-   "A. Deploy an IDS in promiscuous mode in front of the web server",
-   "B. Enable full TLS inspection on the perimeter firewall",
-   "C. Deploy a Web Application Firewall (WAF) in front of the application",
-   "D. Implement network segmentation using VLANs"
+   "A. Web Application Firewall (WAF)",
+   "B. Runtime Application Self-Protection (RASP)",
+   "C. Intrusion Prevention System (IPS)",
+   "D. Static Application Security Testing (SAST)"
   ],
-  "correct": 2,
-  "exp": "A WAF operates at Layer 7 and understands HTTP/HTTPS application traffic. It can inspect, filter, and block OWASP Top 10 attacks (SQLi, XSS, CSRF, broken auth) based on rule sets without any code changes to the application. WAFs can be deployed as: reverse proxy (most common), inline, or agent-based. An IDS detects but doesn't block, and doesn't have HTTP-level intelligence. TLS inspection decrypts traffic for inspection but doesn't specifically address web application attacks. VLANs segment networks but don't inspect HTTP content. WAF = purpose-built web application protection without code changes."
+  "correct": 1,
+  "exp": "(B) is correct. RASP is embedded inside the application runtime and can detect and block attacks like SQL injection from within the running process, without requiring an external network appliance. (A) A WAF sits in front of the application as a network device or reverse proxy, not inside the runtime. (C) An IPS monitors network traffic for malicious patterns but does not operate inside the application. (D) SAST analyzes source code before deployment, not during runtime execution."
  },
  {
   "id": 95,
@@ -1375,15 +1375,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company uses a cloud-based service where they only manage the application code and the data, while the provider handles everything else including the web server and database engine. Which cloud model is this?",
+  "stem": "A startup provisions virtual machines in the cloud, configures its own firewalls, and installs custom middleware and database software. The cloud provider only manages the hypervisor and physical hardware. Which cloud service model does this describe?",
   "opts": [
    "A. Infrastructure as a Service (IaaS)",
    "B. Platform as a Service (PaaS)",
    "C. Software as a Service (SaaS)",
-   "D. Private Cloud"
+   "D. Function as a Service (FaaS)"
   ],
-  "correct": 1,
-  "exp": "PaaS provides a platform (including OS, web server, and database) allowing developers to build and run applications without the complexity of managing underlying infrastructure."
+  "correct": 0,
+  "exp": "(A) is correct. IaaS gives the customer control over VMs, networking, storage, OS, and everything above the hypervisor, while the provider manages physical hardware and virtualization. (B) PaaS would also manage the OS, middleware, and runtime. (C) SaaS delivers a fully managed application. (D) FaaS is a serverless execution model where the provider manages all infrastructure."
  },
  {
   "id": 357,
@@ -1528,15 +1528,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization wants to implement a solution that prevents users from emailing sensitive customer data to their personal accounts. Which technology is MOST suitable for this?",
+  "stem": "A development team needs access to a copy of the production database for testing purposes, but regulations prohibit exposing actual customer Social Security Numbers. The team requests that SSNs appear in the format XXX-XX-1234, showing only the last four digits. Which technique should be applied to the test environment data?",
   "opts": [
-   "A. Firewall",
-   "B. Data Loss Prevention (DLP)",
-   "C. Antivirus",
-   "D. IDS"
+   "A. Data Loss Prevention (DLP)",
+   "B. Data masking",
+   "C. Data tokenization",
+   "D. Full-disk encryption"
   ],
   "correct": 1,
-  "exp": "DLP solutions are designed to identify, monitor, and protect data in use, data in motion, and data at rest. They can specifically block sensitive data (like credit card numbers) from being sent via email."
+  "exp": "(B) is correct. Data masking replaces sensitive data with realistic but obfuscated values, such as replacing most digits of an SSN with 'X' characters while preserving the format. This allows developers to work with representative data without exposing real PII. (A) DLP monitors and prevents unauthorized data transfers but does not transform data for test environments. (C) Tokenization replaces data with random tokens that map back to the original value through a token vault, which differs from the partial-reveal format described. (D) Full-disk encryption protects data at rest on storage media but does not alter the data seen by application users."
  },
  {
   "id": 396,
@@ -1562,15 +1562,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "In a modern data center, traffic that moves between a web server and an application server is classified as which of the following?",
+  "stem": "A SOC analyst notices a significant spike in traffic flowing from several internal database servers out to external IP addresses on the internet. Which traffic flow classification BEST describes this activity?",
   "opts": [
-   "A. North-South",
-   "B. East-West",
-   "C. Ingress",
-   "D. Egress"
+   "A. East-West traffic",
+   "B. North-South traffic",
+   "C. Multicast traffic",
+   "D. Broadcast traffic"
   ],
   "correct": 1,
-  "exp": "East-West traffic moves laterally within the data center (server-to-server). North-South moves between the data center and the outside world."
+  "exp": "(B) is correct. North-south traffic flows between the internal network and external networks such as the internet. Internal servers communicating outbound to external IPs is a classic example. (A) East-west traffic moves laterally between servers within the same data center. (C) Multicast traffic is sent to a group of subscribers, which is a delivery method, not a directional classification. (D) Broadcast traffic is sent to all hosts on a network segment, also not a directional classification."
  },
  {
   "id": 398,
@@ -1664,15 +1664,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which RAID level provides block-level striping with dual distributed parity, allowing for the failure of up to two drives?",
+  "stem": "An organization uses a RAID 5 array for its file server. One drive fails and the administrator begins a rebuild with a hot spare. During the rebuild process, a second drive in the array fails. What is the outcome?",
   "opts": [
-   "A. RAID 1",
-   "B. RAID 5",
-   "C. RAID 6",
-   "D. RAID 10"
+   "A. The array continues operating normally using the remaining parity data",
+   "B. The rebuild pauses until the second failed drive is replaced, then resumes",
+   "C. Complete data loss occurs because RAID 5 can only tolerate one simultaneous drive failure",
+   "D. The array switches to a degraded RAID 0 mode and continues serving data"
   ],
   "correct": 2,
-  "exp": "RAID 6 uses dual parity, meaning it can tolerate two simultaneous disk failures without data loss. RAID 5 (B) can only tolerate one."
+  "exp": "(C) is correct. RAID 5 uses single distributed parity, so it can tolerate only one drive failure at a time. If a second drive fails before the rebuild completes, the array is destroyed and all data is lost. (A) is incorrect because RAID 5 has no mechanism to survive two simultaneous failures. (B) is incorrect because the array cannot simply pause; it has already lost fault tolerance. (D) is incorrect because RAID arrays do not dynamically switch levels on failure."
  },
  {
   "id": 434,
@@ -1698,15 +1698,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "When designing a firewall ACL, which rule should typically be placed at the very bottom to enforce the principle of Least Privilege?",
+  "stem": "A firewall administrator creates a rule to block all traffic from a known malicious internal IP address 10.0.1.50. However, the rule is placed below a broader rule that reads 'PERMIT ALL from 10.0.0.0/16.' Users report that the malicious host can still reach network resources. What is the MOST likely cause?",
   "opts": [
-   "A. Permit Any Any",
-   "B. Implicit Deny",
-   "C. Log All",
-   "D. SNMP Trap"
+   "A. The firewall does not support IP-based blocking",
+   "B. The malicious host is using a VPN to bypass the firewall",
+   "C. Firewall rules are processed top-down and the broader permit rule matches first, so the block rule is never evaluated",
+   "D. The implicit deny rule at the bottom is overriding both rules"
   ],
-  "correct": 1,
-  "exp": "The Implicit Deny (Deny All) rule ensures that any traffic not explicitly permitted by a higher-priority rule is blocked by default."
+  "correct": 2,
+  "exp": "(C) is correct. Firewalls evaluate rules from top to bottom and apply the first matching rule. Because the broad 'PERMIT ALL from 10.0.0.0/16' rule appears above the specific block rule, traffic from 10.0.1.50 matches the permit rule first and is allowed through. The block rule is never reached. (A) is incorrect because all firewalls support IP-based rules. (B) is incorrect because there is no evidence of VPN use. (D) is incorrect because the implicit deny only applies to traffic that matches no explicit rule."
  },
  {
   "id": 436,
@@ -1715,15 +1715,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organization is legally required to ensure that its user data never leaves the borders of the country in which it was collected. Which concept is this?",
+  "stem": "An organization assigns sensitivity labels to all corporate information: Public, Internal, Confidential, and Restricted. Customer PII is labelled Confidential, while trade secrets are labelled Restricted. Each label carries specific handling and access requirements. What process is this organization performing?",
   "opts": [
-   "A. Data Masking",
-   "B. Data Sovereignty",
-   "C. Data Anonymization",
-   "D. Data Retention"
+   "A. Data retention",
+   "B. Data classification",
+   "C. Data masking",
+   "D. Data minimization"
   ],
   "correct": 1,
-  "exp": "Data sovereignty refers to the idea that data is subject to the laws and governance of the nation where it is physically stored or collected."
+  "exp": "(B) is correct. Data classification is the process of assigning sensitivity labels to data so that appropriate security controls and handling procedures can be applied based on the value and sensitivity of the information. (A) Data retention defines how long data must be stored before deletion. (C) Data masking replaces sensitive data with obfuscated values for non-production use. (D) Data minimization limits the collection and storage of data to only what is necessary for a stated purpose."
  },
  {
   "id": 437,
@@ -1732,15 +1732,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company wants to outsource its 24/7 security monitoring and incident response to a specialized provider. Which type of provider should they hire?",
+  "stem": "A company already operates its own SIEM and firewall infrastructure. They need a provider that will actively hunt for threats in their environment, perform deep investigation of alerts, and provide guided remediation steps — not just passively monitor logs. Which service BEST meets this requirement?",
   "opts": [
-   "A. MSP",
-   "B. MSSP",
-   "C. ISP",
-   "D. ASP"
+   "A. Managed Security Service Provider (MSSP)",
+   "B. Managed Detection and Response (MDR)",
+   "C. Internet Service Provider (ISP)",
+   "D. Managed Service Provider (MSP)"
   ],
   "correct": 1,
-  "exp": "A Managed Security Service Provider (MSSP) specializes in security-related services, whereas an MSP (A) handles general IT operations."
+  "exp": "(B) is correct. MDR goes beyond traditional monitoring by providing active threat hunting, in-depth alert investigation, and guided or hands-on remediation. MDR providers act as an extension of the security team rather than just forwarding alerts. (A) An MSSP typically focuses on monitoring, log management, and alerting but generally does not perform active threat hunting or deep investigation. (C) An ISP provides network connectivity, not security services. (D) An MSP manages general IT infrastructure, not specialized security operations."
  },
  {
   "id": 438,
@@ -1800,15 +1800,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company is moving away from traditional VPNs. They want a cloud-native solution that combines networking (SD-WAN) and security (FWaaS, SWG, CASB) into a single service. What is this architecture?",
+  "stem": "An organization needs visibility into which cloud applications employees are using, the ability to enforce DLP policies on data uploaded to SaaS platforms, and detection of anomalous user behavior across all cloud services. Which solution BEST addresses all of these requirements?",
   "opts": [
-   "A. SDN",
-   "B. SASE (Secure Access Service Edge)",
-   "C. Infrastructure as a Code",
-   "D. Hybrid Cloud"
+   "A. Next-Generation Firewall (NGFW)",
+   "B. Security Information and Event Management (SIEM)",
+   "C. Cloud Access Security Broker (CASB)",
+   "D. Virtual Private Network (VPN)"
   ],
-  "correct": 1,
-  "exp": "SASE converges networking and security functions into a single, unified cloud-delivered service model."
+  "correct": 2,
+  "exp": "(C) is correct. A CASB sits between users and cloud service providers to provide visibility into shadow IT, enforce data loss prevention policies on cloud-bound data, and detect anomalous user behavior across SaaS applications. (A) An NGFW inspects network traffic but lacks deep integration with SaaS application APIs for visibility and DLP enforcement. (B) A SIEM aggregates and correlates logs but does not enforce inline DLP policies on cloud uploads. (D) A VPN encrypts traffic between endpoints but provides no cloud application visibility or policy enforcement."
  },
  {
   "id": 477,
@@ -1868,15 +1868,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which RAID configuration provides the high-speed performance of striping along with the data protection of mirroring, requiring a minimum of four disks?",
+  "stem": "A video editing workstation uses RAID 0 to maximize read and write performance across four drives. The system administrator warns the team that this configuration provides zero redundancy. If any single drive in the array fails, what is the result?",
   "opts": [
-   "A. RAID 0",
-   "B. RAID 1",
-   "C. RAID 5",
-   "D. RAID 10"
+   "A. Only the data on the failed drive is lost; remaining drives retain their portions",
+   "B. The array degrades but continues to function with reduced performance",
+   "C. Total data loss, because RAID 0 stripes data across disks without parity or mirroring",
+   "D. The array automatically rebuilds using parity blocks from the surviving drives"
   ],
-  "correct": 3,
-  "exp": "RAID 10 (or 1+0) is a 'stripe of mirrors,' providing both redundancy and high performance."
+  "correct": 2,
+  "exp": "(C) is correct. RAID 0 stripes data across all drives with no redundancy, parity, or mirroring. If any single drive fails, the entire array is lost because each drive holds only fragments of every file. (A) is incorrect because data is interleaved across all drives, so losing one drive means no complete file can be recovered. (B) is incorrect because RAID 0 cannot operate in a degraded state. (D) is incorrect because RAID 0 has no parity data to rebuild from."
  },
  {
   "id": 481,
@@ -1919,15 +1919,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security engineer identifies that manual changes to cloud servers have caused them to diverge from the configurations defined in Terraform. What is this called?",
+  "stem": "A DevOps team uses Terraform templates stored in a Git repository to deploy all cloud infrastructure. Every change must go through a pull request review and automated validation pipeline before being applied. What is the PRIMARY security benefit of this approach?",
   "opts": [
-   "A. Immutability",
-   "B. Configuration Drift",
-   "C. Orchestration",
-   "D. Hardening"
+   "A. It eliminates the need for network segmentation in the cloud",
+   "B. It provides consistent, auditable, and repeatable deployments that prevent unauthorized configuration changes",
+   "C. It replaces the need for identity and access management controls",
+   "D. It guarantees zero downtime during infrastructure changes"
   ],
   "correct": 1,
-  "exp": "Configuration drift occurs when systems divert from their baseline or documented state due to manual updates."
+  "exp": "(B) is correct. Infrastructure as Code (IaC) stored in version control provides a single source of truth, full audit history of every change, peer review through pull requests, and automated testing — all of which prevent unauthorized or inconsistent configuration changes. (A) IaC does not eliminate the need for network segmentation. (C) IAM controls are still required regardless of IaC usage. (D) IaC does not inherently guarantee zero downtime; that requires additional architectural patterns like blue-green deployments."
  },
  {
   "id": 484,
@@ -1970,15 +1970,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which type of firewall is specifically designed to understand and block attacks like SQL Injection and Cross-Site Scripting (XSS) at the application layer?",
+  "stem": "An organization needs a firewall that can inspect encrypted TLS traffic, identify applications regardless of the port number they use, and integrate threat intelligence feeds for real-time blocking of known malicious indicators. Which device BEST meets these requirements?",
   "opts": [
-   "A. Stateful firewall",
-   "B. Web Application Firewall (WAF)",
-   "C. Packet filter",
-   "D. Circuit-level gateway"
+   "A. Stateless packet-filtering firewall",
+   "B. Circuit-level gateway",
+   "C. Next-Generation Firewall (NGFW)",
+   "D. Web Application Firewall (WAF)"
   ],
-  "correct": 1,
-  "exp": "A WAF operates at Layer 7 and is designed to protect web applications from common exploits."
+  "correct": 2,
+  "exp": "(C) is correct. An NGFW combines traditional firewall capabilities with deep packet inspection, TLS decryption, application-layer awareness regardless of port, and integrated threat intelligence feeds. (A) A stateless packet filter only examines headers and cannot inspect encrypted traffic or identify applications. (B) A circuit-level gateway validates TCP handshakes but lacks deep inspection. (D) A WAF protects web applications specifically and does not provide broad network-level application identification or threat-feed integration."
  },
  {
   "id": 487,
@@ -2021,15 +2021,15 @@ const Q_D3 = [
   "domain": 3,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which firewall rule is essential for enforcing 'Least Privilege' and should be placed at the bottom of an access control list (ACL)?",
+  "stem": "An administrator needs a firewall that automatically allows inbound response packets for connections that were initiated from inside the network, without requiring a separate inbound permit rule for each return flow. The firewall must track active TCP sessions and their states. Which type of firewall meets this requirement?",
   "opts": [
-   "A. Permit Any Any",
-   "B. Implicit Deny",
-   "C. Log All",
-   "D. SNMP trap"
+   "A. Stateless packet-filtering firewall",
+   "B. Stateful inspection firewall",
+   "C. Web Application Firewall (WAF)",
+   "D. Circuit-level proxy"
   ],
   "correct": 1,
-  "exp": "The implicit deny rule drops any traffic not explicitly allowed by a previous rule."
+  "exp": "(B) is correct. A stateful firewall maintains a state table that tracks active connections. When an internal host initiates an outbound connection, the firewall automatically allows the corresponding return traffic without needing an explicit inbound rule. (A) A stateless packet filter evaluates each packet independently with no session awareness, requiring explicit rules for both directions. (C) A WAF inspects HTTP/HTTPS traffic for web application attacks, not general session tracking. (D) A circuit-level proxy validates session establishment but does not provide the same dynamic session-tracking capabilities as a stateful firewall."
  },
  {
   "id": 490,

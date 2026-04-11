@@ -102,15 +102,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An attacker sends a large volume of SYN packets to a web server but never completes the three-way TCP handshake. The server's connection table fills up and it becomes unable to accept legitimate connections. Which attack is occurring?",
+  "stem": "A web server becomes unresponsive during a suspected attack. Network analysis reveals thousands of half-open TCP connections in the SYN_RECEIVED state consuming the server's connection state table. All inbound connection attempts originate from spoofed source IP addresses, preventing the handshake from completing. Which attack is occurring and what resource is being exhausted?",
   "opts": [
-   "A. Smurf attack",
-   "B. SYN flood (TCP state exhaustion)",
-   "C. Ping of death",
-   "D. DNS amplification attack"
+   "A. HTTP flood exhausting application-layer thread pools",
+   "B. SYN flood exhausting the TCP state table",
+   "C. UDP flood exhausting network bandwidth",
+   "D. Slowloris attack exhausting HTTP connection limits"
   ],
   "correct": 1,
-  "exp": "A SYN flood exploits the TCP three-way handshake. The server receives SYN, allocates resources and sends SYN-ACK, but the attacker never sends the final ACK — leaving half-open connections consuming server memory until the connection table fills and legitimate connections are rejected. This is a Denial of Service via state exhaustion. A Smurf attack uses ICMP echo requests with a spoofed source IP to a broadcast address. Ping of Death sends malformed oversized ICMP packets. DNS amplification sends small DNS queries that generate large responses toward a victim — a reflection/amplification DDoS technique. SYN cookies are the primary mitigation for SYN floods."
+  "exp": "A SYN flood sends connection requests with spoofed source IPs. The server allocates resources for each half-open connection (SYN_RECEIVED state) and waits for a final ACK that never arrives, eventually exhausting the TCP state table so no legitimate connections can be established. (A) An HTTP flood completes the TCP handshake and sends valid HTTP requests to overwhelm the application layer — it would not show half-open connections. (C) A UDP flood overwhelms bandwidth with connectionless traffic — UDP has no handshake or state table. (D) A Slowloris attack completes the TCP handshake but sends HTTP headers extremely slowly, tying up web server threads — the connections would show as fully ESTABLISHED, not SYN_RECEIVED. The key indicators are half-open connections, spoofed IPs, and state-table exhaustion. SYN cookies are the primary mitigation."
  },
  {
   "id": 22,
@@ -582,15 +582,15 @@ const Q_D2 = [
   "obj": "2.1",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A company discovers that employees in the marketing department have been using an unapproved cloud-based file sharing service to collaborate with external contractors. IT and security teams were unaware of this service. What does this scenario describe?",
+  "stem": "A company allows employees to connect personal smartphones to the corporate Wi-Fi network. During a routine security audit, the IT team discovers that many of these devices lack full-disk encryption, run outdated operating system versions with known CVEs, and have no MDM profile installed. Which risk category does this scenario BEST represent?",
   "opts": [
-   "A. Insider threat",
-   "B. Shadow IT",
-   "C. Supply chain attack",
-   "D. Social engineering"
+   "A. Shadow IT",
+   "B. BYOD / unmanaged device risk",
+   "C. Supply chain vulnerability",
+   "D. Insider threat"
   ],
   "correct": 1,
-  "exp": "Shadow IT refers to the use of IT systems, devices, software, applications, and services without explicit IT department approval or knowledge. Employees using unauthorized cloud services to accomplish business tasks is a classic shadow IT scenario. It introduces risk because IT cannot monitor, patch, or secure unknown services. Insider threat (A) implies malicious intent — this is unauthorized but not necessarily malicious. Supply chain attack (C) targets the organization through a third-party vendor or supplier. Social engineering (D) involves manipulating people into divulging information or performing actions. Shadow IT is often driven by convenience, not malice."
+  "exp": "BYOD (Bring Your Own Device) risk arises when personal devices that are not managed by the organization connect to corporate resources. Without an MDM (Mobile Device Management) profile, IT cannot enforce encryption, patch levels, or security policies on these devices — making them potential entry points for attackers. (A) Shadow IT refers to unapproved applications or services, not personal hardware connecting to an approved network. (C) Supply chain vulnerability involves third-party vendor compromise. (D) Insider threat implies intentional malicious activity by an employee, whereas BYOD risk is an organizational policy and enforcement gap."
  },
  {
   "id": 210,
@@ -599,15 +599,15 @@ const Q_D2 = [
   "obj": "2.1",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An attacker gains access to a software vendor's build environment and injects malicious code into a legitimate software update. Thousands of customers install the compromised update. Which threat vector does this attack use?",
+  "stem": "A threat intelligence team discovers that a popular industry news website frequently visited by employees of a defense contractor has been compromised. The attacker injected a browser exploit into the site's JavaScript that silently installs a Remote Access Trojan on visitors' machines. Which type of attack does this BEST describe?",
   "opts": [
-   "A. Removable media",
-   "B. Unsecure network",
-   "C. Supply chain",
-   "D. Default credentials"
+   "A. Spear phishing",
+   "B. Drive-by download",
+   "C. Watering hole attack",
+   "D. Supply chain attack"
   ],
   "correct": 2,
-  "exp": "A supply chain attack targets the organization through a trusted third-party vendor, supplier, or service provider. By compromising the vendor's build environment and injecting malicious code into a legitimate update (as in the SolarWinds Orion attack), the attacker reaches thousands of downstream victims who trust the vendor's software. Removable media (A) involves USB drives or other physical media. Unsecure network (B) involves unprotected communications. Default credentials (D) involve unchanged factory passwords. Supply chain attacks are especially dangerous because they exploit established trust relationships."
+  "exp": "A watering hole attack compromises a legitimate website that the target group is known to visit — much like a predator waiting at a watering hole. The attacker profiles the victim organization, identifies trusted sites they frequent, and injects malicious code into those sites. (A) Spear phishing delivers malicious content via targeted email, not a compromised website. (B) Drive-by download is the technical mechanism used, but watering hole describes the broader strategy of choosing a site frequented by the intended victims. (D) Supply chain attack compromises a vendor's software or hardware — not a third-party website the targets happen to browse."
  },
  {
   "id": 211,
@@ -756,15 +756,15 @@ const Q_D2 = [
   "obj": "2.2",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An attacker registers the domain \"arnazon.com\" (using \"rn\" to look like \"m\") and creates a convincing replica of a legitimate shopping site. Users who mistype the URL or click links in phishing emails arrive at the fake site and enter their credentials. What technique is this?",
+  "stem": "After several employees report that their online banking credentials were stolen, a security team investigates. They discover that the corporate DNS resolver's cache was poisoned — when employees typed the correct bank URL into their browsers, they were silently redirected to a credential-harvesting site that even presented a valid-looking TLS certificate via a misissued CA. Which attack type does this BEST describe?",
   "opts": [
-   "A. Watering hole attack",
-   "B. Pretexting",
-   "C. Typosquatting",
-   "D. Smishing"
+   "A. Typosquatting",
+   "B. On-path (man-in-the-middle) attack",
+   "C. Pharming / DNS cache poisoning",
+   "D. URL redirection vulnerability"
   ],
   "correct": 2,
-  "exp": "Typosquatting (URL hijacking) involves registering domains that are misspellings or visual look-alikes of legitimate domains. \"arnazon.com\" visually resembles \"amazon.com\" because \"rn\" looks like \"m\" in many fonts. Users who mistype URLs or don't carefully inspect links land on the malicious site. Watering hole (A) compromises a legitimate site the target visits. Pretexting (B) creates a fabricated scenario to manipulate victims. Smishing (D) uses SMS for social engineering. Typosquatting exploits both human typing errors and visual similarity — it is closely related to brand impersonation and is often combined with phishing campaigns."
+  "exp": "Pharming via DNS cache poisoning manipulates DNS resolution so that users who type the correct URL are silently redirected to a malicious server. Unlike typosquatting, the victim does not need to mistype the address. (A) Typosquatting relies on users mistyping a URL or clicking a look-alike domain — here the users typed the correct URL. (B) An on-path attack intercepts traffic in transit between two parties, but does not involve corrupting DNS records. (D) URL redirection is an application-layer vulnerability in a web app's redirect logic, not a DNS-level attack. Mitigations for pharming include DNSSEC, monitoring DNS cache integrity, and certificate transparency logs."
  },
  {
   "id": 220,
@@ -807,15 +807,15 @@ const Q_D2 = [
   "obj": "2.2",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An employee receives a text message on their personal phone that appears to be from their bank, stating their account has been locked and providing a link to \"verify\" their identity. The link leads to a credential-harvesting site. What type of social engineering attack is this?",
+  "stem": "An employee receives a phone call from someone claiming to be from the company's IT helpdesk. The caller references the employee's recent password-change ticket by number and asks them to read out their current MFA code to \"complete the verification process.\" The caller ID displayed on the employee's phone shows the company's real helpdesk number. Which type of social engineering attack is this?",
   "opts": [
-   "A. Vishing",
-   "B. Phishing",
-   "C. Smishing",
-   "D. Spear phishing"
+   "A. Smishing",
+   "B. Pretexting",
+   "C. Vishing",
+   "D. Phishing"
   ],
   "correct": 2,
-  "exp": "Smishing (SMS phishing) is a social engineering attack delivered via text message (SMS). The attacker sends a deceptive text that impersonates a trusted entity and includes a malicious link. Vishing (A) uses voice calls. Standard phishing (B) uses email. Spear phishing (D) is a targeted email attack aimed at a specific individual. The delivery channel is the key differentiator: email = phishing, phone call = vishing, text message = smishing. All three use the same psychological manipulation techniques but through different communication channels."
+  "exp": "Vishing (voice phishing) is a social engineering attack conducted over a phone call. The attacker impersonates a trusted entity and uses urgency or authority to trick the victim into disclosing sensitive information such as MFA codes or passwords. Caller-ID spoofing makes the call appear legitimate. (A) Smishing uses SMS text messages, not voice calls. (B) Pretexting is the technique of creating a fabricated scenario — it is a component of this attack but not the specific attack classification; vishing is the more precise answer because it identifies both the method (voice call) and the intent (credential theft). (D) Phishing specifically refers to email-based attacks. The key differentiator is the delivery channel: voice call = vishing."
  },
  {
   "id": 223,
@@ -1049,15 +1049,15 @@ const Q_D2 = [
   "obj": "2.4",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A user downloads what appears to be a free PDF reader from a website. The application functions as a legitimate PDF reader but secretly installs a backdoor that allows remote access to the system. What type of malware is this?",
+  "stem": "After investigating a compromised workstation, an analyst discovers malware that provides the attacker with a full GUI desktop view of the victim's screen, real-time keylogging, webcam activation, and a file browser — all controlled remotely from a command-and-control server. What type of malware is this?",
   "opts": [
-   "A. Worm",
-   "B. Virus",
-   "C. Trojan",
-   "D. Rootkit"
+   "A. Rootkit",
+   "B. Spyware",
+   "C. Ransomware",
+   "D. RAT (Remote Access Trojan)"
   ],
-  "correct": 2,
-  "exp": "A Trojan (Trojan horse) disguises itself as legitimate, useful software to trick users into installing it. It appears to function normally (reading PDFs) while performing malicious actions in the background (installing a backdoor). A worm (A) self-replicates without user interaction. A virus (B) attaches to legitimate programs and requires host file execution to spread. A rootkit (D) hides malware presence by modifying the OS — while the backdoor might later install a rootkit, the initial delivery mechanism (fake PDF reader) is a Trojan. The key characteristic of Trojans: they rely on user deception to achieve installation."
+  "correct": 3,
+  "exp": "A RAT (Remote Access Trojan) gives an attacker full remote control over the victim's machine, typically including desktop viewing, keylogging, webcam/microphone access, file management, and shell access — all coordinated through a C2 server. (A) A rootkit hides the presence of malware by modifying OS components but does not inherently provide a remote control GUI. (B) Spyware passively collects data (keystrokes, browsing history) and exfiltrates it, but typically lacks interactive remote control capabilities like live desktop viewing and file browsing. (C) Ransomware encrypts files and demands payment — it does not provide persistent interactive access. The combination of interactive remote control features is the hallmark of a RAT."
  },
  {
   "id": 237,
@@ -1465,15 +1465,15 @@ const Q_D2 = [
   "obj": "2.3",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An attacker exploits a vulnerability in a Bluetooth implementation to connect to a victim's smartphone without authentication and access contacts, messages, and files. Which type of vulnerability is this?",
+  "stem": "A penetration tester sitting in a coffee shop captures Bluetooth pairing handshake packets exchanged between a target's smartphone and their wireless earbuds. The tester then exploits a flaw in the pairing protocol to establish an unauthorized connection to the smartphone, silently downloading the contact list, recent call history, and stored text messages. Which wireless attack is this?",
   "opts": [
-   "A. Cryptographic vulnerability",
-   "B. Bluetooth vulnerability",
-   "C. OS-based vulnerability",
-   "D. Misconfiguration"
+   "A. Bluesnarfing",
+   "B. Evil twin",
+   "C. Bluejacking",
+   "D. RFID cloning"
   ],
-  "correct": 1,
-  "exp": "Bluetooth vulnerabilities include attacks that exploit weaknesses in the Bluetooth protocol or its implementation — such as Bluesnarfing (unauthorized data access), Bluejacking (unsolicited message sending), and Bluebugging (full device control). This scenario describes Bluesnarfing — connecting without authentication to steal data. Cryptographic vulnerabilities (A) involve weak encryption algorithms or protocols. OS-based vulnerabilities (C) are flaws in the operating system itself. Misconfiguration (D) would be a user leaving Bluetooth discoverable, but this exploit targets a flaw in the Bluetooth implementation. Mitigation: keep Bluetooth firmware updated, disable Bluetooth when not in use, use non-discoverable mode."
+  "correct": 0,
+  "exp": "Bluesnarfing is a Bluetooth attack that exploits vulnerabilities in the Object Exchange (OBEX) protocol to gain unauthorized access to data on a Bluetooth-enabled device — including contacts, call logs, SMS messages, and files. (B) An evil twin is a rogue Wi-Fi access point that mimics a legitimate network — it is a Wi-Fi attack, not a Bluetooth attack. (C) Bluejacking sends unsolicited messages to a Bluetooth device — it is annoying but does not involve data theft or unauthorized access to the device's stored information. (D) RFID cloning duplicates RFID tags or access cards — it is a completely different wireless technology. Mitigations for Bluesnarfing include keeping Bluetooth firmware updated, setting devices to non-discoverable mode, and disabling Bluetooth when not actively in use."
  },
  {
   "id": 261,
@@ -1630,15 +1630,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which threat actor is most likely to prioritize the disruption of a nation's power grid over financial gain?",
+  "stem": "An incident investigation reveals that the attacker used Metasploit with all default module settings, targeted a well-known unpatched vulnerability published on Exploit-DB, and left obvious traces throughout the system logs. The attack showed no customization, no persistence mechanisms, and no attempt to cover tracks. Which threat actor profile BEST matches this behavior?",
   "opts": [
-   "A. Organized Crime",
-   "B. Script Kiddie",
-   "C. Nation-State / APT",
-   "D. Insider Threat"
+   "A. Nation-state actor",
+   "B. Organized crime",
+   "C. Unskilled attacker (script kiddie)",
+   "D. Advanced Persistent Threat (APT)"
   ],
   "correct": 2,
-  "exp": "Nation-state actors (and Advanced Persistent Threats - APTs) often have geopolitical motivations, including sabotage and disruption of critical infrastructure. Organized crime (A) is almost always motivated by profit (money)."
+  "exp": "An unskilled attacker (script kiddie) relies on pre-built tools and publicly available exploits without understanding or modifying them. The hallmarks in this scenario — default Metasploit settings, no customization, no persistence, no log cleanup — indicate low sophistication. (A) Nation-state actors use custom tooling, advanced evasion, and long-term persistence. (B) Organized crime groups invest in reliable, tested toolchains and would at minimum establish persistence for monetization. (D) APTs are characterized by stealth, patience, and sophisticated tradecraft — the opposite of the noisy, careless approach described. Script kiddies often cause real damage despite low skill, which is why patching known vulnerabilities remains critical."
  },
  {
   "id": 346,
@@ -1715,15 +1715,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which of the following would be the MOST effective mitigation against a Pass-the-Hash (PtH) attack?",
+  "stem": "During a penetration test of an Active Directory environment, the tester requests Kerberos service tickets for multiple SPNs, exports the tickets, and successfully cracks several service account passwords offline using hashcat. Which mitigation would BEST address this attack technique?",
   "opts": [
-   "A. Enforcing complex passwords",
-   "B. Disabling NTLM and using Kerberos with Credential Guard",
-   "C. Implementing annual awareness training",
-   "D. Using disk encryption"
+   "A. Enable Windows Credential Guard on all workstations",
+   "B. Require smart-card authentication for all users",
+   "C. Use Group Managed Service Accounts (gMSA) with automatic password rotation",
+   "D. Implement network segmentation between workstations and servers"
   ],
-  "correct": 1,
-  "exp": "Pass-the-Hash attacks rely on capturing NTLM hashes. Disabling NTLM in favor of Kerberos and using Windows Credential Guard (which isolates hashes in memory) are direct mitigations."
+  "correct": 2,
+  "exp": "This describes a Kerberoasting attack — any authenticated domain user can request service tickets for accounts with SPNs, then crack the ticket encryption offline because service account passwords are often short and static. (C) Group Managed Service Accounts (gMSA) mitigate Kerberoasting because their passwords are 240+ characters, randomly generated, and automatically rotated by Active Directory — making offline cracking infeasible. (A) Credential Guard protects against Pass-the-Hash by isolating NTLM hashes, but Kerberoasting does not require stealing hashes from memory. (B) Smart-card authentication helps users but does not change how service account tickets are encrypted. (D) Network segmentation limits lateral movement but does not prevent an authenticated user from requesting service tickets via normal Kerberos protocol operations."
  },
  {
   "id": 351,
@@ -1749,15 +1749,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A vulnerability exists where an attacker can access sensitive configuration files by appending <code>../../etc/config</code> to a web URL. What is this vulnerability?",
+  "stem": "A web application includes a feature that generates PDF reports by fetching content from a user-supplied URL. An attacker submits the URL <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code> through this feature and successfully retrieves the cloud instance's IAM role credentials in the generated PDF. Which vulnerability was exploited?",
   "opts": [
-   "A. SQL Injection",
-   "B. Directory Traversal",
-   "C. Server-Side Request Forgery",
-   "D. Cross-Site Scripting"
+   "A. Directory traversal",
+   "B. Server-Side Request Forgery (SSRF)",
+   "C. Cross-Site Request Forgery (CSRF)",
+   "D. XML External Entity (XXE) injection"
   ],
   "correct": 1,
-  "exp": "Directory traversal (or path traversal) uses the <code>../</code> sequence to navigate the server's file system outside of the intended web root directory."
+  "exp": "Server-Side Request Forgery (SSRF) occurs when an attacker can make the server-side application send HTTP requests to an arbitrary destination chosen by the attacker. The cloud metadata endpoint (169.254.169.254) is a classic SSRF target because it exposes IAM credentials and instance configuration. (A) Directory traversal navigates the local file system using ../ sequences — it does not involve the server making outbound HTTP requests. (C) CSRF tricks a user's browser into performing unwanted actions on a site where they are authenticated — it targets the user, not the server. (D) XXE injection exploits XML parsers to read local files or make requests, but the attack vector here is a URL parameter in a PDF generator, not XML input. SSRF mitigations include allowlisting permitted URLs, blocking access to metadata endpoints, and using IMDSv2."
  },
  {
   "id": 353,
@@ -1783,15 +1783,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A former employee who still has active access to the company's AWS environment deletes several production S3 buckets out of spite. What actor type is this?",
+  "stem": "A current employee in the finance department discovers that by modifying the session parameters in the URL of the company's HR payroll application, they can access records outside their authorized scope. They exploit this flaw to increase their own salary and alter three colleagues' compensation records. Which type of attack BEST describes this activity?",
   "opts": [
-   "A. Hacktivist",
-   "B. Nation-state",
-   "C. Malicious Insider",
-   "D. Competitor"
+   "A. SQL injection",
+   "B. Insider threat via social engineering",
+   "C. Privilege escalation",
+   "D. Cross-site request forgery"
   ],
   "correct": 2,
-  "exp": "A malicious insider is a current or former employee who uses their authorized access or knowledge of systems to cause harm to the organization."
+  "exp": "Privilege escalation occurs when a user gains access to resources or functions beyond their authorized permissions. In this case, the employee escalated vertically — moving from finance-level access to HR payroll administrative functions by manipulating session parameters (an insecure direct object reference). (A) SQL injection involves inserting malicious SQL statements into input fields to manipulate the database — the scenario describes URL parameter tampering, not SQL manipulation. (B) Insider threat via social engineering would involve manipulating other people to gain access, but this employee exploited a technical flaw directly. (D) CSRF would require tricking another authenticated user's browser into making the request. Mitigations include proper server-side authorization checks, session token validation, and the principle of least privilege."
  },
  {
   "id": 355,
@@ -1885,15 +1885,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A group of attackers is motivated by a desire to embarrass a major corporation for its environmental record. They perform a DDoS attack against the company's website. Which actor type is this?",
+  "stem": "A threat intelligence report describes a group that launches ransomware campaigns against hospitals, demands cryptocurrency payments, and operates a public leak site where stolen patient data is published if ransoms go unpaid. The group reinvests profits into developing custom exploit kits and recruiting affiliate operators. Which threat actor type does this BEST describe?",
   "opts": [
-   "A. APT",
-   "B. Hacktivist",
-   "C. Script Kiddie",
-   "D. Shadow IT"
+   "A. Hacktivist",
+   "B. Organized crime",
+   "C. Nation-state actor",
+   "D. Script kiddie"
   ],
   "correct": 1,
-  "exp": "Hacktivists are motivated by political or social causes. Their attacks are often symbolic, designed to draw attention to an issue."
+  "exp": "Organized crime threat actors are financially motivated and operate like businesses — they invest in tooling, recruit specialists, and maintain infrastructure such as ransomware-as-a-service (RaaS) platforms and leak sites. (A) Hacktivists are driven by political or social causes and typically aim for publicity rather than profit. (C) Nation-state actors pursue geopolitical objectives like espionage or sabotage of critical infrastructure — while they may use ransomware as cover, their primary goal is not financial. (D) Script kiddies lack the sophistication to develop custom exploits, run affiliate programs, or maintain leak-site infrastructure. The profit-reinvestment cycle and business-like structure are hallmarks of organized cybercrime."
  },
  {
   "id": 421,
@@ -1970,15 +1970,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "Which threat actor is most likely to use 'low and slow' techniques to remain in a target network for years to conduct industrial espionage?",
+  "stem": "A threat hunter observes unusual encoded PowerShell commands executing on several workstations, lateral movement via WMI to domain controllers, and staging of data in a hidden directory — yet no antivirus or EDR signatures have been triggered. What is the threat hunter PRIMARILY analyzing?",
   "opts": [
-   "A. Script Kiddie",
-   "B. Organized Crime",
-   "C. APT (Advanced Persistent Threat)",
-   "D. Hacktivist"
+   "A. Indicators of Compromise (IoC)",
+   "B. Indicators of Attack (IoA)",
+   "C. False positive alerts",
+   "D. Vulnerability scan results"
   ],
-  "correct": 2,
-  "exp": "APTs are characterized by their persistence and long-term goals. They prioritize stealth over rapid destruction to maximize data collection over time."
+  "correct": 1,
+  "exp": "Indicators of Attack (IoA) focus on behavioral patterns and attacker techniques — such as encoded PowerShell execution, lateral movement via WMI, and data staging — regardless of whether a known malware signature exists. (A) Indicators of Compromise (IoC) are static, forensic artifacts like file hashes, known malicious IP addresses, or domain names; the scenario explicitly states that no signatures triggered, meaning traditional IoCs were not present. (C) False positives are alerts that incorrectly flag benign activity — this activity is clearly malicious. (D) Vulnerability scan results identify potential weaknesses, not active attacker behavior. IoA-based detection is the foundation of modern threat hunting because it catches novel threats that evade signature-based tools."
  },
  {
   "id": 426,
@@ -2072,15 +2072,15 @@ const Q_D2 = [
   "domain": 2,
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An employee receives a phone call from someone who sounds exactly like their manager, using a familiar greeting and referencing personal details. The caller asks for an immediate password reset. The voice was actually generated by AI. What is this?",
+  "stem": "The CFO receives an email from the CEO's actual corporate email account — not a spoofed address — urgently requesting a wire transfer of $2.3 million to a new overseas vendor account. The email references a real, ongoing acquisition by name and uses the CEO's typical writing style. Investigation reveals the CEO's mailbox was compromised via credential stuffing. Which attack type does this BEST describe?",
   "opts": [
-   "A. Smishing",
-   "B. AI-Voice Cloning / Deepfake Vishing",
-   "C. Typosquatting",
-   "D. Baiting"
+   "A. Spear phishing",
+   "B. Business Email Compromise (BEC)",
+   "C. Whaling",
+   "D. Pretexting"
   ],
   "correct": 1,
-  "exp": "AI voice cloning is a modern vishing technique where attackers use deepfake technology to mimic a trusted person's voice to build false trust."
+  "exp": "Business Email Compromise (BEC) involves an attacker gaining control of or impersonating a legitimate business email account to authorize fraudulent transactions. The key differentiator is that the email originates from the actual compromised account, not a spoofed or look-alike domain. (A) Spear phishing targets a specific individual with a crafted email, but typically from an external or spoofed address — BEC uses the real, compromised mailbox. (C) Whaling targets senior executives with phishing, but the CFO here is receiving a message from an actually compromised account, making BEC more precise. (D) Pretexting is the social engineering technique of creating a fabricated scenario, which is a component of this attack but does not capture the account-compromise element. BEC is one of the costliest cyberattack categories according to FBI IC3 reports."
  },
  {
   "id": 472,
