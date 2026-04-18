@@ -1863,5 +1863,162 @@ const Q_D4 = [
   ],
   "correct": 1,
   "exp": "Vulnerability scan findings — especially critical ones — must be validated before taking action. Automated scanners produce false positives, and parameterized queries do generally prevent SQL injection. The correct approach is to manually test the specific injection point (using tools like Burp Suite or sqlmap against a test environment) to confirm the finding. If confirmed, remediate immediately. If false positive, document it and tune the scanner. Taking the app offline (A) without validation is disruptive. Ignoring the finding (C) based on developer assurance alone is risky. Removing from scans (D) creates a permanent blind spot. Validate first, then act = professional vulnerability management."
+ },
+ {
+  "id": 1020,
+  "type": "log",
+  "domain": 4,
+  "obj": "4.5",
+  "badge": "PBQ · Log Analysis",
+  "badgeClass": "drag-b",
+  "stem": "The SOC has received an alert about suspicious activity on the corporate network. As the incident responder, you must examine the logs from each host, classify whether it is Clean, Infected, or the Source of the attack, and identify patient zero.",
+  "machines": [
+   {
+    "name": "WS-PC04",
+    "role": "Workstation",
+    "logs": [
+     "[08:31:12] User dthompson logged in — domain\\dthompson",
+     "[08:32:45] Outlook launched — connected to mail.corp.local",
+     "[08:33:01] Opened attachment: Q3_Budget_Review.xlsm",
+     "[08:33:04] [!] ALERT: PowerShell spawned by EXCEL.EXE — encoded command detected",
+     "[08:33:06] [!] ALERT: Outbound connection to 185.234.72.19:443 (C2 beacon)",
+     "[08:33:18] [!] ALERT: Credential harvesting — mimikatz.exe detected in memory",
+     "[08:34:02] [!] ALERT: Lateral movement — PsExec to SRV-FILE01 using stolen credentials",
+     "[08:35:44] [!] ALERT: Lateral movement — RDP session to WS-PC07"
+    ],
+    "status": "source"
+   },
+   {
+    "name": "SRV-DC01",
+    "role": "Domain Controller",
+    "logs": [
+     "[08:30:00] Service startup — Active Directory Domain Services",
+     "[08:31:12] Authentication: dthompson — SUCCESS (Kerberos)",
+     "[08:33:22] Authentication: dthompson — SUCCESS (NTLM) — source: SRV-FILE01",
+     "[08:35:01] Group Policy refresh — all OUs processed normally",
+     "[08:36:00] DNS query log — normal resolution traffic",
+     "[08:37:15] Authentication: jparker — SUCCESS (Kerberos)"
+    ],
+    "status": "clean"
+   },
+   {
+    "name": "SRV-FILE01",
+    "role": "File Server",
+    "logs": [
+     "[08:30:15] Service startup — SMB file sharing active",
+     "[08:33:20] [!] ALERT: PsExec remote service installed — source IP: 10.1.4.22 (WS-PC04)",
+     "[08:33:21] [!] ALERT: New service created: PSEXESVC — runs as SYSTEM",
+     "[08:33:24] [!] ALERT: Bulk file access — 847 files read in \\\\finance\\shared in 12 seconds",
+     "[08:33:30] [!] ALERT: Data staged to C:\\Windows\\Temp\\exfil.7z (214 MB)",
+     "[08:33:45] [!] ALERT: Outbound HTTPS to 185.234.72.19 — 214 MB transferred"
+    ],
+    "status": "infected"
+   },
+   {
+    "name": "WS-PC07",
+    "role": "Workstation",
+    "logs": [
+     "[08:30:05] User jparker logged in — domain\\jparker",
+     "[08:31:00] Chrome launched — browsed intranet.corp.local",
+     "[08:35:48] [!] ALERT: Inbound RDP connection from 10.1.4.22 (WS-PC04)",
+     "[08:35:52] [!] ALERT: PowerShell executed — download cradle from 185.234.72.19",
+     "[08:36:01] [!] ALERT: Scheduled task created: WindowsUpdate_Check — persistence mechanism"
+    ],
+    "status": "infected"
+   },
+   {
+    "name": "SRV-WEB01",
+    "role": "Web Server",
+    "logs": [
+     "[08:30:00] Apache started — listening on 443",
+     "[08:31:44] GET /portal/login — 200 — 10.1.2.50",
+     "[08:32:10] POST /portal/auth — 200 — 10.1.2.50",
+     "[08:34:00] GET /portal/dashboard — 200 — 10.1.2.51",
+     "[08:35:22] GET /portal/reports — 200 — 10.1.2.50",
+     "[08:36:44] Health check — all services nominal"
+    ],
+    "status": "clean"
+   }
+  ],
+  "exp": "WS-PC04 is patient zero (Source) — the attack began when user dthompson opened a malicious Excel macro attachment, which spawned PowerShell, established a C2 beacon to 185.234.72.19, harvested credentials with mimikatz, and then moved laterally. SRV-FILE01 is Infected — it received a PsExec connection from WS-PC04, had bulk data exfiltrated from the finance share, and sent 214 MB to the C2 server. WS-PC07 is Infected — it received an RDP connection from WS-PC04, had a download cradle executed, and a persistence mechanism installed. SRV-DC01 is Clean — its logs show normal authentication and group policy activity with no suspicious events. SRV-WEB01 is Clean — only normal HTTP traffic and health checks. The key forensic indicators: the macro-spawned PowerShell, C2 beacon IP, mimikatz in memory, and lateral movement via PsExec and RDP all trace back to WS-PC04 as the initial compromise point."
+ },
+ {
+  "id": 1021,
+  "type": "log",
+  "domain": 4,
+  "obj": "4.3",
+  "badge": "PBQ · Log Analysis",
+  "badgeClass": "drag-b",
+  "stem": "Your SIEM has flagged anomalous authentication patterns across several systems. Investigate each host's logs to determine which systems are compromised and identify the origin of the attack.",
+  "machines": [
+   {
+    "name": "VPN-GW01",
+    "role": "VPN Gateway",
+    "logs": [
+     "[02:14:33] VPN connection — user svc_backup — source IP: 198.51.100.44 (TOR exit node)",
+     "[02:14:34] [!] ALERT: Authentication SUCCESS from known TOR exit node",
+     "[02:14:35] [!] ALERT: User svc_backup normally connects from 10.0.0.0/8 — first external VPN login",
+     "[02:14:40] Session established — assigned IP: 10.1.99.5",
+     "[02:15:01] [!] ALERT: Immediate SMB scan of 10.1.0.0/16 from 10.1.99.5",
+     "[02:17:22] [!] ALERT: Multiple LDAP queries for Domain Admins group membership"
+    ],
+    "status": "source"
+   },
+   {
+    "name": "SRV-DB01",
+    "role": "Database Server",
+    "logs": [
+     "[02:18:05] [!] ALERT: Login attempt — sa account — FAILED — source: 10.1.99.5",
+     "[02:18:06] [!] ALERT: Login attempt — sa account — FAILED — source: 10.1.99.5",
+     "[02:18:07] [!] ALERT: Login attempt — sa account — FAILED — source: 10.1.99.5",
+     "[02:18:10] [!] ALERT: Login attempt — sa account — SUCCESS — source: 10.1.99.5",
+     "[02:18:15] [!] ALERT: xp_cmdshell enabled by sa",
+     "[02:18:20] [!] ALERT: xp_cmdshell executed: whoami /priv",
+     "[02:18:44] [!] ALERT: SQL dump of customers table — 2.1M rows exported to CSV",
+     "[02:19:01] [!] ALERT: Outbound FTP to 198.51.100.44 — 340 MB transferred"
+    ],
+    "status": "infected"
+   },
+   {
+    "name": "SRV-APP01",
+    "role": "Application Server",
+    "logs": [
+     "[02:00:00] Application pool started — IIS running",
+     "[02:14:55] GET /api/health — 200 — 10.1.2.10",
+     "[02:15:30] POST /api/orders — 201 — 10.1.2.15",
+     "[02:16:00] GET /api/users — 200 — 10.1.2.10",
+     "[02:17:00] Scheduled job: report_generation — completed normally",
+     "[02:18:00] GET /api/health — 200 — monitoring service"
+    ],
+    "status": "clean"
+   },
+   {
+    "name": "WS-ADMIN03",
+    "role": "Admin Workstation",
+    "logs": [
+     "[02:17:30] [!] ALERT: Inbound RDP from 10.1.99.5 — logged in as svc_backup",
+     "[02:17:45] [!] ALERT: PowerShell: Import-Module ActiveDirectory",
+     "[02:17:50] [!] ALERT: New admin account created: support_tech",
+     "[02:17:55] [!] ALERT: support_tech added to Domain Admins group",
+     "[02:18:00] [!] ALERT: Windows Defender real-time protection disabled",
+     "[02:18:30] [!] ALERT: RDP settings changed — NLA disabled"
+    ],
+    "status": "infected"
+   },
+   {
+    "name": "SRV-MAIL01",
+    "role": "Mail Server",
+    "logs": [
+     "[02:00:15] Exchange services started — all healthy",
+     "[02:10:00] Message delivery — 47 messages processed",
+     "[02:14:00] Antispam scan — 3 messages quarantined",
+     "[02:16:30] Message delivery — 12 messages processed",
+     "[02:18:00] OWA login — user hrodriguez — SUCCESS — 10.1.3.22",
+     "[02:19:00] Backup agent — transaction log backup completed"
+    ],
+    "status": "clean"
+   }
+  ],
+  "exp": "VPN-GW01 is the Source — the attacker used compromised svc_backup credentials to VPN in from a TOR exit node, which is the first entry point into the network. The immediate SMB scan and LDAP queries for Domain Admins show reconnaissance. SRV-DB01 is Infected — the attacker brute-forced the SQL SA account from the VPN-assigned IP (10.1.99.5), enabled xp_cmdshell for command execution, dumped the customers database, and exfiltrated 340 MB via FTP back to the attacker's IP. WS-ADMIN03 is Infected — the attacker RDP'd in from the VPN IP, created a backdoor admin account (support_tech), added it to Domain Admins, disabled Defender, and weakened RDP security. SRV-APP01 is Clean — only normal API traffic and scheduled jobs. SRV-MAIL01 is Clean — normal mail processing and legitimate OWA login. Key indicators: the TOR exit node IP, service account used outside normal patterns, and all malicious activity traces back to the VPN-assigned IP 10.1.99.5."
  }
 ];

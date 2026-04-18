@@ -2466,5 +2466,82 @@ const Q_D3 = [
     'Insecure — Disable': ['WPS Push-Button', 'TKIP Encryption']
   },
   exp: 'WPA3-Enterprise uses 802.1X with a RADIUS server, EAP-TLS certificate authentication, AES-CCMP encryption, and issues unique credentials per user — required for HIPAA-compliant and enterprise environments. WPA2-Personal uses a single Pre-Shared Key shared by all users, offering no individual accountability (fine for home, not enterprise). WPS has known critical vulnerabilities including the Pixie Dust attack and brute-forcing of its 8-digit PIN — disable it on all access points. TKIP is a deprecated encryption protocol replaced by AES-CCMP; WPA3 does not support TKIP at all.'
+ },
+ {
+  "id": 1022,
+  "type": "harden",
+  "domain": 3,
+  "obj": "3.2",
+  "badge": "PBQ · Hardening",
+  "badgeClass": "drag-b",
+  "stem": "A security engineer has been tasked with hardening a public-facing web server that handles customer payment data. Review each configuration section and select the most secure setting for each option. The server must meet PCI DSS compliance requirements.",
+  "device": "Security Configuration — Web Server (Apache/Linux)",
+  "sections": [
+   {
+    "name": "TLS / ENCRYPTION",
+    "settings": [
+     { "label": "Minimum TLS Version", "opts": ["TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3"], "correct": "TLS 1.2" },
+     { "label": "Cipher Suite Preference", "opts": ["Client Preference", "Server Preference"], "correct": "Server Preference" },
+     { "label": "SSL Compression", "opts": ["Enabled", "Disabled"], "correct": "Disabled" },
+     { "label": "HSTS Header", "opts": ["Not Set", "max-age=86400", "max-age=31536000; includeSubDomains"], "correct": "max-age=31536000; includeSubDomains" }
+    ]
+   },
+   {
+    "name": "ACCESS CONTROLS",
+    "settings": [
+     { "label": "Directory Listing", "opts": ["Enabled", "Disabled"], "correct": "Disabled" },
+     { "label": "Server Signature", "opts": ["On", "Off"], "correct": "Off" },
+     { "label": "HTTP TRACE Method", "opts": ["Enabled", "Disabled"], "correct": "Disabled" },
+     { "label": "Run As User", "opts": ["root", "www-data (non-privileged)"], "correct": "www-data (non-privileged)" }
+    ]
+   },
+   {
+    "name": "SECURITY HEADERS",
+    "settings": [
+     { "label": "X-Frame-Options", "opts": ["Not Set", "ALLOWALL", "SAMEORIGIN", "DENY"], "correct": "DENY" },
+     { "label": "X-Content-Type-Options", "opts": ["Not Set", "nosniff"], "correct": "nosniff" },
+     { "label": "Content-Security-Policy", "opts": ["Not Set", "default-src *", "default-src 'self'"], "correct": "default-src 'self'" }
+    ]
+   }
+  ],
+  "exp": "TLS 1.2 is the minimum for PCI DSS compliance (TLS 1.3 is preferred but not all clients support it — TLS 1.2 ensures compatibility while meeting the requirement). TLS 1.0 and 1.1 have known vulnerabilities and are prohibited. Server Preference forces the server to choose the strongest cipher the client supports, preventing downgrade attacks. SSL compression must be disabled to prevent the CRIME attack. HSTS with a long max-age and includeSubDomains forces browsers to always use HTTPS, preventing SSL stripping attacks. Directory listing exposes file structure to attackers. Server Signature reveals version info useful for targeted exploits. TRACE method enables Cross-Site Tracing (XST) attacks. Running as root means any exploit gives full system access — always use a non-privileged user. X-Frame-Options: DENY prevents clickjacking. nosniff prevents MIME type sniffing. CSP default-src 'self' restricts resources to same origin, blocking XSS payloads from external sources."
+ },
+ {
+  "id": 1023,
+  "type": "harden",
+  "domain": 3,
+  "obj": "3.2",
+  "badge": "PBQ · Hardening",
+  "badgeClass": "drag-b",
+  "stem": "Your organization is deploying a new wireless network for a corporate office that handles sensitive financial data. Configure the access point with the most secure settings for an enterprise environment.",
+  "device": "Wireless Access Point — Configuration Console",
+  "sections": [
+   {
+    "name": "WIRELESS SECURITY",
+    "settings": [
+     { "label": "Security Mode", "opts": ["Open (No Security)", "WEP", "WPA2-Personal", "WPA2-Enterprise", "WPA3-Enterprise"], "correct": "WPA3-Enterprise" },
+     { "label": "Encryption Protocol", "opts": ["TKIP", "AES-CCMP", "AES-GCMP-256"], "correct": "AES-GCMP-256" },
+     { "label": "Authentication Method", "opts": ["Pre-Shared Key", "EAP-TLS (Certificate)", "EAP-TTLS (Password)", "MAC Filtering Only"], "correct": "EAP-TLS (Certificate)" }
+    ]
+   },
+   {
+    "name": "NETWORK SETTINGS",
+    "settings": [
+     { "label": "SSID Broadcast", "opts": ["Visible", "Hidden"], "correct": "Visible" },
+     { "label": "Management Frame Protection", "opts": ["Disabled", "Optional", "Required"], "correct": "Required" },
+     { "label": "Client Isolation", "opts": ["Disabled", "Enabled"], "correct": "Enabled" },
+     { "label": "WPS (Wi-Fi Protected Setup)", "opts": ["Enabled", "Disabled"], "correct": "Disabled" }
+    ]
+   },
+   {
+    "name": "AUTHENTICATION SERVER",
+    "settings": [
+     { "label": "RADIUS Server", "opts": ["None", "Internal Database", "External RADIUS (FreeRADIUS/NPS)"], "correct": "External RADIUS (FreeRADIUS/NPS)" },
+     { "label": "RADIUS Communication", "opts": ["PAP (Cleartext)", "CHAP", "EAP over TLS"], "correct": "EAP over TLS" },
+     { "label": "Session Timeout", "opts": ["Never", "24 Hours", "8 Hours"], "correct": "8 Hours" }
+    ]
+   }
+  ],
+  "exp": "WPA3-Enterprise provides the strongest wireless security with 192-bit minimum encryption and mandatory Protected Management Frames. AES-GCMP-256 is the WPA3-Enterprise cipher — stronger than AES-CCMP (WPA2). TKIP is deprecated and exploitable. EAP-TLS uses client certificates for authentication — the strongest EAP method since certificates cannot be phished like passwords. Pre-Shared Keys offer no individual accountability. MAC filtering alone is trivially bypassed via spoofing. SSID should remain Visible — hiding it provides no real security and causes clients to probe for it, which is actually less secure. Management Frame Protection (802.11w) must be Required to prevent deauthentication attacks. Client Isolation prevents wireless clients from attacking each other. WPS must be disabled due to known PIN brute-force and Pixie Dust vulnerabilities. An external RADIUS server centralizes authentication and integrates with the directory. EAP over TLS encrypts the RADIUS communication. Session timeout at 8 hours forces re-authentication each workday, limiting the window if credentials are compromised."
  }
 ];

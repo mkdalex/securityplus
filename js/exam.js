@@ -16,6 +16,8 @@ let timerInt;
 let examStartTime = 0;
 let strikeMode = false;
 let highlightMode = false;
+let logAns = {};
+let hardenAns = {};
 let dragItem = null;
 let dragFromCat = null;
 
@@ -116,21 +118,26 @@ function startExam(onlyMissed = false, specificIds = null){
   }
 
   // Separate PBQs and MCQs
-  const pbqs = pool.filter(q=>['order','cat','firewall','vpn'].includes(q.type));
-  const mcqs = pool.filter(q=>!['order','cat','firewall','vpn'].includes(q.type));
+  const pbqs = pool.filter(q=>['order','cat','firewall','vpn','log','harden'].includes(q.type));
+  const mcqs = pool.filter(q=>!['order','cat','firewall','vpn','log','harden'].includes(q.type));
 
-  // Shuffle helper
-  const shuffle = arr=>[...arr].sort(()=>Math.random()-.5);
+  // Fisher-Yates shuffle (unbiased)
+  const shuffle = arr=>{const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+
+  // Load previously seen question IDs to prioritize unseen questions
+  const seenIds = new Set();
+  try{ JSON.parse(localStorage.getItem('secplus_progress_v2')||'[]').forEach(a=>{(a.questionIds||[]).forEach(id=>seenIds.add(id));}); }catch(e){}
+  const unseenFirst = arr=>[...arr.filter(q=>!seenIds.has(q.id)),...arr.filter(q=>seenIds.has(q.id))];
 
   // Pick questions — scale PBQs proportionally to session size (real exam = ~5 per 90Q)
   const total = Math.min(selectedQCount, pool.length);
   const targetPBQ = Math.max(1, Math.round(total * (5 / 90)));
-  const pbqTake = Math.min(shuffle(pbqs).length, targetPBQ);
+  const pbqTake = Math.min(pbqs.length, targetPBQ);
   const mcqTake = total - pbqTake;
 
-  // Fair domain distribution for MCQs: round-robin from each selected domain
+  // Fair domain distribution for MCQs: round-robin, unseen questions prioritized
   const mcqByDomain = {};
-  [...selectedDomains].forEach(d => { mcqByDomain[d] = shuffle(mcqs.filter(q=>q.domain===d)); });
+  [...selectedDomains].forEach(d => { mcqByDomain[d] = shuffle(unseenFirst(mcqs.filter(q=>q.domain===d))); });
   const pickedMCQ = [];
   let round = 0;
   const domList = shuffle([...selectedDomains]);
@@ -147,7 +154,7 @@ function startExam(onlyMissed = false, specificIds = null){
     round++;
   }
 
-  const rawPool = [...shuffle(pbqs).slice(0, pbqTake), ...shuffle(pickedMCQ)];
+  const rawPool = [...shuffle(unseenFirst(pbqs)).slice(0, pbqTake), ...shuffle(pickedMCQ)];
 
   // Dynamic option shuffling for MCQs/Multi — re-maps correct index + explanation letters
   const LETTERS = 'ABCDE';
@@ -190,7 +197,7 @@ function startExam(onlyMissed = false, specificIds = null){
 
   // Reset state
   cur=0; answers={}; flagged={}; checked={};
-  dragSlots={}; catMap={}; fwAns={}; vpnAns={};
+  dragSlots={}; catMap={}; fwAns={}; vpnAns={}; logAns={}; hardenAns={};
 
   examStartTime = Date.now();
 
@@ -229,7 +236,7 @@ function buildNav(){
     btn.textContent=i+1;
     btn.id=`nb-${i}`;
     btn.onclick=()=>renderQ(i);
-    if(['order','cat','firewall','vpn'].includes(q.type)) pbqEl.appendChild(btn);
+    if(['order','cat','firewall','vpn','log','harden'].includes(q.type)) pbqEl.appendChild(btn);
     else mcqEl.appendChild(btn);
   });
 }
@@ -256,6 +263,8 @@ function isAnswered(i){
   if(q.type==='cat') return catMap[q.id]&&Object.values(catMap[q.id]).some(a=>a.length>0);
   if(q.type==='firewall') return fwAns[q.id]&&fwAns[q.id].some(v=>v);
   if(q.type==='vpn') return vpnAns[q.id]&&[...((vpnAns[q.id]||{}).p1||[]),...((vpnAns[q.id]||{}).p2||[])].some(v=>v);
+  if(q.type==='log') return logAns[q.id]&&Object.keys(logAns[q.id].classifications||{}).length>0;
+  if(q.type==='harden') return hardenAns[q.id]&&hardenAns[q.id].some(s=>s.some(v=>v));
   return false;
 }
 
@@ -290,6 +299,8 @@ function renderQ(idx){
   else if(q.type==='cat') html+=renderCat(q,idx);
   else if(q.type==='firewall') html+=renderFW(q,idx);
   else if(q.type==='vpn') html+=renderVPN(q,idx);
+  else if(q.type==='log') html+=renderLog(q,idx);
+  else if(q.type==='harden') html+=renderHarden(q,idx);
   else if(q.type==='mcq') html+=renderMCQ(q,idx);
   else if(q.type==='multi') html+=renderMulti(q,idx);
 
@@ -322,9 +333,12 @@ function renderQ(idx){
   else if(q.type==='cat') initCat(q,idx);
   else if(q.type==='firewall') initFW(q,idx);
   else if(q.type==='vpn') initVPN(q,idx);
+  else if(q.type==='log') initLog(q,idx);
+  else if(q.type==='harden') initHarden(q,idx);
 
   if(checked[idx]) restoreCheck(idx);
   if(isReviewMistakesMode) checkAnswer(idx); // auto-show explanation in review mode
+  if(typeof highlightAcronyms==='function') highlightAcronyms(document.getElementById('qContent'));
   window.scrollTo(0,0);
 }
 
@@ -577,6 +591,113 @@ function setVPN(idx){
   updateNav();
 }
 
+// ── LOG TRIAGE (PBQ) ──
+function renderLog(q,idx){
+  if(!logAns[q.id]) logAns[q.id]={selected:0,classifications:{}};
+  const la=logAns[q.id];
+  const sel=la.selected||0;
+  const m=q.machines[sel];
+  let html=`<div class="q-stem">${fmt(q.stem)}</div>
+  <div class="sim-win">
+    <div class="sim-bar">
+      <span class="sim-bar-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></span>
+      <span class="sim-title-txt">Incident Response — Network Investigation Console</span>
+    </div>
+    <div class="sim-body" style="padding:0">
+      <div class="log-layout">
+        <div class="log-machines">
+          <div class="log-machines-hdr">NETWORK HOSTS</div>`;
+  q.machines.forEach((mc,mi)=>{
+    const cls=la.classifications[mc.name]||'';
+    const statusCls=cls==='clean'?'log-m-clean':cls==='infected'?'log-m-infected':cls==='source'?'log-m-source':'';
+    html+=`<div class="log-machine ${mi===sel?'log-m-active':''} ${statusCls}" onclick="selectLogMachine(${idx},${mi})">
+      <div class="log-m-icon">${mc.role==='Server'?'▣':'▢'}</div>
+      <div class="log-m-info">
+        <div class="log-m-name">${mc.name}</div>
+        <div class="log-m-role">${mc.role}</div>
+      </div>
+      <div class="log-m-tag">${cls?cls.toUpperCase():'?'}</div>
+    </div>`;
+  });
+  html+=`</div>
+        <div class="log-detail">
+          <div class="log-detail-hdr">
+            <span>${m.name} — ${m.role}</span>
+            <span class="log-entry-count">${m.logs.length} log entries</span>
+          </div>
+          <div class="log-entries">`;
+  m.logs.forEach(line=>{
+    const isAlert=line.match(/\[!\]|ALERT|CRITICAL|malicious|suspicious|failed|unauthorized|denied/i);
+    html+=`<div class="log-line ${isAlert?'log-line-alert':''}">${line}</div>`;
+  });
+  html+=`</div>
+          <div class="log-classify">
+            <span class="log-classify-lbl">Classify this host:</span>
+            <button class="log-cls-btn log-cls-clean ${la.classifications[m.name]==='clean'?'active':''}" onclick="classifyLog(${idx},'${m.name}','clean')">Clean</button>
+            <button class="log-cls-btn log-cls-infected ${la.classifications[m.name]==='infected'?'active':''}" onclick="classifyLog(${idx},'${m.name}','infected')">Infected</button>
+            <button class="log-cls-btn log-cls-source ${la.classifications[m.name]==='source'?'active':''}" onclick="classifyLog(${idx},'${m.name}','source')">Source</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  return html;
+}
+function initLog(){}
+function selectLogMachine(idx,mi){
+  const q=ACTIVE_Q[idx];
+  if(!logAns[q.id]) logAns[q.id]={selected:0,classifications:{}};
+  logAns[q.id].selected=mi;
+  renderQ(idx);
+}
+function classifyLog(idx,machineName,cls){
+  const q=ACTIVE_Q[idx];
+  if(checked[idx])return;
+  if(!logAns[q.id]) logAns[q.id]={selected:0,classifications:{}};
+  // Toggle off if clicking same classification
+  if(logAns[q.id].classifications[machineName]===cls) delete logAns[q.id].classifications[machineName];
+  else logAns[q.id].classifications[machineName]=cls;
+  // Mark answered if all machines classified
+  if(Object.keys(logAns[q.id].classifications).length===q.machines.length) answers[idx]=logAns[q.id].classifications;
+  updateNav();renderQ(idx);
+}
+
+// ── SERVER HARDENING (PBQ) ──
+function renderHarden(q,idx){
+  if(!hardenAns[q.id]) hardenAns[q.id]=q.sections.map(s=>s.settings.map(()=>''));
+  let html=`<div class="q-stem">${fmt(q.stem)}</div>
+  <div class="sim-win">
+    <div class="sim-bar">
+      <span class="sim-bar-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></span>
+      <span class="sim-title-txt">${q.device}</span>
+    </div>
+    <div class="sim-body">`;
+  q.sections.forEach((sec,si)=>{
+    html+=`<div class="harden-section">
+      <div class="harden-sec-hdr">${sec.name}</div>
+      <div class="harden-settings">`;
+    sec.settings.forEach((st,sti)=>{
+      html+=`<div class="harden-row">
+        <label class="harden-label">${st.label}</label>
+        <select id="h-${q.id}-${si}-${sti}" onchange="setHarden(${idx})" class="harden-select">
+          <option value="">— Select —</option>
+          ${st.opts.map(o=>`<option value="${o}" ${hardenAns[q.id][si][sti]===o?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+function initHarden(){}
+function setHarden(idx){
+  const q=ACTIVE_Q[idx];
+  hardenAns[q.id]=q.sections.map((sec,si)=>sec.settings.map((_,sti)=>document.getElementById(`h-${q.id}-${si}-${sti}`)?.value||''));
+  if(hardenAns[q.id].every(s=>s.every(v=>v))) answers[idx]=hardenAns[q.id];
+  updateNav();
+}
+
 // ═══════════════════════════════════════════════════════
 // CHECK ANSWER (PRACTICE MODE)
 // ═══════════════════════════════════════════════════════
@@ -622,12 +743,22 @@ function checkAnswer(idx){
     const p2ok=q.phase2.every((f,i)=>va.p2[i]===f.correct);
     ok=p1ok&&p2ok;
     correctStr=`<div class="correct-ans">✓ Phase 1: ${q.phase1.map(f=>`${f.label}: <strong>${f.correct}</strong>`).join(' | ')}<br>✓ Phase 2: ${q.phase2.map(f=>`${f.label}: <strong>${f.correct}</strong>`).join(' | ')}</div>`;
+  } else if(q.type==='log'){
+    const la=logAns[q.id]||{classifications:{}};
+    const cls=la.classifications||{};
+    ok=q.machines.every(mc=>cls[mc.name]===mc.status);
+    correctStr=`<div class="correct-ans">✓ Correct classifications:<br>${q.machines.map(mc=>`<strong>${mc.name}</strong> (${mc.role}): ${mc.status.toUpperCase()}`).join('<br>')}</div>`;
+  } else if(q.type==='harden'){
+    const ha=hardenAns[q.id]||[];
+    ok=q.sections.every((sec,si)=>sec.settings.every((st,sti)=>(ha[si]||[])[sti]===st.correct));
+    correctStr=`<div class="correct-ans">✓ Correct settings:<br>${q.sections.map(sec=>`<strong>${sec.name}:</strong> ${sec.settings.map(st=>`${st.label} = ${st.correct}`).join(', ')}`).join('<br>')}</div>`;
   }
 
   checked[idx]=true;
   res.style.display='block';
   res.className=`ans-result ${ok?'ok':'bad'}`;
   res.innerHTML=`<div class="rl">${ok?'✓ Correct':'✗ Incorrect'}</div>${correctStr}<div class="exp"><strong>Explanation:</strong> ${q.exp}</div>`;
+  if(typeof highlightAcronyms==='function') highlightAcronyms(res);
 }
 function restoreCheck(idx){setTimeout(()=>checkAnswer(idx),0);}
 
@@ -715,7 +846,7 @@ function buildReview(filter){
     if(filter==='flagged'&&!flag_d)return;
     if(filter==='answered'&&!ans_d)return;
     const cls=`rev-qb ${ans_d?'ans-d':'unans-d'} ${flag_d?'flag-d':''}`;
-    const type=['order','cat','firewall','vpn'].includes(q.type)?'PBQ':'MCQ';
+    const type=['order','cat','firewall','vpn','log','harden'].includes(q.type)?'PBQ':'MCQ';
     grid+=`<div class="${cls}" onclick="jumpToQ(${i})">
       <div class="rq-n">${i+1}</div>
       <div class="rq-s">${type}</div>
@@ -761,6 +892,17 @@ function pbqPartial(q){
     const all=[...q.phase1.map((f,i)=>va.p1[i]===f.correct),...q.phase2.map((f,i)=>va.p2[i]===f.correct)];
     return all.filter(Boolean).length/all.length;
   }
+  if(q.type==='log'){
+    const cls=(logAns[q.id]||{}).classifications||{};
+    const hits=q.machines.filter(mc=>cls[mc.name]===mc.status).length;
+    return hits/q.machines.length;
+  }
+  if(q.type==='harden'){
+    const ha=hardenAns[q.id]||[];
+    let total=0,hits=0;
+    q.sections.forEach((sec,si)=>{sec.settings.forEach((st,sti)=>{total++;if((ha[si]||[])[sti]===st.correct)hits++;});});
+    return total>0?hits/total:0;
+  }
   return 0;
 }
 
@@ -775,7 +917,7 @@ function submitExam(){
   const PBQ_W=2.5;
 
   ACTIVE_Q.forEach((q,i)=>{
-    const isPBQ=['order','cat','firewall','vpn'].includes(q.type);
+    const isPBQ=['order','cat','firewall','vpn','log','harden'].includes(q.type);
     if(!isAnswered(i)){skipped++;dom[q.domain].t+=isPBQ?PBQ_W:1;return;}
 
     if(isPBQ){
@@ -793,7 +935,7 @@ function submitExam(){
     }
   });
 
-  const maxPts=ACTIVE_Q.reduce((s,q)=>s+(['order','cat','firewall','vpn'].includes(q.type)?PBQ_W:1),0);
+  const maxPts=ACTIVE_Q.reduce((s,q)=>s+(['order','cat','firewall','vpn','log','harden'].includes(q.type)?PBQ_W:1),0);
   const scaled=Math.round(100+(correct/maxPts)*800);
   const pass=scaled>=750;
 
@@ -810,7 +952,7 @@ function submitExam(){
   }).length;
   const partCorr=ACTIVE_Q.filter((q,i)=>{
     if(!isAnswered(i))return false;
-    const isPBQ=['order','cat','firewall','vpn'].includes(q.type);
+    const isPBQ=['order','cat','firewall','vpn','log','harden'].includes(q.type);
     if(!isPBQ)return false;
     const f=pbqPartial(q);
     return f>0&&f<1;

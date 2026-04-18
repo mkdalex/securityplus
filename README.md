@@ -67,6 +67,7 @@ Every stat updates automatically after each exam.
 Plus: score history chart with the 750 pass-line marked, domain breakdown from your last attempt, sub-objective accuracy across all attempts, and personalised study tips for your five weakest areas.
 
 ### Study Tools
+- **Acronym Trainer** — every acronym in the question is highlighted and clickable. Click one, guess the expansion from the first-letter hints (e.g. `D___ L___ P__________`), press Hint for more letters, and get a one-liner explaining what it actually does when you solve it. 199 acronyms, no reveal button — you learn it or you hint your way through.
 - **Strikethrough** — click to visually eliminate options (same as real exam)
 - **Highlight** — drag-select text to mark it yellow
 - **Scratch Pad** — notepad overlay for working through problems
@@ -96,6 +97,7 @@ sec+/
 │   └── questions.js        Combines all domains into one Q array
 │
 └── js/
+    ├── acronyms.js         199-acronym dictionary, guess-to-reveal trainer
     ├── exam.js             Exam engine, renderers, scoring, toolbar
     └── dashboard.js        Persistence, analytics, dashboard, init
 ```
@@ -148,7 +150,9 @@ Active only when the exam screen is open.
 
 ## Tech Stack
 
-Vanilla HTML / CSS / JavaScript. No frameworks, no build tools, no dependencies.
+Zero dependencies. Pure vanilla HTML / CSS / JavaScript. No npm, no frameworks, no build tools, no bundlers, no install step.
+
+Everything runs on built-in browser APIs:
 
 - Drag and Drop API — PBQ interactions
 - File System Access API — optional disk save
