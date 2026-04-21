@@ -168,10 +168,10 @@ const Q_D1 = [
   "badgeClass": "mcq-b",
   "stem": "An organisation deploys a solution where a hardware device generates and stores cryptographic keys and performs cryptographic operations internally, ensuring private keys never leave the device in plaintext — even to administrators. Which technology is this?",
   "opts": [
-   "A. Trusted Platform Module (TPM)",
-   "B. Hardware Security Module (HSM)",
+   "A. TPM",
+   "B. HSM",
    "C. Secure Enclave",
-   "D. Key Management Service (KMS)"
+   "D. KMS"
   ],
   "correct": 1,
   "exp": "An HSM is a dedicated hardware device designed specifically for cryptographic key management and operations. Its defining characteristic: private keys are generated inside and never exported in plaintext — all crypto operations happen inside the hardware. Used for PKI root CAs, payment processing (PCI-DSS), code signing. A TPM is a chip embedded in a motherboard for platform integrity and local key binding — not a standalone cryptographic service device. Secure Enclave is Apple's implementation of a similar concept in mobile chips. A KMS is software-based key management (e.g., AWS KMS) — may use HSMs internally but is not itself an HSM."
@@ -391,11 +391,11 @@ const Q_D1 = [
   "obj": "1.2",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "An organisation implements a policy requiring that all privileged actions on production systems are performed through a Privileged Access Workstation (PAW) — a dedicated, hardened device used only for admin tasks. Regular browsing, email, and general work are done from a separate standard workstation. Which security principle does the PAW implement?",
+  "stem": "An organisation implements a policy requiring that all privileged actions on production systems are performed through a PAW. Regular browsing, email, and general work are done from a separate standard workstation. Which security principle does this arrangement implement?",
   "opts": [
    "A. Separation of duties",
-   "B. Privileged access isolation — reducing the attack surface for credential theft",
-   "C. Mandatory access control",
+   "B. Privileged access isolation",
+   "C. MAC",
    "D. Physical security"
   ],
   "correct": 1,
@@ -408,7 +408,7 @@ const Q_D1 = [
   "obj": "1.4",
   "badge": "Multiple Choice",
   "badgeClass": "mcq-b",
-  "stem": "A security engineer reviews a TLS certificate and notices the Subject Alternative Name (SAN) field contains: DNS:www.company.com, DNS:company.com, DNS:mail.company.com. What is the purpose of the SAN field?",
+  "stem": "A security engineer reviews a TLS certificate and notices the SAN field contains: DNS:www.company.com, DNS:company.com, DNS:mail.company.com. What is the purpose of the SAN field?",
   "opts": [
    "A. It lists the certificate's encryption algorithm and key length",
    "B. It specifies all domain names the certificate is valid for — allowing one certificate to cover multiple domains or subdomains",
@@ -950,7 +950,7 @@ const Q_D1 = [
   "stem": "A security engineer is configuring a web server. They want to ensure that even if the server's long-term private key is compromised in the future, past session traffic remains secure and cannot be decrypted. Which property should they look for in the cipher suites?",
   "opts": [
    "A. Key stretching",
-   "B. Perfect Forward Secrecy (PFS)",
+   "B. PFS",
    "C. Symmetric encryption",
    "D. Hashing"
   ],
@@ -1017,10 +1017,10 @@ const Q_D1 = [
   "badgeClass": "mcq-b",
   "stem": "A user's browser needs to check if a website's digital certificate has been revoked in real-time without downloading a large, potentially outdated list of all revoked certificates. Which technology is MOST efficient for this?",
   "opts": [
-   "A. Certificate Revocation List (CRL)",
-   "B. Online Certificate Status Protocol (OCSP)",
-   "C. Certificate Signing Request (CSR)",
-   "D. Key Escrow"
+   "A. CRL",
+   "B. OCSP",
+   "C. CSR",
+   "D. Key escrow"
   ],
   "correct": 1,
   "exp": "OCSP is a more modern and efficient method than CRLs. It allows a browser to query the CA's server about a single certificate's status and receive a 'good', 'revoked', or 'unknown' response instantly."
@@ -1052,7 +1052,7 @@ const Q_D1 = [
   "stem": "A security engineer needs to generate a new key pair for a web server. What is the first step in obtaining a CA-signed certificate for that server?",
   "opts": [
    "A. Create a CRL",
-   "B. Generate a Certificate Signing Request (CSR)",
+   "B. Generate a CSR",
    "C. Revoke the existing root certificate",
    "D. Enable OCSP stapling"
   ],
@@ -1068,13 +1068,13 @@ const Q_D1 = [
   "badgeClass": "mcq-b",
   "stem": "Before a major database migration, a cross-functional group including security, operations, application owners, and a business stakeholder meets to evaluate the risk, review the rollback plan, and formally approve the change. What is this group called?",
   "opts": [
-   "A. Incident Response Team",
-   "B. Change Advisory Board (CAB)",
-   "C. Security Operations Centre (SOC)",
+   "A. CSIRT",
+   "B. CAB",
+   "C. SOC",
    "D. Board of Directors"
   ],
   "correct": 1,
-  "exp": "A Change Advisory Board (CAB) is a cross-functional group that reviews, evaluates, and approves or rejects proposed changes to IT systems. The CAB typically includes representatives from security, operations, development, and business units. An Incident Response Team (A) handles security incidents, not planned changes. A SOC (C) monitors for security events in real time. The Board of Directors (D) sets organisational strategy but does not review individual IT changes. The CAB ensures changes are properly assessed for risk and impact before implementation."
+  "exp": "A Change Advisory Board (CAB) is a cross-functional group that reviews, evaluates, and approves or rejects proposed changes to IT systems. The CAB typically includes representatives from security, operations, development, and business units. A CSIRT (A) — Computer Security Incident Response Team — handles security incidents, not planned changes. A SOC (C) — Security Operations Centre — monitors for security events in real time. The Board of Directors (D) sets organisational strategy but does not review individual IT changes. The CAB ensures changes are properly assessed for risk and impact before implementation."
  },
  {
   "id": 342,
@@ -1221,9 +1221,9 @@ const Q_D1 = [
   "badgeClass": "mcq-b",
   "stem": "Which of the following encryption modes converts a block cipher into a stream cipher by using a bit-incrementing value to generate unique key material for every block?",
   "opts": [
-   "A. Electronic Code Book (ECB)",
-   "B. Counter (CTR)",
-   "C. Cipher Block Chaining (CBC)",
+   "A. ECB",
+   "B. CTR",
+   "C. CBC",
    "D. RSA"
   ],
   "correct": 1,
@@ -1256,8 +1256,8 @@ const Q_D1 = [
   "stem": "Which asymmetric cryptographic algorithm is preferred for mobile devices because it provides the same level of security as RSA but with much smaller key sizes and lower computational requirements?",
   "opts": [
    "A. AES",
-   "B. Diffie-Hellman",
-   "C. Elliptic Curve Cryptography (ECC)",
+   "B. DH",
+   "C. ECC",
    "D. SHA-256"
   ],
   "correct": 2,
@@ -1358,7 +1358,7 @@ const Q_D1 = [
   "stem": "A security analyst is reviewing cipher suites for a new web server. They notice a mode that requires an Initialization Vector (IV) and links each block of ciphertext to the previous one. Which mode is this?",
   "opts": [
    "A. ECB",
-   "B. CBC (Cipher Block Chaining)",
+   "B. CBC",
    "C. GCM",
    "D. RSA"
   ],
@@ -1391,10 +1391,10 @@ const Q_D1 = [
   "badgeClass": "mcq-b",
   "stem": "A government agency is transitioning to NIST-approved algorithms that will remain secure after large-scale quantum computers become available. They are replacing RSA key exchange with a lattice-based algorithm (ML-KEM). Which initiative describes this transition?",
   "opts": [
-   "A. Quantum Key Distribution (QKD)",
-   "B. Post-Quantum Cryptography (PQC) migration",
+   "A. QKD",
+   "B. PQC migration",
    "C. Homomorphic encryption adoption",
-   "D. Perfect Forward Secrecy implementation"
+   "D. PFS implementation"
   ],
   "correct": 1,
   "exp": "Post-Quantum Cryptography (PQC) migration is the process of replacing classical algorithms (RSA, ECC) with quantum-resistant alternatives such as lattice-based (ML-KEM/Kyber), hash-based, or code-based algorithms standardised by NIST. Quantum Key Distribution (A) uses quantum mechanics to distribute keys — it's a different approach requiring specialised hardware, not a software algorithm replacement. Homomorphic encryption (C) allows computation on encrypted data but does not address quantum threats to key exchange. Perfect Forward Secrecy (D) protects past sessions if a long-term key is compromised but does not make the underlying algorithms quantum-resistant."
@@ -1511,9 +1511,9 @@ const Q_D1 = [
   "stem": "In a Zero Trust architecture, when a user requests access to a sensitive application, a centralized system evaluates the user's identity, device health, geographic location, and behavioral risk score before issuing an allow or deny decision. Which Zero Trust component is performing this evaluation?",
   "opts": [
    "A. Data plane proxy",
-   "B. Policy Decision Point (PDP) / Policy Engine",
-   "C. Security Information and Event Management (SIEM)",
-   "D. Network Access Control (NAC) agent"
+   "B. PDP",
+   "C. SIEM",
+   "D. NAC agent"
   ],
   "correct": 1,
   "exp": "The Policy Decision Point (PDP), also called the Policy Engine, is the Zero Trust component that evaluates access requests against defined policies by considering multiple contextual signals — identity, device posture, location, risk score, and resource sensitivity — to make an allow or deny decision. The data plane proxy (A) enforces the decision by permitting or blocking traffic but does not make the decision itself. A SIEM (C) aggregates and correlates security logs for detection and analysis but does not make real-time access decisions. A NAC agent (D) assesses device compliance for network admission but is only one input to the broader policy evaluation. The PDP is the brain of Zero Trust architecture."
