@@ -332,9 +332,9 @@ const Q_D3 = [
   "stem": "A security engineer is asked to recommend a solution that can detect and block exploitation attempts against a web application in real time, including OWASP Top 10 attacks like SQLi and XSS, without modifying the application code. Which technology BEST meets this?",
   "opts": [
    "A. Network-based IDS",
-   "B. Web Application Firewall (WAF)",
-   "C. Next-Generation Firewall (NGFW)",
-   "D. Unified Threat Management (UTM)"
+   "B. WAF",
+   "C. NGFW",
+   "D. UTM"
   ],
   "correct": 1,
   "exp": "A WAF operates at Layer 7 (application layer) and specifically understands HTTP/HTTPS traffic. It inspects and filters requests and responses, blocking attacks like SQL injection, XSS, CSRF, and other OWASP Top 10 vulnerabilities based on rules and behaviour analysis — without requiring application code changes. A network IDS (A) detects but doesn't block, and typically lacks deep HTTP inspection. An NGFW (C) can inspect application traffic but is not specialised for web application attack patterns. UTM (D) combines multiple functions but WAF-specific capabilities are more granular. WAF = purpose-built web application protection."
@@ -433,10 +433,10 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "A development team embeds a security agent directly into their Java application server. The agent monitors application execution from within the runtime, detecting and blocking SQL injection attempts without relying on any external network device. Which technology is being used?",
   "opts": [
-   "A. Web Application Firewall (WAF)",
-   "B. Runtime Application Self-Protection (RASP)",
-   "C. Intrusion Prevention System (IPS)",
-   "D. Static Application Security Testing (SAST)"
+   "A. WAF",
+   "B. RASP",
+   "C. IPS",
+   "D. SAST"
   ],
   "correct": 1,
   "exp": "(B) is correct. RASP is embedded inside the application runtime and can detect and block attacks like SQL injection from within the running process, without requiring an external network appliance. (A) A WAF sits in front of the application as a network device or reverse proxy, not inside the runtime. (C) An IPS monitors network traffic for malicious patterns but does not operate inside the application. (D) SAST analyzes source code before deployment, not during runtime execution."
@@ -689,7 +689,7 @@ const Q_D3 = [
   "stem": "A company must ensure all data classified as \"Confidential\" is encrypted when stored on laptops, in case a device is lost or stolen. Which technology provides encryption specifically for data at rest on an endpoint?",
   "opts": [
    "A. TLS/SSL",
-   "B. Full Disk Encryption (FDE) using BitLocker or FileVault",
+   "B. FDE (BitLocker / FileVault)",
    "C. IPSec tunnel mode",
    "D. S/MIME email encryption"
   ],
@@ -794,10 +794,10 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "A startup deploys its application using AWS Lambda functions that execute in response to API Gateway requests. The team does not provision or manage any servers, and they are billed only when code executes. Which cloud computing model does this describe?",
   "opts": [
-   "A. Infrastructure as a Service (IaaS)",
-   "B. Platform as a Service (PaaS)",
-   "C. Serverless / Function as a Service (FaaS)",
-   "D. Software as a Service (SaaS)"
+   "A. IaaS",
+   "B. PaaS",
+   "C. Serverless / FaaS",
+   "D. SaaS"
   ],
   "correct": 2,
   "exp": "Serverless / FaaS (Function as a Service) allows developers to deploy individual functions that execute on demand without managing or provisioning servers. AWS Lambda, Azure Functions, and Google Cloud Functions are FaaS offerings. Billing is per-execution, not per-server-hour. IaaS (A) requires the customer to manage VMs and OS. PaaS (B) provides a platform (e.g., Heroku, Elastic Beanstalk) but the customer still manages the application runtime. SaaS (D) is a fully managed application (e.g., Office 365). The key indicator is no server management + event-driven execution + per-invocation billing = serverless/FaaS."
@@ -1326,8 +1326,8 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "A company wants to hire an external firm to manage its firewall rules, monitor its SIEM, and respond to alerts 24/7. Which type of service provider is this?",
   "opts": [
-   "A. MSP (Managed Service Provider)",
-   "B. MSSP (Managed Security Service Provider)",
+   "A. MSP",
+   "B. MSSP",
    "C. SaaS Provider",
    "D. IaaS Provider"
   ],
@@ -1377,10 +1377,10 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "A startup provisions virtual machines in the cloud, configures its own firewalls, and installs custom middleware and database software. The cloud provider only manages the hypervisor and physical hardware. Which cloud service model does this describe?",
   "opts": [
-   "A. Infrastructure as a Service (IaaS)",
-   "B. Platform as a Service (PaaS)",
-   "C. Software as a Service (SaaS)",
-   "D. Function as a Service (FaaS)"
+   "A. IaaS",
+   "B. PaaS",
+   "C. SaaS",
+   "D. FaaS"
   ],
   "correct": 0,
   "exp": "(A) is correct. IaaS gives the customer control over VMs, networking, storage, OS, and everything above the hypervisor, while the provider manages physical hardware and virtualization. (B) PaaS would also manage the OS, middleware, and runtime. (C) SaaS delivers a fully managed application. (D) FaaS is a serverless execution model where the provider manages all infrastructure."
@@ -1428,8 +1428,8 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "An organization wants to converge their network security functions (like WAF, Firewall, and Secure Web Gateway) into a single, unified cloud-delivered service for all remote and branch users. Which architecture is this?",
   "opts": [
-   "A. SASE (Secure Access Service Edge)",
-   "B. SDN (Software-Defined Networking)",
+   "A. SASE",
+   "B. SDN",
    "C. Hybrid Cloud",
    "D. Air Gap"
   ],
@@ -1447,7 +1447,7 @@ const Q_D3 = [
   "opts": [
    "A. Full Disk Encryption",
    "B. Data at Rest",
-   "C. Trusted Execution Environment (TEE) / Confidential Computing",
+   "C. TEE / Confidential Computing",
    "D. Hashing"
   ],
   "correct": 2,
@@ -1734,10 +1734,10 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "A company already operates its own SIEM and firewall infrastructure. They need a provider that will actively hunt for threats in their environment, perform deep investigation of alerts, and provide guided remediation steps — not just passively monitor logs. Which service BEST meets this requirement?",
   "opts": [
-   "A. Managed Security Service Provider (MSSP)",
-   "B. Managed Detection and Response (MDR)",
-   "C. Internet Service Provider (ISP)",
-   "D. Managed Service Provider (MSP)"
+   "A. MSSP",
+   "B. MDR",
+   "C. ISP",
+   "D. MSP"
   ],
   "correct": 1,
   "exp": "(B) is correct. MDR goes beyond traditional monitoring by providing active threat hunting, in-depth alert investigation, and guided or hands-on remediation. MDR providers act as an extension of the security team rather than just forwarding alerts. (A) An MSSP typically focuses on monitoring, log management, and alerting but generally does not perform active threat hunting or deep investigation. (C) An ISP provides network connectivity, not security services. (D) An MSP manages general IT infrastructure, not specialized security operations."
@@ -1802,10 +1802,10 @@ const Q_D3 = [
   "badgeClass": "mcq-b",
   "stem": "An organization needs visibility into which cloud applications employees are using, the ability to enforce DLP policies on data uploaded to SaaS platforms, and detection of anomalous user behavior across all cloud services. Which solution BEST addresses all of these requirements?",
   "opts": [
-   "A. Next-Generation Firewall (NGFW)",
-   "B. Security Information and Event Management (SIEM)",
-   "C. Cloud Access Security Broker (CASB)",
-   "D. Virtual Private Network (VPN)"
+   "A. NGFW",
+   "B. SIEM",
+   "C. CASB",
+   "D. VPN"
   ],
   "correct": 2,
   "exp": "(C) is correct. A CASB sits between users and cloud service providers to provide visibility into shadow IT, enforce data loss prevention policies on cloud-bound data, and detect anomalous user behavior across SaaS applications. (A) An NGFW inspects network traffic but lacks deep integration with SaaS application APIs for visibility and DLP enforcement. (B) A SIEM aggregates and correlates logs but does not enforce inline DLP policies on cloud uploads. (D) A VPN encrypts traffic between endpoints but provides no cloud application visibility or policy enforcement."
@@ -1820,7 +1820,7 @@ const Q_D3 = [
   "stem": "Instead of allowing a VPN to provide broad access to the entire internal network, a company implements a solution that only grants access to specific applications after verifying user identity and device health. What is this?",
   "opts": [
    "A. NAC",
-   "B. ZTNA (Zero Trust Network Access)",
+   "B. ZTNA",
    "C. Split Tunneling",
    "D. Air Gap"
   ],
@@ -1888,7 +1888,7 @@ const Q_D3 = [
   "stem": "A company wants to prevent data leakage to unsanctioned cloud applications. They deploy a tool that intercepts cloud traffic to enforce security policies and monitor usage. What is this?",
   "opts": [
    "A. Firewall",
-   "B. CASB (Cloud Access Security Broker)",
+   "B. CASB",
    "C. SWG",
    "D. IDS"
   ],
@@ -1974,8 +1974,8 @@ const Q_D3 = [
   "opts": [
    "A. Stateless packet-filtering firewall",
    "B. Circuit-level gateway",
-   "C. Next-Generation Firewall (NGFW)",
-   "D. Web Application Firewall (WAF)"
+   "C. NGFW",
+   "D. WAF"
   ],
   "correct": 2,
   "exp": "(C) is correct. An NGFW combines traditional firewall capabilities with deep packet inspection, TLS decryption, application-layer awareness regardless of port, and integrated threat intelligence feeds. (A) A stateless packet filter only examines headers and cannot inspect encrypted traffic or identify applications. (B) A circuit-level gateway validates TCP handshakes but lacks deep inspection. (D) A WAF protects web applications specifically and does not provide broad network-level application identification or threat-feed integration."
