@@ -349,7 +349,7 @@ const Q_D5 = [
   "stem": "A company discovers that an employee has been storing customer PII on their personal Google Drive account for convenience. The company has a data classification policy but no formal policy governing acceptable use of personal cloud storage. Which gap does this reveal?",
   "opts": [
    "A. The data classification policy needs to be stronger",
-   "B. The company lacks an Acceptable Use Policy covering personal cloud storage use",
+   "B. The company lacks an AUP covering personal cloud storage use",
    "C. The employee should be charged with data theft",
    "D. Google Drive should be blocked at the network level"
   ],
@@ -400,7 +400,7 @@ const Q_D5 = [
   "stem": "An employee in accounts payable receives an email appearing to be from the CFO, sent from <code>cfo@company-corp.com</code> (not the legitimate <code>cfo@company.com</code>). The email requests an urgent wire transfer of $120,000 to a new supplier. What type of attack is this and what process failure enabled it?",
   "opts": [
    "A. Phishing — failure of email spam filters",
-   "B. Business Email Compromise (BEC) / whaling — failure of wire transfer verification procedures",
+   "B. Business Email Compromise / whaling — failure of wire transfer verification procedures",
    "C. Vishing — failure of phone authentication controls",
    "D. Spear phishing — failure of security awareness training only"
   ],
@@ -1216,7 +1216,7 @@ const Q_D5 = [
   "stem": "A document that outlines the rules for how employees must use company-provided mobile devices and the consequences for misuse is called an:",
   "opts": [
    "A. SLA",
-   "B. AUP (Acceptable Use Policy)",
+   "B. AUP",
    "C. MOU",
    "D. ISA"
   ],

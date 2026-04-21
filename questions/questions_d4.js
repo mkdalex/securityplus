@@ -359,7 +359,7 @@ const Q_D4 = [
   "opts": [
    "A. Antivirus solution",
    "B. Network-based IDS",
-   "C. Data Loss Prevention (DLP) with endpoint agent",
+   "C. DLP with endpoint agent",
    "D. SIEM correlation rule"
   ],
   "correct": 2,
@@ -701,8 +701,8 @@ const Q_D4 = [
   "badgeClass": "mcq-b",
   "stem": "A software development team is integrating security into their CI/CD pipeline. They want to implement a tool that analyzes the application's source code for vulnerabilities like SQL injection and hardcoded secrets without actually executing the code. Which technology should they use?",
   "opts": [
-   "A. Dynamic Application Security Testing (DAST)",
-   "B. Static Application Security Testing (SAST)",
+   "A. DAST",
+   "B. SAST",
    "C. Penetration testing",
    "D. Fuzzing"
   ],
@@ -1382,7 +1382,7 @@ const Q_D4 = [
   "stem": "A security solution provides detailed telemetry on all running processes, network connections, and file changes on an endpoint, allowing for historical threat hunting. What is this?",
   "opts": [
    "A. Traditional AV",
-   "B. EDR (Endpoint Detection and Response)",
+   "B. EDR",
    "C. Firewall",
    "D. IDS"
   ],
@@ -1590,7 +1590,7 @@ const Q_D4 = [
   "stem": "A security analyst reviews SIEM data and notices that a single internal workstation is making DNS queries to randomly generated domain names at a rate of 500 queries per minute, with most queries returning NXDOMAIN (non-existent domain). What attack technique does this MOST likely indicate?",
   "opts": [
    "A. DNS zone transfer",
-   "B. Domain Generation Algorithm (DGA) used by malware for command-and-control communication",
+   "B. DGA used by malware for command-and-control communication",
    "C. Legitimate web browsing with a misconfigured DNS resolver",
    "D. DNS cache poisoning targeting the local resolver"
   ],
