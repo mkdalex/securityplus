@@ -26,6 +26,7 @@ let selectedQCount = parseInt(localStorage.getItem('secplus_pref_count') || '90'
 let isExamMode = false;
 let isReviewMistakesMode = false;
 let currentSessionMissedIds = [];
+let examInProgress = false;
 
 // ═══════════════════════════════════════════════════════
 // SPLASH — DOMAIN & COUNT SELECTION
@@ -206,6 +207,7 @@ function startExam(onlyMissed = false, specificIds = null){
   buildNav();
   renderQ(0);
   startTimer();
+  examInProgress = true;
 }
 
 function startTimer(){
@@ -907,6 +909,7 @@ function pbqPartial(q){
 }
 
 function submitExam(){
+  examInProgress = false;
   clearInterval(timerInt);
   document.getElementById('review').style.display='none';
   document.getElementById('exam').style.display='none';
@@ -1004,6 +1007,7 @@ function closeExitModal(){
   document.getElementById('exitModal').style.display='none';
 }
 function confirmExit(){
+  examInProgress = false;
   closeExitModal();
   clearInterval(timerInt);
   document.getElementById('exam').style.display='none';
@@ -1015,6 +1019,7 @@ function confirmExit(){
 }
 
 function restartExam(){
+  examInProgress = false;
   clearInterval(timerInt);
   document.getElementById('results').style.display='none';
   document.getElementById('review').style.display='none';
@@ -1025,3 +1030,10 @@ function restartExam(){
   document.getElementById('splash').style.display='flex';
   updateSplashInfo();
 }
+
+window.addEventListener('beforeunload', e => {
+  if (examInProgress) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});

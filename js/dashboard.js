@@ -126,6 +126,13 @@ function clearHistory(){
   renderDashboard();
 }
 
+function deleteAttempt(ts){
+  if(!confirm('Delete this attempt? Stats and charts will be recalculated without it. The Weakness Vault is not affected.')) return;
+  const history = loadHistory().filter(a => a.ts !== ts);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  renderDashboard();
+}
+
 function startReviewMistakes(){
   const reviewIds = JSON.parse(localStorage.getItem('secplus_last_session_missed_ids') || '[]');
   if(reviewIds.length === 0) return alert('No mistakes from the last session to review!');
@@ -188,12 +195,20 @@ function hideDashboard(){
 function renderDashboard(){
   const history = loadHistory();
   if(!history.length){
-    document.getElementById('dashTopStats').innerHTML = '<div style="grid-column:1/-1;color:var(--text-muted);font-size:14px;padding:20px 0">No attempts recorded yet. Complete an exam to see your progress here.</div>';
-    document.getElementById('scoreChart').innerHTML = '';
-    document.getElementById('dashDomains').innerHTML = '';
-    document.getElementById('dashSubtopics').innerHTML = '';
-    document.getElementById('dashRecommend').innerHTML = '';
-    document.getElementById('dashHistory').innerHTML = '';
+    const placeholder = '<p style="color:var(--text-muted);font-size:13px;padding:16px 0;text-align:center">Complete an exam to populate this section.</p>';
+    document.getElementById('dashTopStats').innerHTML = `
+      <div class="dash-card" style="grid-column:1/-1;text-align:center;padding:32px 20px">
+        <div style="font-size:40px;margin-bottom:8px;opacity:.4">📊</div>
+        <div style="color:var(--text);font-size:16px;font-weight:600;margin-bottom:6px">No attempts recorded yet</div>
+        <div style="color:var(--text-muted);font-size:13px">Take your first exam to start tracking your progress.<br>Stats, charts, and weak-area recommendations will appear here.</div>
+      </div>`;
+    document.getElementById('scoreChart').innerHTML = placeholder;
+    document.getElementById('dashDomains').innerHTML = placeholder;
+    document.getElementById('dashSubtopics').innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding:16px 0;text-align:center;grid-column:1/-1">Complete an exam to populate this section.</p>';
+    document.getElementById('dashRecommend').innerHTML = placeholder;
+    document.getElementById('dashHistory').innerHTML = placeholder;
+    const rawTA = document.getElementById('rawDataTextarea');
+    if(rawTA) rawTA.value = '';
     return;
   }
 
@@ -330,6 +345,7 @@ function renderDashboard(){
       <span class="attempt-date">${a.date}</span>
       <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">${a.qCount}Q · ${dur}${perQ?' · '+perQ:''}</span>
       <div class="attempt-domains">${domPills}</div>
+      <button onclick="deleteAttempt(${a.ts})" title="Delete this attempt (e.g. AFK / interrupted)" style="background:transparent;border:1px solid var(--border);color:var(--text-muted);width:24px;height:24px;border-radius:3px;cursor:pointer;font-size:14px;line-height:1;flex-shrink:0;padding:0" onmouseover="this.style.color='var(--danger)';this.style.borderColor='var(--danger)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">×</button>
     </div>`;
   });
   document.getElementById('dashHistory').innerHTML = histHtml || '<p style="color:var(--text-muted);font-size:13px">No attempts yet.</p>';
